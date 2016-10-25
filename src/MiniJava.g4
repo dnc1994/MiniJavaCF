@@ -1,45 +1,45 @@
 grammar MiniJava;
 
-Goal : MainClass (ClassDeclaration)* EOF;
+goal : mainClass (classDeclaration)* EOF;
 
-MainClass : 'class' Identifier '{' 'public' 'static' 'void' 'main' '(' 'String' '[' ']' Identifier ')' '}' Statement '}' '}';
+mainClass : 'class' identifier '{' 'public' 'static' 'void' 'main' '(' 'String' '[' ']' identifier ')' '{' statement '}' '}';
 
-ClassDeclaration : 'class' Identifier ('extends' Identifier)? '{' (VarDeclaration)* (MethodDeclaration)* '}';
+classDeclaration : 'class' identifier ('extends' identifier)? '{' (varDeclaration)* (methodDeclaration)* '}';
 
-VarDeclaration : Type Identifier ';';
+varDeclaration : type identifier ';';
 
-MethodDeclaration : 'public' Type Identifier '(' (Type Identifier (',' Type Identifier)* )? ')' '{' (VarDeclaration)* (Statement)* 'return' Expression ';' '}';
+methodDeclaration : 'public' type identifier '(' (type identifier (',' type identifier)* )? ')' '{' (varDeclaration)* (statement)* 'return' expression ';' '}';
 
-Type : 'int' '[' ']'
+type : 'int' '[' ']'
      | 'boolean'
      | 'int'
-     | Identifier
+     | identifier
      ;
 
-Statement : '{' (Statement)* '}'
-          | 'if' '(' Expression ')' Statement 'else' Statement
-          | 'while' '(' Expression ')' Statement
-          | 'System.out.println' '(' Expression ')' ';'
-          | Identifier '=' Expression ';'
-          | Identifier '[' Expression ']' '=' Expression ';'
+statement : '{' (statement)* '}'
+          | 'if' '(' expression ')' statement 'else' statement
+          | 'while' '(' expression ')' statement
+          | 'System.out.println' '(' expression ')' ';'
+          | identifier '=' expression ';'
+          | identifier '[' expression ']' '=' expression ';'
           ;
 
-Expression : Expression ('&&' | '<' | '+' | '-' | '*') Expression
-           | Expression '[' Expression ']'
-           | Expression '.' 'length'
-           | Expression '.' Identifier '(' (Expression (',' Expression)* )? ')'
+expression : expression ('&&' | '<' | '+' | '-' | '*') expression
+           | expression '[' expression ']'
+           | expression '.' 'length'
+           | expression '.' identifier '(' (expression (',' expression)* )? ')'
            | INT
            | 'true'
            | 'false'
-           | Identifier
+           | identifier
            | 'this'
-           | 'new' 'int' '[' Expression ']'
-           | 'new' Identifier '(' ')'
-           | '!' Expression
-           | '(' Expression ')'
+           | 'new' 'int' '[' expression ']'
+           | 'new' identifier '(' ')'
+           | '!' expression
+           | '(' expression ')'
            ;
 
-Identifier : ID;
+identifier : ID;
 
 INT : [0-9]+;
 ID : [a-zA-Z_][a-zA-Z0-9_]*;
