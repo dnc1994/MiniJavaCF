@@ -34,7 +34,7 @@ public class Main {
         // System.out.println(tree.toStringTree(parser)); // print LISP-style tree
 
         ParseTreeWalker walker = new ParseTreeWalker();
-        SymbolChecker symbolChecker = new SymbolChecker();
-        walker.walk(symbolChecker, tree);
+        ClassChecker classChecker = new ClassChecker();
+        walker.walk(classChecker, tree);
     }
 }
