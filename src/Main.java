@@ -24,6 +24,9 @@ public class Main {
         // create a parser that feeds off the tokens buffer
         MiniJavaParser parser = new MiniJavaParser(tokens);
 
+        parser.removeErrorListeners();
+        parser.addErrorListener(new SyntaxErrorListener());
+
         ParseTree tree = parser.goal(); // begin parsing at init rule
         System.out.println(tree.toStringTree(parser)); // print LISP-style tree
     }

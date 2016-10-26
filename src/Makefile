@@ -2,6 +2,7 @@ build:
 		javac *.java
 
 test:
+		javac *.java
 		java Main < ../test/factorial.java
 
 grammar:
