@@ -15,19 +15,26 @@ public class Main {
         // create a CharStream that reads from standard input
         ANTLRInputStream input = new ANTLRInputStream(System.in);
 
+        SyntaxErrorListener syntaxErrorListener = new SyntaxErrorListener();
+
         // create a lexer that feeds off of input CharStream
         MiniJavaLexer lexer = new MiniJavaLexer(input);
+        // lexer.removeErrorListeners();
+        // lexer.addErrorListener(syntaxErrorListener);
 
         // create a buffer of tokens pulled from the lexer
         CommonTokenStream tokens = new CommonTokenStream(lexer);
 
         // create a parser that feeds off the tokens buffer
         MiniJavaParser parser = new MiniJavaParser(tokens);
-
         parser.removeErrorListeners();
-        parser.addErrorListener(new SyntaxErrorListener());
+        parser.addErrorListener(syntaxErrorListener);
 
         ParseTree tree = parser.goal(); // begin parsing at init rule
-        System.out.println(tree.toStringTree(parser)); // print LISP-style tree
+        // System.out.println(tree.toStringTree(parser)); // print LISP-style tree
+
+        ParseTreeWalker walker = new ParseTreeWalker();
+        SymbolChecker symbolChecker = new SymbolChecker();
+        walker.walk(symbolChecker, tree);
     }
 }
