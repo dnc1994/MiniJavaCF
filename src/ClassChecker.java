@@ -4,6 +4,10 @@ import java.util.*;
 public class ClassChecker extends MiniJavaBaseListener {
     private Map<String, Class> classes;
 
+    public ClassChecker(Map<String, Class> classes) {
+        this.classes = classes;
+    }
+
     @Override
     public void enterClassDeclaration(MiniJavaParser.ClassDeclarationContext ctx) {
         String className = ctx.identifier(0).getText();
