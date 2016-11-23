@@ -1,15 +1,29 @@
 import java.util.*;
 
 public class Class extends Symbol implements Scope {
+    private boolean valid;
     private String parentClassName;
     private Scope parentScope;
 
     private Map<String, Symbol> symbols = new HashMap<String, Symbol>();
 
+    public Class(String className, String parentClassName, Scope parentScope, boolean valid) {
+        super(className);
+        this.parentClassName = parentClassName;
+        this.parentScope = parentScope;
+        this.valid = valid;
+    }
+
     public Class(String className, String parentClassName, Scope parentScope) {
         super(className);
         this.parentClassName = parentClassName;
         this.parentScope = parentScope;
+        this.valid = true;
+    }
+
+    @Override
+    public boolean isValid() {
+        return this.valid;
     }
 
     @Override

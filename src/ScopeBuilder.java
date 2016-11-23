@@ -4,15 +4,14 @@ import java.util.*;
 public class ScopeBuilder extends MiniJavaBaseListener {
     private Map<String, Class> classes;
     private Scope currentScope = null;
-    private boolean invalidScope = false;
 
     public ScopeBuilder(Map<String, Class> classes) {
         this.classes = classes;
     }
 
     public void exitScope() {
+        System.out.println("Exiting scope: " + currentScope);
         currentScope = currentScope.getParentScope();
-        invalidScope = false;
     }
 
     @Override
@@ -31,21 +30,18 @@ public class ScopeBuilder extends MiniJavaBaseListener {
     @Override
     public void enterClassDeclaration(MiniJavaParser.ClassDeclarationContext ctx) {
         String className, parentClassName;
+        boolean valid = currentScope.isValid();
         className = ctx.name.getText();
         parentClassName = (ctx.parent != null ? ctx.parent.getText() : "<No Parent Class>");
-        // System.out.println("Class: " + className + "; Parent: " + parentClassName);
-
-        System.out.println("In scope: " + currentScope.getName());
-
-        Class currentClass = new Class(className, parentClassName, currentScope);
-        if (invalidScope) {
-            return;
-        }
-        else if (classes.containsKey(className)) {
-            invalidScope = true;
+        System.out.println("---\nClass: " + className + "; Parent: " + parentClassName);
+        System.out.println("In scope: " + currentScope);
+        
+        if (classes.containsKey(className)) {
             System.err.println("Class already exists.");
+            valid = false;
         }
-        else {
+        Class currentClass = new Class(className, parentClassName, currentScope, valid);
+        if (valid) {
             classes.put(className, currentClass);
         }
         currentScope = currentClass;
@@ -60,24 +56,20 @@ public class ScopeBuilder extends MiniJavaBaseListener {
     public void enterMethodDeclaration(MiniJavaParser.MethodDeclarationContext ctx) {
         String methodName = ctx.name.getText();
         String methodReturnType = ctx.rtype.getText();
-        // System.out.println("Method: " + methodName + "; Return Type: " + methodReturnType);
+        boolean valid = currentScope.isValid();
+        System.out.println("Method: " + methodName + "; Return Type: " + methodReturnType);
 
         System.out.println("In scope: " + currentScope.getName());
-        // System.out.println("Scope symbols: " + currentScope.getSymbols());
-        // System.out.println("Lookup result: " + currentScope.findLocalSymbol(methodName));
-
-        Method currentMethod = new Method(methodName, methodReturnType, currentScope);
-        if (invalidScope) {
-            return;
-        }
-        else if (currentScope.findLocalSymbol(methodName) != null) {
-            invalidScope = true;
+        System.out.println("Scope symbols: " + currentScope.getSymbols());
+        System.out.println("Lookup result: " + currentScope.findLocalSymbol(methodName));
+        
+        if (currentScope.findLocalSymbol(methodName) != null) {
             System.err.println("Method already exists.");
+            valid = false;
         }
-        else {
-            // System.out.println("Add a method: " + methodName);
+        Method currentMethod = new Method(methodName, methodReturnType, currentScope, valid);
+        if (valid) {
             currentScope.addSymbol(currentMethod);
-            // System.out.println("Scope symbols: " + currentScope.getSymbols());
         }
         currentScope = currentMethod;
     }
@@ -90,19 +82,17 @@ public class ScopeBuilder extends MiniJavaBaseListener {
     @Override
     public void enterVarDeclaration(MiniJavaParser.VarDeclarationContext ctx) {
         String varType, varName;
+        boolean valid = currentScope.isValid();
         varType = ctx.vtype.getText();
         varName = ctx.name.getText();
         // System.out.println("Var: " + varName + "; Type: " + varType);
         
-        Symbol currentVar = new Symbol(varName, varType);
-        if (invalidScope) {
-            return;
-        }
-        else if (currentScope.findLocalSymbol(varName) != null) {
-            invalidScope = true;
+        if (currentScope.findLocalSymbol(varName) != null) {
             System.err.println("Variable already exists.");
+            valid = false;
         }
-        else {
+        Symbol currentVar = new Symbol(varName, varType);
+        if (valid) {
             currentScope.addSymbol(currentVar);
         }
     }

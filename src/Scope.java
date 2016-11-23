@@ -2,6 +2,8 @@ import java.util.*;
 
 public interface Scope {
 
+    public boolean isValid();
+
     public String getName();
 
     public Scope getParentScope();
