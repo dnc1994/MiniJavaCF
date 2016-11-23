@@ -39,5 +39,7 @@ public class Main {
         Map<String, Class> classes = new HashMap<String, Class>();
         ScopeBuilder scopeBuilder = new ScopeBuilder(classes);
         walker.walk(scopeBuilder, tree);
+
+        System.out.println(classes.get("Fac").getSymbols());
     }
 }
