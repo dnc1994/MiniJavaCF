@@ -24,18 +24,18 @@ public class Method extends Symbol implements Scope {
     }
 
     @Override
-    public void defineSymbol(Symbol symbol) {
+    public void addSymbol(Symbol symbol) {
         locals.put(symbol.getName(), symbol);
     }
 
     @Override
-    public Symbol lookupSymbol(String name) {
+    public Symbol findSymbol(String name) {
         if (params.containsKey(name))
             return params.get(name);
         else if (locals.containsKey(name))
             return locals.get(name);
         else
-            return this.getParentScope().lookupSymbol(name);
+            return this.getParentScope().findSymbol(name);
     }
 
 }

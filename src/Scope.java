@@ -4,7 +4,7 @@ public interface Scope {
 
     public Scope getParentScope();
 
-    public void defineSymbol(Symbol symbol);
+    public void addSymbol(Symbol symbol);
 
-    public Symbol lookupSymbol(String name);
+    public Symbol findSymbol(String name);
 }

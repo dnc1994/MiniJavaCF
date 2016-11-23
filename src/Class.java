@@ -23,16 +23,16 @@ public class Class extends Symbol implements Scope {
     }
 
     @Override
-    public void defineSymbol(Symbol symbol) {
+    public void addSymbol(Symbol symbol) {
         symbols.put(symbol.getName(), symbol);
     }
 
     @Override
-    public Symbol lookupSymbol(String name) {
+    public Symbol findSymbol(String name) {
         if (symbols.containsKey(name))
             return symbols.get(name);
         else
-            return this.getParentScope().lookupSymbol(name);
+            return this.getParentScope().findSymbol(name);
     }
 
 }
