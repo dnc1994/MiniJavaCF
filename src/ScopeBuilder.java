@@ -9,10 +9,15 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         this.classes = classes;
     }
 
+    public void exitScope() {
+        currentScope = currentScope.getParentScope();
+    }
+
     @Override
     public void enterMainClass(MiniJavaParser.MainClassContext ctx) {
         String className = ctx.name.getText();
         Class mainClass = new Class(className, "", null);
+        classes.put(className, mainClass);
         currentScope = mainClass;
     }
 
@@ -22,11 +27,18 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         className = ctx.name.getText();
         parentClassName = (ctx.parent != null ? ctx.parent.getText() : "");
         System.out.println("Class: " + className + "; Parent: " + parentClassName);
+        
         Class currentClass = new Class(className, parentClassName, currentScope);
         if (classes.containsKey(className))
             System.err.println("Duplicate classes.");
         else
             classes.put(className, currentClass);
+        currentScope = currentClass;
+    }
+
+    @Override
+    public void exitClassDeclaration(MiniJavaParser.ClassDeclarationContext ctx) {
+        exitScope();
     }
 
     @Override
@@ -35,8 +47,16 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         methodName = ctx.name.getText();
         methodReturnType = ctx.rtype.getText();
         System.out.println("Method: " + methodName + "; Return Type: " + methodReturnType);
+        
         Method currentMethod = new Method(methodName, methodReturnType, currentScope);
-        // put in scope's symbol table
+        // put in currentScope's symbol table
+        currentScope.addSymbol(currentMethod);
+        currentScope = currentMethod;
+    }
+
+    @Override
+    public void exitMethoDeclaration(MiniJavaParser.MethodDeclarationContext ctx) {
+        exitScope();
     }
 
     @Override
@@ -45,6 +65,9 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         varType = ctx.vtype.getText();
         varName = ctx.name.getText();
         System.out.println("Var: " + varName + "; Type: " + varType);
-        // put in scope's symbol table
+        
+        Symbol currentVar = new Symbol(varName, varType);
+        // put in currentScope's symbol table
+        currentScope.addSymbol(currentVar);
     }
 }
