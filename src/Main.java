@@ -20,8 +20,6 @@ public class Main {
 
         // create a lexer that feeds off of input CharStream
         MiniJavaLexer lexer = new MiniJavaLexer(input);
-        // lexer.removeErrorListeners();
-        // lexer.addErrorListener(syntaxErrorListener);
 
         // create a buffer of tokens pulled from the lexer
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -32,7 +30,7 @@ public class Main {
         parser.addErrorListener(syntaxErrorListener);
 
         ParseTree tree = parser.goal(); // begin parsing at init rule
-        System.out.println(tree.toStringTree(parser)); // print LISP-style tree
+        // System.out.println(tree.toStringTree(parser)); // print LISP-style tree
 
         ParseTreeWalker walker = new ParseTreeWalker();
 
@@ -41,5 +39,7 @@ public class Main {
         walker.walk(scopeBuilder, tree);
 
         System.out.println(classes.get("Fac").getSymbols());
+        Method method = (Method)classes.get("Fac").getSymbols().get("ComputeFac");
+        System.out.println(method.getLocals());
     }
 }
