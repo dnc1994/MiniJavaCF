@@ -22,7 +22,7 @@ public class Class extends Symbol implements Scope {
         this.valid = true;
     }
 
-    public getParentClassName() {
+    public String getParentClassName() {
         return parentClassName;
     }
 
