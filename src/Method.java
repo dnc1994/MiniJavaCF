@@ -38,4 +38,8 @@ public class Method extends Symbol implements Scope {
             return this.getParentScope().findSymbol(name);
     }
 
+    public Map<String, Symbol> getLocals() {
+        return locals;
+    }
+
 }
