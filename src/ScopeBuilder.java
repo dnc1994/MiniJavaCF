@@ -33,7 +33,9 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         String className, parentClassName;
         className = ctx.name.getText();
         parentClassName = (ctx.parent != null ? ctx.parent.getText() : "<No Parent Class>");
-        System.out.println("Class: " + className + "; Parent: " + parentClassName);
+        // System.out.println("Class: " + className + "; Parent: " + parentClassName);
+
+        System.out.println("In scope: " + currentScope.getName());
 
         Class currentClass = new Class(className, parentClassName, currentScope);
         if (invalidScope) {
@@ -58,11 +60,11 @@ public class ScopeBuilder extends MiniJavaBaseListener {
     public void enterMethodDeclaration(MiniJavaParser.MethodDeclarationContext ctx) {
         String methodName = ctx.name.getText();
         String methodReturnType = ctx.rtype.getText();
-        System.out.println("Method: " + methodName + "; Return Type: " + methodReturnType);
+        // System.out.println("Method: " + methodName + "; Return Type: " + methodReturnType);
 
         System.out.println("In scope: " + currentScope.getName());
-        System.out.println("Scope symbols: " + currentScope.getSymbols());
-        System.out.println("Lookup result: " + currentScope.findLocalSymbol(methodName));
+        // System.out.println("Scope symbols: " + currentScope.getSymbols());
+        // System.out.println("Lookup result: " + currentScope.findLocalSymbol(methodName));
 
         Method currentMethod = new Method(methodName, methodReturnType, currentScope);
         if (invalidScope) {
@@ -73,9 +75,9 @@ public class ScopeBuilder extends MiniJavaBaseListener {
             System.err.println("Method already exists.");
         }
         else {
-            System.out.println("Add a method: " + methodName);
+            // System.out.println("Add a method: " + methodName);
             currentScope.addSymbol(currentMethod);
-            System.out.println("Scope symbols: " + currentScope.getSymbols());
+            // System.out.println("Scope symbols: " + currentScope.getSymbols());
         }
         currentScope = currentMethod;
     }
@@ -90,7 +92,7 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         String varType, varName;
         varType = ctx.vtype.getText();
         varName = ctx.name.getText();
-        System.out.println("Var: " + varName + "; Type: " + varType);
+        // System.out.println("Var: " + varName + "; Type: " + varType);
         
         Symbol currentVar = new Symbol(varName, varType);
         if (invalidScope) {

@@ -38,8 +38,8 @@ public class Main {
         ScopeBuilder scopeBuilder = new ScopeBuilder(classes);
         walker.walk(scopeBuilder, tree);
 
-        System.out.println(classes.get("Fac").getSymbols());
-        Method method = (Method)classes.get("Fac").getSymbols().get("ComputeFac");
-        System.out.println(method.getLocals());
+        System.out.println(classes.get("Foo").getSymbols());
+        Method method = (Method)classes.get("Foo").getSymbols().get("Excite");
+        System.out.println(method.getSymbols());
     }
 }
