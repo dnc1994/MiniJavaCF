@@ -3,9 +3,17 @@ import java.util.*;
 
 public class ScopeBuilder extends MiniJavaBaseListener {
     private Map<String, Class> classes;
+    private Scope currentScope = null;
 
     public ScopeBuilder(Map<String, Class> classes) {
         this.classes = classes;
+    }
+
+    @Override
+    public void enterMainClass(MiniJavaParser.MainClassContext ctx) {
+        String className = ctx.name.getText();
+        Class mainClass = new Class(className, "", null);
+        currentScope = mainClass;
     }
 
     @Override
@@ -14,7 +22,7 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         className = ctx.name.getText();
         parentClassName = (ctx.parent != null ? ctx.parent.getText() : "");
         System.out.println("Class: " + className + "; Parent: " + parentClassName);
-        Class currentClass = new Class(className, parentClassName);
+        Class currentClass = new Class(className, parentClassName, currentScope);
         if (classes.containsKey(className))
             System.err.println("Duplicate classes.");
         else
@@ -27,7 +35,7 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         methodName = ctx.name.getText();
         methodReturnType = ctx.rtype.getText();
         System.out.println("Method: " + methodName + "; Return Type: " + methodReturnType);
-        Method currentMethod = new Method(methodName, methodReturnType);
+        Method currentMethod = new Method(methodName, methodReturnType, currentScope);
         // put in scope's symbol table
     }
 
