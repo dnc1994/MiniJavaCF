@@ -1,4 +1,4 @@
-mbuild:
+build:
 		javac *.java
 
 test:
