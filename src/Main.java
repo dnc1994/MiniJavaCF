@@ -41,12 +41,14 @@ public class Main {
         ScopeBuilder scopeBuilder = new ScopeBuilder(classes);
         walker.walk(scopeBuilder, tree);
 
+        // todo: exit on errors
+
         // 2nd pass
-        SymbolChecker symbolChecker = new SymbolChecker();
+        SymbolChecker symbolChecker = new SymbolChecker(classes);
         walker.walk(symbolChecker, tree);
 
-        System.out.println(classes.get("Foo").getSymbols());
-        Method method = (Method)classes.get("Foo").getSymbols().get("Excite");
-        System.out.println(method.getSymbols());
+        // System.out.println(classes.get("Foo").getSymbols());
+        // Method method = (Method)classes.get("Foo").getSymbols().get("Excite");
+        // System.out.println(method.getSymbols());
     }
 }

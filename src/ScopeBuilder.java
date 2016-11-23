@@ -10,7 +10,7 @@ public class ScopeBuilder extends MiniJavaBaseListener {
     }
 
     public void exitScope() {
-        System.out.println("Exiting scope: " + currentScope);
+        // System.out.println("Exiting scope: " + currentScope);
         currentScope = currentScope.getParentScope();
     }
 
@@ -33,8 +33,8 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         boolean valid = currentScope.isValid();
         className = ctx.name.getText();
         parentClassName = (ctx.parent != null ? ctx.parent.getText() : "<No Parent Class>");
-        System.out.println("---\nClass: " + className + "; Parent: " + parentClassName);
-        System.out.println("In scope: " + currentScope);
+        // System.out.println("---\nClass: " + className + "; Parent: " + parentClassName);
+        // System.out.println("In scope: " + currentScope);
         
         if (classes.containsKey(className)) {
             System.err.println("Class already exists.");
@@ -57,11 +57,11 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         String methodName = ctx.name.getText();
         String methodReturnType = ctx.rtype.getText();
         boolean valid = currentScope.isValid();
-        System.out.println("Method: " + methodName + "; Return Type: " + methodReturnType);
+        // System.out.println("Method: " + methodName + "; Return Type: " + methodReturnType);
 
-        System.out.println("In scope: " + currentScope.getName());
-        System.out.println("Scope symbols: " + currentScope.getSymbols());
-        System.out.println("Lookup result: " + currentScope.findLocalSymbol(methodName));
+        // System.out.println("In scope: " + currentScope.getName());
+        // System.out.println("Scope symbols: " + currentScope.getSymbols());
+        // System.out.println("Lookup result: " + currentScope.findLocalSymbol(methodName));
         
         if (currentScope.findLocalSymbol(methodName) != null) {
             System.err.println("Method already exists.");

@@ -3,14 +3,14 @@ import java.util.*;
 
 public class SymbolChecker extends MiniJavaBaseListener {
     private Scope currentScope = null;
-    final private Map<String, Symbol> classes;
+    final private Map<String, Class> classes;
 
     public SymbolChecker(final Map<String, Class> classes) {
         this.classes = classes;
     }
 
     public void exitScope() {
-        currentScope = scope.getParentScope();
+        currentScope = currentScope.getParentScope();
     }
 
     // @Override
@@ -21,6 +21,7 @@ public class SymbolChecker extends MiniJavaBaseListener {
     @Override
     public void enterClassDeclaration(MiniJavaParser.ClassDeclarationContext ctx) {
         String className = ctx.name.getText();
+        System.out.println("---\nClass: " + className);
         Class currentClass = classes.get(className);
         String parentClassName = currentClass.getParentClassName();
         if (!parentClassName.equals("<No Parent Class>")) {
@@ -41,7 +42,7 @@ public class SymbolChecker extends MiniJavaBaseListener {
     public void enterMethodDeclaration(MiniJavaParser.MethodDeclarationContext ctx) {
         String methodName = ctx.name.getText();
         String methodReturnType = ctx.rtype.getText();
-        currentMethod = currentScope.findLocalSymbol(methodName);
+        Method currentMethod = (Method)currentScope.findLocalSymbol(methodName);
         // check for type existence
         if (!Symbol.isPrimitiveType(methodReturnType) && classes.get(methodReturnType) == null) {
             System.err.println("Method return type not found.");
@@ -58,9 +59,9 @@ public class SymbolChecker extends MiniJavaBaseListener {
     public void enterVarDeclaration(MiniJavaParser.VarDeclarationContext ctx) {
         String varName = ctx.name.getText();
         String varType = ctx.vtype.getText();
-        currentVar = currentScope.findLocalSymbol(varName);
+        Symbol currentVar = (Symbol)currentScope.findLocalSymbol(varName);
         // check for type existence
-        if (!Symbol.isPrimitiveType(varType) && classes.findSymbol(varType) == null) {
+        if (!Symbol.isPrimitiveType(varType) && classes.get(varType) == null) {
             System.err.println("Variable type not found.");
         }
     }
