@@ -1,3 +1,5 @@
+import java.util.*;
+
 public interface Scope {
 
     public String getName();
@@ -9,4 +11,6 @@ public interface Scope {
     public Symbol findSymbol(String name);
 
     public Symbol findLocalSymbol(String name);
+
+    public Map<String, Symbol> getSymbols();
 }

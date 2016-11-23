@@ -40,6 +40,7 @@ public class Class extends Symbol implements Scope {
         return symbols.get(name);
     }
 
+    @Override
     public Map<String, Symbol> getSymbols() {
         return symbols;
     }

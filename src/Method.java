@@ -46,7 +46,8 @@ public class Method extends Symbol implements Scope {
             return locals.get(name);
     }
 
-    public Map<String, Symbol> getLocals() {
+    @Override
+    public Map<String, Symbol> getSymbols() {
         return locals;
     }
 
