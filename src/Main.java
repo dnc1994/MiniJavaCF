@@ -26,6 +26,8 @@ public class Main {
 
         // create a parser that feeds off the tokens buffer
         MiniJavaParser parser = new MiniJavaParser(tokens);
+
+        // customized error reporting
         parser.removeErrorListeners();
         parser.addErrorListener(syntaxErrorListener);
 
@@ -34,9 +36,14 @@ public class Main {
 
         ParseTreeWalker walker = new ParseTreeWalker();
 
+        // 1st pass
         Map<String, Class> classes = new HashMap<String, Class>();
         ScopeBuilder scopeBuilder = new ScopeBuilder(classes);
         walker.walk(scopeBuilder, tree);
+
+        // 2nd pass
+        SymbolChecker symbolChecker = new SymbolChecker();
+        walker.walk(symbolChecker, tree);
 
         System.out.println(classes.get("Foo").getSymbols());
         Method method = (Method)classes.get("Foo").getSymbols().get("Excite");
