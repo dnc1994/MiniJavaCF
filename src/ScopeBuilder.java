@@ -55,7 +55,7 @@ public class ScopeBuilder extends MiniJavaBaseListener {
     }
 
     @Override
-    public void exitMethoDeclaration(MiniJavaParser.MethodDeclarationContext ctx) {
+    public void exitMethodDeclaration(MiniJavaParser.MethodDeclarationContext ctx) {
         exitScope();
     }
 
