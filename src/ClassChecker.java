@@ -13,7 +13,7 @@ public class ClassChecker extends MiniJavaBaseListener {
         String className, parentClassName;
         className = ctx.name.getText();
         parentClassName = (ctx.parent != null ? ctx.parent.getText() : "");
-        System.out.println("Class: " + className + " Parent: ");
+        System.out.println("Class: " + className + " Parent: " + parentClassName);
         Class currentClass = new Class(className, parentClassName);
         if (classes.containsKey(className))
             System.err.println("Duplicate classes.");
