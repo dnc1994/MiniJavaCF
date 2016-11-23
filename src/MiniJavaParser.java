@@ -233,6 +233,8 @@ public class MiniJavaParser extends Parser {
 	}
 
 	public static class ClassDeclarationContext extends ParserRuleContext {
+		public IdentifierContext name;
+		public IdentifierContext parent;
 		public List<IdentifierContext> identifier() {
 			return getRuleContexts(IdentifierContext.class);
 		}
@@ -275,7 +277,7 @@ public class MiniJavaParser extends Parser {
 			setState(45);
 			match(T__0);
 			setState(46);
-			identifier();
+			((ClassDeclarationContext)_localctx).name = identifier();
 			setState(49);
 			_la = _input.LA(1);
 			if (_la==T__12) {
@@ -283,7 +285,7 @@ public class MiniJavaParser extends Parser {
 				setState(47);
 				match(T__12);
 				setState(48);
-				identifier();
+				((ClassDeclarationContext)_localctx).parent = identifier();
 				}
 			}
 

@@ -4,7 +4,7 @@ goal : mainClass (classDeclaration)* EOF;
 
 mainClass : 'class' identifier '{' 'public' 'static' 'void' 'main' '(' 'String' '[' ']' identifier ')' '{' statement '}' '}';
 
-classDeclaration : 'class' identifier ('extends' identifier)? '{' (varDeclaration)* (methodDeclaration)* '}';
+classDeclaration : 'class' name=identifier ('extends' parent=identifier)? '{' (varDeclaration)* (methodDeclaration)* '}';
 
 varDeclaration : type identifier ';';
 
