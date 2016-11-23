@@ -37,7 +37,7 @@ public class Main {
         ParseTreeWalker walker = new ParseTreeWalker();
 
         Map<String, Class> classes = new HashMap<String, Class>();
-        ClassChecker classChecker = new ClassChecker(classes);
-        walker.walk(classChecker, tree);
+        ScopeBuilder scopeBuilder = new ScopeBuilder(classes);
+        walker.walk(scopeBuilder, tree);
     }
 }

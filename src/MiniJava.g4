@@ -8,7 +8,7 @@ classDeclaration : 'class' name=identifier ('extends' parent=identifier)? '{' (v
 
 varDeclaration : type identifier ';';
 
-methodDeclaration : 'public' type identifier '(' (type identifier (',' type identifier)* )? ')' '{' (varDeclaration)* (statement)* 'return' expression ';' '}';
+methodDeclaration : 'public' ret_type=type name=identifier '(' (type identifier (',' type identifier)* )? ')' '{' (varDeclaration)* (statement)* 'return' expression ';' '}';
 
 type : 'int' '[' ']'
      | 'boolean'
