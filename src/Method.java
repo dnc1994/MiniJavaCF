@@ -38,6 +38,14 @@ public class Method extends Symbol implements Scope {
             return this.getParentScope().findSymbol(name);
     }
 
+    @Override
+    public Symbol findLocalSymbol(String name) {
+        if (params.containsKey(name))
+            return params.get(name);
+        else
+            return locals.get(name);
+    }
+
     public Map<String, Symbol> getLocals() {
         return locals;
     }

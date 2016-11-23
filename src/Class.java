@@ -35,6 +35,11 @@ public class Class extends Symbol implements Scope {
             return this.getParentScope().findSymbol(name);
     }
 
+    @Override
+    public Symbol findLocalSymbol(String name) {
+        return symbols.get(name);
+    }
+
     public Map<String, Symbol> getSymbols() {
         return symbols;
     }

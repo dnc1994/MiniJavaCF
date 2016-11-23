@@ -7,4 +7,6 @@ public interface Scope {
     public void addSymbol(Symbol symbol);
 
     public Symbol findSymbol(String name);
+
+    public Symbol findLocalSymbol(String name);
 }
