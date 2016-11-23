@@ -6,9 +6,9 @@ mainClass : 'class' identifier '{' 'public' 'static' 'void' 'main' '(' 'String' 
 
 classDeclaration : 'class' name=identifier ('extends' parent=identifier)? '{' (varDeclaration)* (methodDeclaration)* '}';
 
-varDeclaration : type identifier ';';
+varDeclaration : vtype=type name=identifier ';';
 
-methodDeclaration : 'public' ret_type=type name=identifier '(' (type identifier (',' type identifier)* )? ')' '{' (varDeclaration)* (statement)* 'return' expression ';' '}';
+methodDeclaration : 'public' rtype=type name=identifier '(' (type identifier (',' type identifier)* )? ')' '{' (varDeclaration)* (statement)* 'return' expression ';' '}';
 
 type : 'int' '[' ']'
      | 'boolean'

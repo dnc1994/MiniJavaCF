@@ -335,6 +335,8 @@ public class MiniJavaParser extends Parser {
 	}
 
 	public static class VarDeclarationContext extends ParserRuleContext {
+		public TypeContext vtype;
+		public IdentifierContext name;
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
@@ -362,9 +364,9 @@ public class MiniJavaParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(66);
-			type();
+			((VarDeclarationContext)_localctx).vtype = type();
 			setState(67);
-			identifier();
+			((VarDeclarationContext)_localctx).name = identifier();
 			setState(68);
 			match(T__13);
 			}
@@ -381,7 +383,7 @@ public class MiniJavaParser extends Parser {
 	}
 
 	public static class MethodDeclarationContext extends ParserRuleContext {
-		public TypeContext ret_type;
+		public TypeContext rtype;
 		public IdentifierContext name;
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
@@ -435,7 +437,7 @@ public class MiniJavaParser extends Parser {
 			setState(70);
 			match(T__2);
 			setState(71);
-			((MethodDeclarationContext)_localctx).ret_type = type();
+			((MethodDeclarationContext)_localctx).rtype = type();
 			setState(72);
 			((MethodDeclarationContext)_localctx).name = identifier();
 			setState(73);

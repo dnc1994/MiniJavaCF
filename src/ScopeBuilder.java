@@ -25,9 +25,18 @@ public class ScopeBuilder extends MiniJavaBaseListener {
     public void enterMethodDeclaration(MiniJavaParser.MethodDeclarationContext ctx) {
         String methodName, methodReturnType;
         methodName = ctx.name.getText();
-        methodReturnType = ctx.ret_type.getText();
+        methodReturnType = ctx.rtype.getText();
         System.out.println("Method: " + methodName + "; Return Type: " + methodReturnType);
         Method currentMethod = new Method(methodName, methodReturnType);
+        // put in scope's symbol table
+    }
+
+    @Override
+    public void enterVarDeclaration(MiniJavaParser.VarDeclarationContext ctx) {
+        String varType, varName;
+        varType = ctx.vtype.getText();
+        varName = ctx.name.getText();
+        System.out.println("Var: " + varName + "; Type: " + varType);
         // put in scope's symbol table
     }
 }
