@@ -42,7 +42,8 @@ public class SymbolChecker extends MiniJavaBaseListener {
         String methodName = ctx.name.getText();
         String methodReturnType = ctx.rtype.getText();
         currentMethod = currentScope.findLocalSymbol(methodName);
-        if (!Symbol.isPrimitiveType(methodReturnType) && currentScope.findSymbol(methodReturnType) == null) {
+        // check for type existence
+        if (!Symbol.isPrimitiveType(methodReturnType) && classes.get(methodReturnType) == null) {
             System.err.println("Method return type not found.");
         }
         currentScope = currentMethod;
@@ -58,7 +59,8 @@ public class SymbolChecker extends MiniJavaBaseListener {
         String varName = ctx.name.getText();
         String varType = ctx.vtype.getText();
         currentVar = currentScope.findLocalSymbol(varName);
-        if (!Symbol.isPrimitiveType(varType) && currentScope.findSymbol(varType) == null) {
+        // check for type existence
+        if (!Symbol.isPrimitiveType(varType) && classes.findSymbol(varType) == null) {
             System.err.println("Variable type not found.");
         }
     }
