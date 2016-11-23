@@ -3,7 +3,7 @@ build:
 
 test:
 		javac *.java
-		java Main < ../test/1stPassTestbed.java
+		java Main < ../test/2ndPassTestbed.java
 
 rig:
 		javac MiniJava*.java
