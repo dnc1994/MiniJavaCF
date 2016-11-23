@@ -13,12 +13,23 @@ public class SymbolChecker extends MiniJavaBaseListener {
         currentScope = scope.getParentScope();
     }
 
-    @Override
-    public void enterMainClass(MiniJavaParser.MainClassContext ctx) {
-    }
+    // @Override
+    // public void enterMainClass(MiniJavaParser.MainClassContext ctx) {
+        
+    // }
 
     @Override
     public void enterClassDeclaration(MiniJavaParser.ClassDeclarationContext ctx) {
+        String className = ctx.name.getText();
+        Class currentClass = classes.get(className);
+        String parentClassName = currentClass.getParentClassName();
+        if (!parentClassName.equals("<No Parent Class>")) {
+            Class parentClass = classes.get(parentClassName);
+            if (parentClass == null) {
+                System.err.println("Parent class not found.");
+            }
+        }
+        currentScope = currentClass;
     }
 
     @Override
@@ -28,7 +39,13 @@ public class SymbolChecker extends MiniJavaBaseListener {
 
     @Override
     public void enterMethodDeclaration(MiniJavaParser.MethodDeclarationContext ctx) {
-
+        String methodName = ctx.name.getText();
+        String methodReturnType = ctx.rtype.getText();
+        currentMethod = currentScope.findLocalSymbol(methodName);
+        if (!Symbol.isPrimitiveType(methodReturnType) && currentScope.findSymbol(methodReturnType) == null) {
+            System.err.println("Method return type not found.");
+        }
+        currentScope = currentMethod;
     }
 
     @Override
@@ -38,6 +55,12 @@ public class SymbolChecker extends MiniJavaBaseListener {
 
     @Override
     public void enterVarDeclaration(MiniJavaParser.VarDeclarationContext ctx) {
+        String varName = ctx.name.getText();
+        String varType = ctx.vtype.getText();
+        currentVar = currentScope.findLocalSymbol(varName);
+        if (!Symbol.isPrimitiveType(varType) && currentScope.findSymbol(varType) == null) {
+            System.err.println("Variable type not found.");
+        }
     }
 
 }

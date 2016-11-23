@@ -14,11 +14,16 @@ public class Class extends Symbol implements Scope {
         this.valid = valid;
     }
 
+    // Fucking Java does not support default parameter ??!!
     public Class(String className, String parentClassName, Scope parentScope) {
         super(className);
         this.parentClassName = parentClassName;
         this.parentScope = parentScope;
         this.valid = true;
+    }
+
+    public getParentClassName() {
+        return parentClassName;
     }
 
     @Override
