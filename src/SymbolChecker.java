@@ -1,11 +1,11 @@
 import org.antlr.v4.runtime.*;
 import java.util.*;
 
-public class ReferenceChecker extends MiniJavaBaseListener {
+public class SymbolChecker extends MiniJavaBaseListener {
     private Scope currentScope = null;
     final private Map<String, Class> classes;
 
-    public ReferenceChecker(final Map<String, Class> classes) {
+    public SymbolChecker(final Map<String, Class> classes) {
         this.classes = classes;
     }
 
