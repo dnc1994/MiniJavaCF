@@ -1,23 +1,28 @@
 class Testbed {
     public static void main(String[] x){
-        System.out.println(new Fac().ComputeFac(10));
+        System.out.println(new Foo().Excite(5));
     }
 }
 
-class Fac {
-    public int ComputeFac(int num) {
-        int num_aux;
-        if (num < 1)
-            num_aux = 1;
+class Foo {
+    public int Excite(int x) {
+        int y;
+        int y;
+        if (x < 1)
+            y = 1;
           else 
-            num_aux = num * (this.ComputeFac(num-1));
-        return num_aux;
+            y = x * (this.Excite(x-1));
+        return y;
+    }
+
+    public int Excite(int x) {
+        return 0;
     }
 
 }
 
-class FacX extends Fac {
-    public int ComputeFacX(int num) {
+class Bar extends Foo {
+    public int ExciteX(int x) {
         return 0;
     }
 }
