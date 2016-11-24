@@ -1,9 +1,17 @@
 build:
 		javac *.java
 
-test:
+test1:
+		javac *.java
+		java Main < ../test/1stPassTestbed.java
+
+test2:
 		javac *.java
 		java Main < ../test/2ndPassTestbed.java
+
+testc:
+		javac *.java
+		java Main < ../test/CyclicInheritence.java
 
 rig:
 		javac MiniJava*.java
