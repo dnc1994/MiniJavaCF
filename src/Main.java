@@ -40,12 +40,17 @@ public class Main {
         Map<String, Class> classes = new HashMap<String, Class>();
         ScopeBuilder scopeBuilder = new ScopeBuilder(classes);
         walker.walk(scopeBuilder, tree);
-
         // todo: exit on errors
 
         // 2nd pass
         SymbolChecker symbolChecker = new SymbolChecker(classes);
         walker.walk(symbolChecker, tree);
+        // todo: exit on errors
+        // check for cyclic inheritence
+        if (symbolChecker.existsCyclicInheritence()) {
+            System.err.println("Cyclic inheritence detected.");
+            return;
+        }
 
         // System.out.println(classes.get("Foo").getSymbols());
         // Method method = (Method)classes.get("Foo").getSymbols().get("Excite");

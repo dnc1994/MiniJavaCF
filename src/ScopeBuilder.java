@@ -17,7 +17,7 @@ public class ScopeBuilder extends MiniJavaBaseListener {
     @Override
     public void enterMainClass(MiniJavaParser.MainClassContext ctx) {
         String className = ctx.name.getText();
-        Class mainClass = new Class(className, "<Main Class>", null);
+        Class mainClass = new Class(className, "<No Parent Class>", null);
         classes.put(className, mainClass);
         currentScope = mainClass;
     }

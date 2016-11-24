@@ -9,7 +9,32 @@ public class SymbolChecker extends MiniJavaBaseListener {
         this.classes = classes;
     }
 
+    public boolean existsCyclicInheritence() {
+        Map<String, Integer> mapping = new HashMap<String, Integer>();
+        Iterator iter = classes.keySet().iterator();
+        int mark = 0;
+        while (iter.hasNext()) {
+            String className = classes.get(iter.next()).getName();
+            System.out.println(className);
+            if (mapping.containsKey(className))
+                continue;
+            mark += 1;
+            while (!className.equals("<No Parent Class>")) {
+                if (mapping.containsKey(className)) {
+                    if (mapping.get(className).equals(mark))
+                        return true;
+                    break;
+                } 
+                mapping.put(className, mark);
+                className = classes.get(className).getParentClassName();
+                System.out.println(className);
+            }
+        }
+        return false;
+    }
+
     public void exitScope() {
+        System.out.println("Exiting scope: " + currentScope);
         currentScope = currentScope.getParentScope();
     }
 
