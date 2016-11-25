@@ -15,7 +15,6 @@ public class SymbolChecker extends MiniJavaBaseListener {
         int mark = 0;
         while (iter.hasNext()) {
             String className = classes.get(iter.next()).getName();
-            System.out.println(className);
             if (mapping.containsKey(className))
                 continue;
             mark += 1;
@@ -27,13 +26,12 @@ public class SymbolChecker extends MiniJavaBaseListener {
                 } 
                 mapping.put(className, mark);
                 className = classes.get(className).getParentClassName();
-                System.out.println(className);
             }
         }
     }
 
     public void exitScope() {
-        System.out.println("Exiting scope: " + currentScope);
+        // System.out.println("Exiting scope: " + currentScope);
         currentScope = currentScope.getParentScope();
     }
 
@@ -45,7 +43,7 @@ public class SymbolChecker extends MiniJavaBaseListener {
     @Override
     public void enterClassDeclaration(MiniJavaParser.ClassDeclarationContext ctx) {
         String className = ctx.name.getText();
-        System.out.println("---\nClass: " + className);
+        // System.out.println("---\nClass: " + className);
         Class currentClass = classes.get(className);
         String parentClassName = currentClass.getParentClassName();
         if (!parentClassName.equals("<No Parent Class>")) {
