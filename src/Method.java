@@ -75,4 +75,8 @@ public class Method extends Symbol implements Scope {
         return params;
     }
 
+    public String getReturnType() {
+        return returnType;
+    }
+
 }
