@@ -49,7 +49,7 @@ public class TypeChecker extends MiniJavaBaseListener {
         String returnType = ((Method)currentScope).getReturnType();
         if (!Symbol.isTypeCompatible(returnType, rightValueType, classes)) {
             if (!returnType.equals("<Type Error>") && !rightValueType.equals("<Type Error>"))
-                ErrorReporter.reportError("Return type not compatible.");
+                ErrorReporter.reportError(ctx.rightValue().getStart(), "Return type not compatible.");
         }
         exitScope();
     }
@@ -58,7 +58,7 @@ public class TypeChecker extends MiniJavaBaseListener {
         String conditionType = typeEvaluator.visit(ctx.expression());
         if (!conditionType.equals("boolean")) {
             if (!conditionType.equals("<Type Error>"))
-                ErrorReporter.reportError("The condition of if statement must be a boolean.");
+                ErrorReporter.reportError(ctx.expression().getStart(), "The condition of if statement must be a boolean.");
         }
     }
     

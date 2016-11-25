@@ -7,6 +7,12 @@ public final class ErrorReporter {
         return errorCount > 0;
     }
 
+    public static void reportError(Token offendingToken, String msg) {
+        errorCount += 1;
+        System.err.println("line " + offendingToken.getLine() + ":" + offendingToken.getCharPositionInLine() + " error: " + msg);
+        underlineError(offendingToken);
+    }
+
     public static void reportError(String msg) {
         errorCount += 1;
         System.err.println(msg);
@@ -30,6 +36,7 @@ public final class ErrorReporter {
         if (start >= 0 && stop >= 0) {
             for (int i = start; i <= stop; i ++) System.err.print("^");
         }
+        System.err.println();
 
     }
 }
