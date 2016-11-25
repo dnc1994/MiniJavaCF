@@ -87,6 +87,56 @@ public interface MiniJavaListener extends ParseTreeListener {
 	 */
 	void exitStatement(MiniJavaParser.StatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MiniJavaParser#ifStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfStatement(MiniJavaParser.IfStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MiniJavaParser#ifStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfStatement(MiniJavaParser.IfStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MiniJavaParser#whileStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileStatement(MiniJavaParser.WhileStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MiniJavaParser#whileStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileStatement(MiniJavaParser.WhileStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MiniJavaParser#printStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrintStatement(MiniJavaParser.PrintStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MiniJavaParser#printStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrintStatement(MiniJavaParser.PrintStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MiniJavaParser#assignment}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignment(MiniJavaParser.AssignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MiniJavaParser#assignment}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignment(MiniJavaParser.AssignmentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MiniJavaParser#arrayAssignment}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayAssignment(MiniJavaParser.ArrayAssignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MiniJavaParser#arrayAssignment}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayAssignment(MiniJavaParser.ArrayAssignmentContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MiniJavaParser#expression}.
 	 * @param ctx the parse tree
 	 */

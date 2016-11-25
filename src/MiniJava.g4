@@ -20,12 +20,22 @@ type : 'int' '[' ']'
      ;
 
 statement : '{' (statement)* '}'
-          | 'if' '(' expression ')' statement 'else' statement
-          | 'while' '(' expression ')' statement
-          | 'System.out.println' '(' expression ')' ';'
-          | Identifier '=' expression ';'
-          | Identifier '[' expression ']' '=' expression ';'
+          | ifStatement
+          | whileStatement
+          | printStatement
+          | assignment
+          | arrayAssignment
           ;
+
+ifStatement : 'if' '(' expression ')' statement 'else' statement;
+
+whileStatement : 'while' '(' expression ')' statement;
+
+printStatement : 'System.out.println' '(' expression ')' ';';
+
+assignment: Identifier '=' expression ';';
+
+arrayAssignment : Identifier '[' expression ']' '=' expression ';';
 
 expression : expression ('&&' | '<' | '+' | '-' | '*') expression
            | expression '[' expression ']'
