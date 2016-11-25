@@ -12,6 +12,8 @@ import org.antlr.v4.runtime.tree.*;
 import java.util.*;
 
 public class Main {
+    private boolean hasError;
+
     public static void main(String[] args) throws Exception {
         // create a CharStream that reads from standard input
         ANTLRInputStream input = new ANTLRInputStream(System.in);
@@ -40,21 +42,19 @@ public class Main {
         Map<String, Class> classes = new HashMap<String, Class>();
         ScopeBuilder scopeBuilder = new ScopeBuilder(classes);
         walker.walk(scopeBuilder, tree);
-        // todo: exit on errors
+        ErrorPrinter.exitOnErrors();
 
         // 2nd pass
         SymbolChecker symbolChecker = new SymbolChecker(classes);
         walker.walk(symbolChecker, tree);
-        // todo: exit on errors
+        ErrorPrinter.exitOnErrors();
         // check for cyclic inheritence
-        if (symbolChecker.existsCyclicInheritence()) {
-            System.err.println("Cyclic inheritence detected.");
-            return;
-        }
+        symbolChecker.checkCyclicInheritence();
+        ErrorPrinter.exitOnErrors();
 
         // 3rd pass
-        TypeChecker typeChecker = new TypeChecker(classes);
-        walker.walk(typeChecker, tree);
+        // TypeChecker typeChecker = new TypeChecker(classes);
+        // walker.walk(typeChecker, tree);
         // todo: exit on errors
 
         // System.out.println(classes.get("Foo").getSymbols());
