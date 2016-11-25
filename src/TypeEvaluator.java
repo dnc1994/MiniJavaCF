@@ -24,7 +24,20 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     
     @Override
     public String visitExpression(MiniJavaParser.ExpressionContext ctx) {
-        return "not boolean";
+        if (ctx.orExpr() != null)
+            return visit(ctx.orExpr());
+        else if (ctx.andExpr() != null)
+            return visit(ctx.andExpr());
+        else if (ctx.compareExpr() != null)
+            return visit(ctx.compareExpr())
+        else if (ctx.sumExpr() != null)
+            return visit(ctx.sumExpr())
+        else if (ctx.productExpr() != null)
+            return visit(ctx.productExpr())
+        else if (ctx.atom() != null)
+            return visit(ctx.atom());
+        else
+            return "<Type Error>";
     }
     
     @Override public String visitOrExpr(MiniJavaParser.OrExprContext ctx) { return visitChildren(ctx); }
@@ -34,7 +47,18 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     @Override public String visitProductExpr(MiniJavaParser.ProductExprContext ctx) { return visitChildren(ctx); }
     @Override public String visitCallList(MiniJavaParser.CallListContext ctx) { return visitChildren(ctx); }
     @Override public String visitRightValue(MiniJavaParser.RightValueContext ctx) { return visitChildren(ctx); }
-    @Override public String visitAtom(MiniJavaParser.AtomContext ctx) { return visitChildren(ctx); }
+    
+    @Override
+    public String visitAtom(MiniJavaParser.AtomContext ctx) {
+        if (ctx.Int() != null)
+            return 'int';
+        else if (ctx.Bool() != null)
+            return 'boolean';
+        // temporary
+        else
+            return "<Type Error>";
+    }
+    
     @Override public String visitNonAtom(MiniJavaParser.NonAtomContext ctx) { return visitChildren(ctx); }
     @Override public String visitArray(MiniJavaParser.ArrayContext ctx) { return visitChildren(ctx); }
 }
