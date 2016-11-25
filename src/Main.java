@@ -53,8 +53,8 @@ public class Main {
         ErrorReporter.exitOnErrors();
 
         // 3rd pass
-        // TypeChecker typeChecker = new TypeChecker(classes);
-        // walker.walk(typeChecker, tree);
+        TypeChecker typeChecker = new TypeChecker(classes);
+        walker.walk(typeChecker, tree);
         // todo: exit on errors
 
         // System.out.println(classes.get("Foo").getSymbols());

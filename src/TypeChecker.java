@@ -10,7 +10,7 @@ public class TypeChecker extends MiniJavaBaseListener {
         this.classes = classes;
     }
 
-    public getCurrentScope() {
+    public Scope getCurrentScope() {
         return currentScope;
     }
 
@@ -48,8 +48,8 @@ public class TypeChecker extends MiniJavaBaseListener {
     }
 
     @Override public void enterIfStatement(MiniJavaParser.IfStatementContext ctx) {
-        String conditionType = typeEval.visit
-
+        // String conditionType = typeEval.visit
+        typeEvaluator.visit(ctx.expression());
     }
     
     @Override public void enterWhileStatement(MiniJavaParser.WhileStatementContext ctx) {
