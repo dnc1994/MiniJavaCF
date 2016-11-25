@@ -93,4 +93,64 @@ public interface MiniJavaVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpression(MiniJavaParser.ExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MiniJavaParser#orExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOrExpr(MiniJavaParser.OrExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MiniJavaParser#andExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAndExpr(MiniJavaParser.AndExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MiniJavaParser#compareExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCompareExpr(MiniJavaParser.CompareExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MiniJavaParser#sumExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSumExpr(MiniJavaParser.SumExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MiniJavaParser#productExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProductExpr(MiniJavaParser.ProductExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MiniJavaParser#callList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCallList(MiniJavaParser.CallListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MiniJavaParser#rightValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRightValue(MiniJavaParser.RightValueContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MiniJavaParser#atom}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAtom(MiniJavaParser.AtomContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MiniJavaParser#nonAtom}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNonAtom(MiniJavaParser.NonAtomContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MiniJavaParser#array}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArray(MiniJavaParser.ArrayContext ctx);
 }

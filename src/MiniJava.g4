@@ -90,20 +90,42 @@ productExpr
     | productExpr ('*' | '/') atom
     ;
 
-expression : expression ('&&' | '<' | '+' | '-' | '*') expression
-           | expression '[' expression ']'
-           | expression '.' 'length'
-           | expression '.' Identifier '(' (expression (',' expression)* )? ')'
-           | INT
-           | 'true'
-           | 'false'
-           | Identifier
-           | 'this'
-           | 'new' 'int' '[' expression ']'
-           | 'new' Identifier '(' ')'
-           | '!' expression
-           | '(' expression ')'
-           ;
+callList
+    : rightValue
+    | rightValue ',' callList
+    ;
+
+rightValue
+    : expression
+    | nonAtom
+    | array
+    ;
+
+atom
+    : INT
+    | 'true'
+    | 'false'
+    | array '[' atom ']'
+    | array '.' 'length'
+    | nonAtom '.' name=Identifier '(' callList? ')'
+    | name=Identifier
+    | '!' atom
+    | '(' expression ')'
+    ;
+
+nonAtom
+    : nonAtom '.' method=Identifier '(' callList? ')'
+    | name=Identifier
+    | 'this'
+    | 'new' name=Identifier '(' ')'
+    | '(' expression ')'
+    ;
+
+array
+    : name=Identifier
+    | 'new' 'int' '[' expression ']'
+    | nonAtom '.' met=Identifier '(' callList? ')'
+    ;
 
 Identifier : [a-zA-Z_][a-zA-Z0-9_]*;
 

@@ -146,4 +146,104 @@ public interface MiniJavaListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpression(MiniJavaParser.ExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MiniJavaParser#orExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterOrExpr(MiniJavaParser.OrExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MiniJavaParser#orExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitOrExpr(MiniJavaParser.OrExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MiniJavaParser#andExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterAndExpr(MiniJavaParser.AndExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MiniJavaParser#andExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitAndExpr(MiniJavaParser.AndExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MiniJavaParser#compareExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterCompareExpr(MiniJavaParser.CompareExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MiniJavaParser#compareExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitCompareExpr(MiniJavaParser.CompareExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MiniJavaParser#sumExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterSumExpr(MiniJavaParser.SumExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MiniJavaParser#sumExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitSumExpr(MiniJavaParser.SumExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MiniJavaParser#productExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterProductExpr(MiniJavaParser.ProductExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MiniJavaParser#productExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitProductExpr(MiniJavaParser.ProductExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MiniJavaParser#callList}.
+	 * @param ctx the parse tree
+	 */
+	void enterCallList(MiniJavaParser.CallListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MiniJavaParser#callList}.
+	 * @param ctx the parse tree
+	 */
+	void exitCallList(MiniJavaParser.CallListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MiniJavaParser#rightValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterRightValue(MiniJavaParser.RightValueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MiniJavaParser#rightValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitRightValue(MiniJavaParser.RightValueContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MiniJavaParser#atom}.
+	 * @param ctx the parse tree
+	 */
+	void enterAtom(MiniJavaParser.AtomContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MiniJavaParser#atom}.
+	 * @param ctx the parse tree
+	 */
+	void exitAtom(MiniJavaParser.AtomContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MiniJavaParser#nonAtom}.
+	 * @param ctx the parse tree
+	 */
+	void enterNonAtom(MiniJavaParser.NonAtomContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MiniJavaParser#nonAtom}.
+	 * @param ctx the parse tree
+	 */
+	void exitNonAtom(MiniJavaParser.NonAtomContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MiniJavaParser#array}.
+	 * @param ctx the parse tree
+	 */
+	void enterArray(MiniJavaParser.ArrayContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MiniJavaParser#array}.
+	 * @param ctx the parse tree
+	 */
+	void exitArray(MiniJavaParser.ArrayContext ctx);
 }
