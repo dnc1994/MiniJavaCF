@@ -81,10 +81,9 @@ public class ScopeBuilder extends MiniJavaBaseListener {
 
     @Override
     public void enterVarDeclaration(MiniJavaParser.VarDeclarationContext ctx) {
-        String varType, varName;
+        String varType = ctx.vtype.getText();
+        String varName = ctx.name.getText();
         boolean valid = currentScope.isValid();
-        varType = ctx.vtype.getText();
-        varName = ctx.name.getText();
         // System.out.println("Var: " + varName + "; Type: " + varType);
         
         if (currentScope.findLocalSymbol(varName) != null) {
@@ -98,18 +97,22 @@ public class ScopeBuilder extends MiniJavaBaseListener {
     }
 
     @Override
-    public void enterParaList(MiniJavaParser.ParaListContext ctx) {
-        String paramName = ctx.name;
-        String paramType = ctx.ptype;
+    public void enterParamList(MiniJavaParser.ParamListContext ctx) {
+        String paramName = ctx.name.getText();
+        String paramType = ctx.ptype.getText();
+        boolean valid = currentScope.isValid();
+        System.out.println("Param: " + paramName + "; Type: " + paramType);
 
         // Will always visit ParamList first
         // So, calling findLocalSymbol() should be fine.
         if (currentScope.findLocalSymbol(paramName) != null) {
-
+            ErrorReporter.reportError("Parameter already exists.");
+            valid = false;
         }
         Symbol currentParam = new Symbol(paramName, paramType);
         if (valid) {
-            (Method)(currentScope).addSymbol(currentParam);
+            System.out.println("Adding a param");
+            ((Method)currentScope).addParam(currentParam);
         }
     }
 }
