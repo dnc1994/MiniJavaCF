@@ -2264,7 +2264,6 @@ public class MiniJavaParser extends Parser {
 
 	public static class NonAtomContext extends ParserRuleContext {
 		public Token name;
-		public Token method;
 		public TerminalNode Identifier() { return getToken(MiniJavaParser.Identifier, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
@@ -2366,7 +2365,7 @@ public class MiniJavaParser extends Parser {
 					setState(367);
 					match(T__32);
 					setState(368);
-					((NonAtomContext)_localctx).method = match(Identifier);
+					((NonAtomContext)_localctx).name = match(Identifier);
 					setState(369);
 					match(T__6);
 					setState(371);

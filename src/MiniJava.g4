@@ -113,7 +113,7 @@ atom
     ;
 
 nonAtom
-    : nonAtom '.' method=Identifier '(' callList? ')'
+    : nonAtom '.' name=Identifier '(' callList? ')'
     | name=Identifier
     | 'this'
     | 'new' name=Identifier '(' ')'
