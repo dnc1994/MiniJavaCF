@@ -5,7 +5,7 @@ class Testbed {
 }
 
 class Foo {
-    public int Excite(int x) {
+    public int Excite(int x, int z) {
         int y;
         int y;
         if (x < 1)

@@ -96,4 +96,20 @@ public class ScopeBuilder extends MiniJavaBaseListener {
             currentScope.addSymbol(currentVar);
         }
     }
+
+    @Override
+    public void enterParaList(MiniJavaParser.ParaListContext ctx) {
+        String paramName = ctx.name;
+        String paramType = ctx.ptype;
+
+        // Will always visit ParamList first
+        // So, calling findLocalSymbol() should be fine.
+        if (currentScope.findLocalSymbol(paramName) != null) {
+
+        }
+        Symbol currentParam = new Symbol(paramName, paramType);
+        if (valid) {
+            (Method)(currentScope).addSymbol(currentParam);
+        }
+    }
 }

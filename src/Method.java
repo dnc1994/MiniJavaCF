@@ -66,4 +66,8 @@ public class Method extends Symbol implements Scope {
         return locals;
     }
 
+    public void addParam(Symbol param) {
+        params.put(param.getName(), param);
+    }
+
 }
