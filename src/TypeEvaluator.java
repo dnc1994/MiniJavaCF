@@ -30,9 +30,9 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     public String visitOrExpr(MiniJavaParser.OrExprContext ctx) {
         String left = visit(ctx.getChild(0));
         String right = visit(ctx.getChild(2));
-        System.out.println("visiting or expression: " + left + " || " + right);
+        // System.out.println("visiting or expression: " + left + " || " + right);
         if (!left.equals("boolean") || !right.equals("boolean")) {
-            ErrorReporter.reportError("Only boolean support logical or.");
+            ErrorReporter.reportError(ctx, "Only boolean support logical or.");
             return "<Type Error>";
         }
         return "boolean";
@@ -43,7 +43,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         String left = visit(ctx.getChild(0));
         String right = visit(ctx.getChild(2));
         if (!left.equals("boolean") || !right.equals("boolean")) {
-            ErrorReporter.reportError("Only boolean support logical or.");
+            ErrorReporter.reportError(ctx, "Only boolean support logical or.");
             return "<Type Error>";
         }
         return "boolean";
@@ -53,7 +53,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         String left = visit(ctx.getChild(0));
         String right = visit(ctx.getChild(2));
         if (!left.equals("int") || !right.equals("int")) {
-            ErrorReporter.reportError("Only int support comparison.");
+            ErrorReporter.reportError(ctx, "Only int support comparison.");
             return "<Type Error>";
         }
         return "boolean";
@@ -63,7 +63,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         String left = visit(ctx.getChild(0));
         String right = visit(ctx.getChild(2));
         if (!left.equals("int") || !right.equals("int")) {
-            ErrorReporter.reportError("Only int support addition.");
+            ErrorReporter.reportError(ctx, "Only int support addition.");
             return "<Type Error>";
         }
         return "int";
@@ -73,7 +73,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         String left = visit(ctx.getChild(0));
         String right = visit(ctx.getChild(2));
         if (!left.equals("int") || !right.equals("int")) {
-            ErrorReporter.reportError("Only int support multiplication.");
+            ErrorReporter.reportError(ctx, "Only int support multiplication.");
             return "<Type Error>";
         }
         return "int";
@@ -94,9 +94,9 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             String arrayType = visit(ctx.array());
             if (!arrayType.equals("int[]")) {
                 if (ctx.atom() == null)
-                    ErrorReporter.reportError("Only array has .length method.");
+                    ErrorReporter.reportError(ctx, "Only array has .length method.");
                 else
-                    ErrorReporter.reportError("Only array support [] indexing.");    
+                    ErrorReporter.reportError(ctx, "Only array support [] indexing.");    
                 return "<Type Error>";
             }
             // array.length
@@ -106,7 +106,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             else {
                 String atomType = visit(ctx.atom());
                 if (!atomType.equals("int")) {
-                    ErrorReporter.reportError("Array index must be int.");    
+                    ErrorReporter.reportError(ctx, "Array index must be int.");    
                     return "<Type Error>";
                 }
                 return "int";
@@ -116,7 +116,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             Symbol symbol = typeChecker.getCurrentScope().findSymbol(ctx.name.getText());
             if (symbol != null) System.out.println("symbol: " + symbol.getName() + " type: " + symbol.getType());
             if (symbol == null) {
-                ErrorReporter.reportError("Symbol not found.");
+                ErrorReporter.reportError(ctx, "Symbol not found.");
                 return "<Type Error>";
             }
             else
@@ -131,7 +131,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         else if (ctx.atom() != null) {
             String atomType = visit(ctx.atom());
             if (!atomType.equals("boolean")) {
-                ErrorReporter.reportError("Only boolean support logical not.");    
+                ErrorReporter.reportError(ctx, "Only boolean support logical not.");    
                 return "<Type Error>";
             }
             return "boolean";

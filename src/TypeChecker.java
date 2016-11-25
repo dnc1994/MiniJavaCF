@@ -49,7 +49,7 @@ public class TypeChecker extends MiniJavaBaseListener {
         String returnType = ((Method)currentScope).getReturnType();
         if (!Symbol.isTypeCompatible(returnType, rightValueType, classes)) {
             if (!returnType.equals("<Type Error>") && !rightValueType.equals("<Type Error>"))
-                ErrorReporter.reportError(ctx.rightValue().getStart(), "Return type not compatible.");
+                ErrorReporter.reportError(ctx.rightValue(), "Return type not compatible.");
         }
         exitScope();
     }
@@ -58,7 +58,7 @@ public class TypeChecker extends MiniJavaBaseListener {
         String conditionType = typeEvaluator.visit(ctx.expression());
         if (!conditionType.equals("boolean")) {
             if (!conditionType.equals("<Type Error>"))
-                ErrorReporter.reportError(ctx.expression().getStart(), "The condition of if statement must be a boolean.");
+                ErrorReporter.reportError(ctx.expression(), "The condition of if statement must be a boolean.");
         }
     }
     
@@ -66,7 +66,7 @@ public class TypeChecker extends MiniJavaBaseListener {
         String conditionType = typeEvaluator.visit(ctx.expression());
         if (!conditionType.equals("boolean")) {
             if (!conditionType.equals("<Type Error>"))
-                ErrorReporter.reportError("The condition of while statement must be a boolean.");
+                ErrorReporter.reportError(ctx.expression(), "The condition of while statement must be a boolean.");
         }
     }
     
@@ -74,20 +74,20 @@ public class TypeChecker extends MiniJavaBaseListener {
         String exprType = typeEvaluator.visit(ctx.expression()); 
         if (!exprType.equals("int")) {
             if (!exprType.equals("<Type Error>"))
-                ErrorReporter.reportError("System.out.println can only print int.");
+                ErrorReporter.reportError(ctx.expression(), "System.out.println can only print int.");
         }
     }
     
     @Override public void enterAssignment(MiniJavaParser.AssignmentContext ctx) {
         Symbol leftSymbol = currentScope.findSymbol(ctx.name.getText());
         if (leftSymbol == null) {
-            ErrorReporter.reportError("Symbol not found.");
+            ErrorReporter.reportError(ctx.name, "Symbol not found.");
         }
         String leftType = leftSymbol.getType();
         String rightType = typeEvaluator.visit(ctx.rightValue());
         if (!Symbol.isTypeCompatible(leftType, rightType, classes)) {
             if (!leftType.equals("<Type Error>") && !rightType.equals("<Type Error>"))
-                ErrorReporter.reportError("Left and right side of assignment are not of compatible types.");
+                ErrorReporter.reportError(ctx.name, "Left and right side of assignment are not of compatible types.");
         }
     }
     

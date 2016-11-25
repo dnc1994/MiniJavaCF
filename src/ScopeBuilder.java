@@ -37,7 +37,7 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         // System.out.println("In scope: " + currentScope);
         
         if (classes.containsKey(className)) {
-            ErrorReporter.reportError("Class already exists.");
+            ErrorReporter.reportError(ctx.name, "Class already exists.");
             valid = false;
         }
         Class currentClass = new Class(className, parentClassName, currentScope, valid);
@@ -64,7 +64,7 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         // System.out.println("Lookup result: " + currentScope.findLocalSymbol(methodName));
         
         if (currentScope.findLocalSymbol(methodName) != null) {
-            ErrorReporter.reportError("Method already exists.");
+            ErrorReporter.reportError(ctx.name, "Method already exists.");
             valid = false;
         }
         Method currentMethod = new Method(methodName, methodReturnType, currentScope, valid);
@@ -87,7 +87,7 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         // System.out.println("Var: " + varName + "; Type: " + varType);
         
         if (currentScope.findLocalSymbol(varName) != null) {
-            ErrorReporter.reportError("Variable already exists.");
+            ErrorReporter.reportError(ctx.name, "Variable already exists.");
             valid = false;
         }
         Symbol currentVar = new Symbol(varName, varType);
@@ -106,7 +106,7 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         // Will always visit ParamList first
         // So, calling findLocalSymbol() should be fine.
         if (currentScope.findLocalSymbol(paramName) != null) {
-            ErrorReporter.reportError("Parameter already exists.");
+            ErrorReporter.reportError(ctx.name, "Parameter already exists.");
             valid = false;
         }
         Symbol currentParam = new Symbol(paramName, paramType);
