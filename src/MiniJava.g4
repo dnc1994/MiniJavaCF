@@ -51,7 +51,7 @@ printStatement
     : 'System.out.println' '(' expression ')' ';';
 
 assignment
-    : Identifier '=' expression ';';
+    : name=Identifier '=' expression ';';
 
 arrayAssignment
     : Identifier '[' expression ']' '=' expression ';';

@@ -963,10 +963,11 @@ public class MiniJavaParser extends Parser {
 	}
 
 	public static class AssignmentContext extends ParserRuleContext {
-		public TerminalNode Identifier() { return getToken(MiniJavaParser.Identifier, 0); }
+		public Token name;
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
+		public TerminalNode Identifier() { return getToken(MiniJavaParser.Identifier, 0); }
 		public AssignmentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -993,7 +994,7 @@ public class MiniJavaParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(179);
-			match(Identifier);
+			((AssignmentContext)_localctx).name = match(Identifier);
 			setState(180);
 			match(T__22);
 			setState(181);
