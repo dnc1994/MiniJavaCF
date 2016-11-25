@@ -24,9 +24,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     
     @Override
     public String visitExpression(MiniJavaParser.ExpressionContext ctx) {
-        // return visitChildren(ctx);
-        System.out.println(ctx.compareExpr().getText());
-        return "WA";
+        return "not boolean";
     }
     
     @Override public String visitOrExpr(MiniJavaParser.OrExprContext ctx) { return visitChildren(ctx); }

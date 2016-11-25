@@ -48,8 +48,11 @@ public class TypeChecker extends MiniJavaBaseListener {
     }
 
     @Override public void enterIfStatement(MiniJavaParser.IfStatementContext ctx) {
-        // String conditionType = typeEval.visit
-        typeEvaluator.visit(ctx.expression());
+        String conditionType = typeEvaluator.visit(ctx.expression());
+        if (!conditionType.equals("boolean")) {
+            ErrorReporter.reportError("The condition for if statement must be boolean.");
+        }
+
     }
     
     @Override public void enterWhileStatement(MiniJavaParser.WhileStatementContext ctx) {

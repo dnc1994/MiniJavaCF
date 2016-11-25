@@ -17,9 +17,13 @@ testc:
 		javac *.java
 		java Main < ../test/CyclicInheritence.java
 
+test3:
+		javac *.java
+		java Main < ../test/3rdPassTestbed.java
+
 rig:
 		javac *.java
-		java org.antlr.v4.runtime.misc.TestRig MiniJava goal -gui < ../test/Testbed.java -gui		
+		java org.antlr.v4.runtime.misc.TestRig MiniJava goal -gui < ../test/3rdPassTestbed.java -gui		
 
 irig:
 		javac MiniJava*.java

@@ -6,9 +6,11 @@ class Testbed {
 
 class Foo {
     public int Excite(int x) {
+        int y;
         if (x + 1)
-            return 2;
+            y = 2;
         else 
-            return x;
+            y = x;
+        return y;
     }
 }
