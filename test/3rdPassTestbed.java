@@ -6,6 +6,13 @@ class Testbed {
 
 class A {
     int x;
+    boolean a;
+    boolean b;
+    boolean c;
+
+    public int cha() {
+        return a || b && c;
+    }
 }
 
 class B extends A {

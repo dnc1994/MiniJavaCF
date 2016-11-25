@@ -22,11 +22,11 @@ test3:
 		java Main < ../test/3rdPassTestbed.java
 
 rig:
-		javac *.java
+		javac MiniJava*.java
 		java org.antlr.v4.runtime.misc.TestRig MiniJava goal -gui < ../test/Testbed.java -gui		
 
 rig3:
-		javac *.java
+		javac MiniJava*.java
 		java org.antlr.v4.runtime.misc.TestRig MiniJava goal -gui < ../test/3rdPassTestbed.java -gui		
 
 irig:
