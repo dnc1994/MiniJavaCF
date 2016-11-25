@@ -34,6 +34,7 @@ public class Symbol {
         while (!typeB.equals("<No Parent Class>")) {
             if (typeA.equals(typeB))
                 return true;
+            // System.out.println("typeB: " + typeB);
             typeB = classes.get(typeB).getParentClassName();
         }
         return false;
