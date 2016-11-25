@@ -5,7 +5,7 @@ public class TypeChecker extends MiniJavaBaseListener {
     private Scope currentScope = null;
     final private Map<String, Class> classes;
 
-    public SymbolChecker(final Map<String, Class> classes) {
+    public TypeChecker(final Map<String, Class> classes) {
         this.classes = classes;
     }
 
