@@ -5,6 +5,10 @@ test:
 		javac *.java
 		java Main < ../test/Testbed.java
 
+tests:
+		javac *.java
+		java Main < ../test/SyntaxError.java
+
 test1:
 		javac *.java
 		java Main < ../test/1stPassTestbed.java
