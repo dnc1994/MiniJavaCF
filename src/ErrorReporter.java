@@ -7,15 +7,19 @@ public final class ErrorReporter {
         return errorCount > 0;
     }
 
+    public static void reportError(String msg) {
+        errorCount += 1;
+        System.err.println(msg);
+    }
+
     public static void reportError(Token offendingToken, String msg) {
         errorCount += 1;
         System.err.println("line " + offendingToken.getLine() + ":" + offendingToken.getCharPositionInLine() + " error: " + msg);
         underlineError(offendingToken);
     }
 
-    public static void reportError(String msg) {
-        errorCount += 1;
-        System.err.println(msg);
+    public static void reportError(ParserRuleContext ctx, String msg) {
+        reportError(ctx.getStart(), msg);
     }
 
     public static void exitOnErrors() {
