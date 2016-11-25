@@ -8,20 +8,6 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         this.typeChecker = typeChecker;
     }
 
-    @Override public String visitGoal(MiniJavaParser.GoalContext ctx) { return visitChildren(ctx); }
-    @Override public String visitMainClass(MiniJavaParser.MainClassContext ctx) { return visitChildren(ctx); }
-    @Override public String visitClassDeclaration(MiniJavaParser.ClassDeclarationContext ctx) { return visitChildren(ctx); }
-    @Override public String visitVarDeclaration(MiniJavaParser.VarDeclarationContext ctx) { return visitChildren(ctx); }
-    @Override public String visitMethodDeclaration(MiniJavaParser.MethodDeclarationContext ctx) { return visitChildren(ctx); }
-    @Override public String visitParamList(MiniJavaParser.ParamListContext ctx) { return visitChildren(ctx); }
-    @Override public String visitType(MiniJavaParser.TypeContext ctx) { return visitChildren(ctx); }
-    @Override public String visitStatement(MiniJavaParser.StatementContext ctx) { return visitChildren(ctx); }
-    @Override public String visitIfStatement(MiniJavaParser.IfStatementContext ctx) { return visitChildren(ctx); }
-    @Override public String visitWhileStatement(MiniJavaParser.WhileStatementContext ctx) { return visitChildren(ctx); }
-    @Override public String visitPrintStatement(MiniJavaParser.PrintStatementContext ctx) { return visitChildren(ctx); }
-    @Override public String visitAssignment(MiniJavaParser.AssignmentContext ctx) { return visitChildren(ctx); }
-    @Override public String visitArrayAssignment(MiniJavaParser.ArrayAssignmentContext ctx) { return visitChildren(ctx); }
-    
     @Override
     public String visitExpression(MiniJavaParser.ExpressionContext ctx) {
         if (ctx.orExpr() != null)
@@ -40,12 +26,60 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             return "<Type Error>";
     }
     
-    @Override public String visitOrExpr(MiniJavaParser.OrExprContext ctx) { return visitChildren(ctx); }
-    @Override public String visitAndExpr(MiniJavaParser.AndExprContext ctx) { return visitChildren(ctx); }
-    @Override public String visitCompareExpr(MiniJavaParser.CompareExprContext ctx) { return visitChildren(ctx); }
-    @Override public String visitSumExpr(MiniJavaParser.SumExprContext ctx) { return visitChildren(ctx); }
-    @Override public String visitProductExpr(MiniJavaParser.ProductExprContext ctx) { return visitChildren(ctx); }
+    @Override
+    public String visitOrExpr(MiniJavaParser.OrExprContext ctx) {
+        String left = visit(ctx.getChild(0));
+        String right = visit(ctx.getChild(2));
+        if (!left.equals("boolean") || !right.equals("boolean")) {
+            ErrorReporter.reportError("Only boolean support logical or.");
+            return "<Type Error>";
+        }
+        return "boolean";
+    }
+
+    @Override
+    public String visitAndExpr(MiniJavaParser.AndExprContext ctx) {
+        String left = visit(ctx.getChild(0));
+        String right = visit(ctx.getChild(2));
+        if (!left.equals("boolean") || !right.equals("boolean")) {
+            ErrorReporter.reportError("Only boolean support logical or.");
+            return "<Type Error>";
+        }
+        return "boolean";
+    }
+
+    @Override public String visitCompareExpr(MiniJavaParser.CompareExprContext ctx) { 
+        String left = visit(ctx.getChild(0));
+        String right = visit(ctx.getChild(2));
+        if (!left.equals("int") || !right.equals("int")) {
+            ErrorReporter.reportError("Only int support comparison.");
+            return "<Type Error>";
+        }
+        return "boolean";
+    }
+    
+    @Override public String visitSumExpr(MiniJavaParser.SumExprContext ctx) {
+        String left = visit(ctx.getChild(0));
+        String right = visit(ctx.getChild(2));
+        if (!left.equals("int") || !right.equals("int")) {
+            ErrorReporter.reportError("Only int support addition.");
+            return "<Type Error>";
+        }
+        return "int";
+    }
+    
+    @Override public String visitProductExpr(MiniJavaParser.ProductExprContext ctx) {
+        String left = visit(ctx.getChild(0));
+        String right = visit(ctx.getChild(2));
+        if (!left.equals("int") || !right.equals("int")) {
+            ErrorReporter.reportError("Only int support multiplication.");
+            return "<Type Error>";
+        }
+        return "int";
+    }
+    
     @Override public String visitCallList(MiniJavaParser.CallListContext ctx) { return visitChildren(ctx); }
+    
     @Override public String visitRightValue(MiniJavaParser.RightValueContext ctx) { return visitChildren(ctx); }
     
     @Override
@@ -67,6 +101,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             // array.length
             if (ctx.atom() == null)
                 return "int";
+            // array[index]
             else {
                 String atomType = visit(ctx.atom());
                 if (!atomType.equals("int")) {
@@ -86,6 +121,9 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
                 return symbol.getType();
         }
         else if (ctx.nonAtom() != null) {
+            String object = visit(ctx.nonAtom());
+            String methodName = ctx.name.getText();
+            String callList = (ctx.callList() != null ? visit(ctx.callList()) : "");
             // todo
         }
         else if (ctx.atom() != null) {
@@ -94,15 +132,13 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
                 ErrorReporter.reportError("Only boolean support logical not.");    
                 return "<Type Error>";
             }
-            return "boolean"
+            return "boolean";
         }
-        else if (ctx.expression()) {
+        else if (ctx.expression() != null) {
             return visit(ctx.expression());
         }
 
-        // temporary
-        else
-            return "<Type Error>";
+        return "<Type Error>";
     }
     
     @Override public String visitNonAtom(MiniJavaParser.NonAtomContext ctx) { return visitChildren(ctx); }
