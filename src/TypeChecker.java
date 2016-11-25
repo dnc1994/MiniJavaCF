@@ -44,27 +44,37 @@ public class TypeChecker extends MiniJavaBaseListener {
 
     @Override
     public void exitMethodDeclaration(MiniJavaParser.MethodDeclarationContext ctx) {
+        // return type check
+        String rightValueType = typeEvaluator.visit(ctx.rightValue());
+        String returnType = ((Method)currentScope).getReturnType();
+        if (!Symbol.isTypeCompatible(returnType, rightValueType, classes)) {
+            if (!returnType.equals("<Type Error>") && !rightValueType.equals("<Type Error>"))
+                ErrorReporter.reportError("Return type not compatible.");
+        }
         exitScope();
     }
 
     @Override public void enterIfStatement(MiniJavaParser.IfStatementContext ctx) {
         String conditionType = typeEvaluator.visit(ctx.expression());
         if (!conditionType.equals("boolean")) {
-            ErrorReporter.reportError("The condition of if statement must be a boolean.");
+            if (!conditionType.equals("<Type Error>"))
+                ErrorReporter.reportError("The condition of if statement must be a boolean.");
         }
     }
     
     @Override public void enterWhileStatement(MiniJavaParser.WhileStatementContext ctx) {
         String conditionType = typeEvaluator.visit(ctx.expression());
         if (!conditionType.equals("boolean")) {
-            ErrorReporter.reportError("The condition of while statement must be a boolean.");
+            if (!conditionType.equals("<Type Error>"))
+                ErrorReporter.reportError("The condition of while statement must be a boolean.");
         }
     }
     
     @Override public void enterPrintStatement(MiniJavaParser.PrintStatementContext ctx) {
         String exprType = typeEvaluator.visit(ctx.expression()); 
         if (!exprType.equals("int")) {
-            ErrorReporter.reportError("System.out.println can only print int.");
+            if (!exprType.equals("<Type Error>"))
+                ErrorReporter.reportError("System.out.println can only print int.");
         }
     }
     
@@ -73,9 +83,11 @@ public class TypeChecker extends MiniJavaBaseListener {
         if (leftSymbol == null) {
             ErrorReporter.reportError("Symbol not found.");
         }
+        String leftType = leftSymbol.getType();
         String rightType = typeEvaluator.visit(ctx.rightValue());
-        if (!Symbol.isTypeCompatible(leftSymbol.getType(), rightType, classes)) {
-            ErrorReporter.reportError("Left and right side of assignment are not of compatible types.");
+        if (!Symbol.isTypeCompatible(leftType, rightType, classes)) {
+            if (!leftType.equals("<Type Error>") && !rightType.equals("<Type Error>"))
+                ErrorReporter.reportError("Left and right side of assignment are not of compatible types.");
         }
     }
     

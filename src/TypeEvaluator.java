@@ -22,14 +22,15 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             return visit(ctx.productExpr());
         else if (ctx.atom() != null)
             return visit(ctx.atom());
-        else
-            return "<Type Error>";
+        // Should never reach here
+        return null;
     }
     
     @Override
     public String visitOrExpr(MiniJavaParser.OrExprContext ctx) {
         String left = visit(ctx.getChild(0));
         String right = visit(ctx.getChild(2));
+        System.out.println("visiting or expression: " + left + " || " + right);
         if (!left.equals("boolean") || !right.equals("boolean")) {
             ErrorReporter.reportError("Only boolean support logical or.");
             return "<Type Error>";
@@ -113,6 +114,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         }
         else if (ctx.name != null) {
             Symbol symbol = typeChecker.getCurrentScope().findSymbol(ctx.name.getText());
+            if (symbol != null) System.out.println("symbol: " + symbol.getName() + " type: " + symbol.getType());
             if (symbol == null) {
                 ErrorReporter.reportError("Symbol not found.");
                 return "<Type Error>";
@@ -138,7 +140,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             return visit(ctx.expression());
         }
 
-        return "<Type Error>";
+        return null;
     }
     
     @Override public String visitNonAtom(MiniJavaParser.NonAtomContext ctx) { return visitChildren(ctx); }

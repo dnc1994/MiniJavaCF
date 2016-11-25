@@ -11,7 +11,7 @@ class A {
     boolean c;
 
     public int cha() {
-        return a || b && c;
+        return x || b && c;
     }
 }
 
@@ -24,7 +24,7 @@ class C {
     public int biu() {
         A a;
         B b;
-        a = b;
+        b = a;
         return a;
     }
 }
