@@ -1,16 +1,16 @@
 class Testbed {
     public static void main(String[] x){
-        System.out.println(new Foo().Excite(5));
+        A a = new A();
+        B b = new B();
+        a = b;
+        b = a;
     }
 }
 
-class Foo {
-    public int Excite(int x) {
-        int y;
-        if (x + 1)
-            y = 2;
-        else 
-            y = x;
-        return y;
-    }
+class A {
+    int x;
+}
+
+class B extends A {
+    int y;
 }

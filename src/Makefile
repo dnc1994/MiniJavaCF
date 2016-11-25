@@ -23,7 +23,7 @@ test3:
 
 rig:
 		javac *.java
-		java org.antlr.v4.runtime.misc.TestRig MiniJava goal -gui < ../test/3rdPassTestbed.java -gui		
+		java org.antlr.v4.runtime.misc.TestRig MiniJava goal -gui < ../test/Testbed.java -gui		
 
 irig:
 		javac MiniJava*.java
