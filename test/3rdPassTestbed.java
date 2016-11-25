@@ -1,9 +1,6 @@
 class Testbed {
     public static void main(String[] x){
-        A a = new A();
-        B b = new B();
-        a = b;
-        b = a;
+        System.out.println(0);
     }
 }
 
@@ -13,4 +10,15 @@ class A {
 
 class B extends A {
     int y;
+}
+
+
+class C {
+    public int biu() {
+        A a;
+        B b;
+        a = b;
+        b = a;
+        return a;
+    }
 }
