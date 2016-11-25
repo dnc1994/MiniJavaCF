@@ -114,7 +114,6 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         }
         else if (ctx.name != null) {
             Symbol symbol = typeChecker.getCurrentScope().findSymbol(ctx.name.getText());
-            if (symbol != null) System.out.println("symbol: " + symbol.getName() + " type: " + symbol.getType());
             if (symbol == null) {
                 ErrorReporter.reportError(ctx, "Symbol not found.");
                 return "<Type Error>";

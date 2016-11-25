@@ -56,7 +56,7 @@ public class Main {
         // 3rd pass
         TypeChecker typeChecker = new TypeChecker(classes);
         walker.walk(typeChecker, tree);
-        // todo: exit on errors
+        ErrorReporter.exitOnErrors();
 
         // System.out.println(classes.get("Foo").getSymbols());
         // Method method = (Method)classes.get("Foo").getSymbols().get("Excite");
