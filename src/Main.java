@@ -12,11 +12,11 @@ import org.antlr.v4.runtime.tree.*;
 import java.util.*;
 
 public class Main {
-    public ANTLRInputStream input;
+    public static String[] inputLines;
 
     public static void main(String[] args) throws Exception {
         // create a CharStream that reads from standard input
-        input = new ANTLRInputStream(System.in);
+        ANTLRInputStream input = new ANTLRInputStream(System.in);
 
         SyntaxErrorListener syntaxErrorListener = new SyntaxErrorListener();
 
@@ -30,7 +30,7 @@ public class Main {
         MiniJavaParser parser = new MiniJavaParser(tokens);
 
         // customized error reporting
-        ErrorReporter.setInput(input.toString());
+        inputLines = input.toString().split("\n");
         parser.removeErrorListeners();
         parser.addErrorListener(syntaxErrorListener);
 
