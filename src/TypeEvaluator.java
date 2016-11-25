@@ -55,6 +55,27 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             return "int";
         else if (ctx.Bool() != null)
             return "boolean";
+        else if (ctx.array() != null) {
+            String arrayType = visit(ctx.array());
+            if (!arrayType.equals("int[]")) {
+                if (ctx.atom() == null)
+                    ErrorReporter.reportError("Only array has .length method.");
+                else
+                    ErrorReporter.reportError("Only array support [] indexing.");    
+                return "<Type Error>";
+            }
+            // array.length
+            if (ctx.atom() == null)
+                return "int";
+            else {
+                String atomType = visit(ctx.atom());
+                if (!atomType.equals("int")) {
+                    ErrorReporter.reportError("Array index must be int.");    
+                    return "<Type Error>";
+                }
+                return "int";
+            }
+        }
         else if (ctx.name != null) {
             Symbol symbol = typeChecker.getCurrentScope().findSymbol(ctx.name.getText());
             if (symbol == null) {
@@ -64,6 +85,21 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             else
                 return symbol.getType();
         }
+        else if (ctx.nonAtom() != null) {
+            // todo
+        }
+        else if (ctx.atom() != null) {
+            String atomType = visit(ctx.atom());
+            if (!atomType.equals("boolean")) {
+                ErrorReporter.reportError("Only boolean support logical not.");    
+                return "<Type Error>";
+            }
+            return "boolean"
+        }
+        else if (ctx.expression()) {
+            return visit(ctx.expression());
+        }
+
         // temporary
         else
             return "<Type Error>";
