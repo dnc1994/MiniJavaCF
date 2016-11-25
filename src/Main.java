@@ -42,15 +42,15 @@ public class Main {
         Map<String, Class> classes = new HashMap<String, Class>();
         ScopeBuilder scopeBuilder = new ScopeBuilder(classes);
         walker.walk(scopeBuilder, tree);
-        ErrorPrinter.exitOnErrors();
+        ErrorReporter.exitOnErrors();
 
         // 2nd pass
         SymbolChecker symbolChecker = new SymbolChecker(classes);
         walker.walk(symbolChecker, tree);
-        ErrorPrinter.exitOnErrors();
+        ErrorReporter.exitOnErrors();
         // check for cyclic inheritence
         symbolChecker.checkCyclicInheritence();
-        ErrorPrinter.exitOnErrors();
+        ErrorReporter.exitOnErrors();
 
         // 3rd pass
         // TypeChecker typeChecker = new TypeChecker(classes);

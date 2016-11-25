@@ -9,7 +9,7 @@ public class SymbolChecker extends MiniJavaBaseListener {
         this.classes = classes;
     }
 
-    public void existsCyclicInheritence() {
+    public void checkCyclicInheritence() {
         Map<String, Integer> mapping = new HashMap<String, Integer>();
         Iterator iter = classes.keySet().iterator();
         int mark = 0;
@@ -22,7 +22,7 @@ public class SymbolChecker extends MiniJavaBaseListener {
             while (!className.equals("<No Parent Class>")) {
                 if (mapping.containsKey(className)) {
                     if (mapping.get(className).equals(mark))
-                        ErrorReporter.reportError("Cyclic inheritence detected.")
+                        ErrorReporter.reportError("Cyclic inheritence detected.");
                     break;
                 } 
                 mapping.put(className, mark);
