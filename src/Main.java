@@ -58,7 +58,7 @@ public class Main {
         // todo: exit on errors
 
         // System.out.println(classes.get("Foo").getSymbols());
-        // Method method = (Method)classes.get("Foo").getSymbols().get("Excite");
-        // System.out.println(method.getSymbols());
+        Method method = (Method)classes.get("Foo").getSymbols().get("Excite");
+        System.out.println(method.getParams());
     }
 }

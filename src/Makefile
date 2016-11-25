@@ -1,6 +1,10 @@
 build:
 		javac *.java
 
+test:
+		javac *.java
+		java Main < ../test/Testbed.java
+
 test1:
 		javac *.java
 		java Main < ../test/1stPassTestbed.java
