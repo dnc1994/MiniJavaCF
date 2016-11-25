@@ -73,7 +73,7 @@ public class TypeChecker extends MiniJavaBaseListener {
         if (leftSymbol == null) {
             ErrorReporter.reportError("Symbol not found.");
         }
-        String rightType = typeEvaluator.visit(ctx.expression());
+        String rightType = typeEvaluator.visit(ctx.rightValue());
         if (!Symbol.isTypeCompatible(leftSymbol.getType(), rightType, classes)) {
             ErrorReporter.reportError("Left and right side of assignment are not of compatible types.");
         }
