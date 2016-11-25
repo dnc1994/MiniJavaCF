@@ -61,6 +61,7 @@ public class Method extends Symbol implements Scope {
             return locals.get(name);
     }
 
+    // todo: combine locals and params
     @Override
     public Map<String, Symbol> getSymbols() {
         return locals;
@@ -68,6 +69,10 @@ public class Method extends Symbol implements Scope {
 
     public void addParam(Symbol param) {
         params.put(param.getName(), param);
+    }
+
+    public Map<String, Symbol> getParams() {
+        return params;
     }
 
 }
