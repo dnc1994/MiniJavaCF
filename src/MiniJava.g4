@@ -102,9 +102,8 @@ rightValue
     ;
 
 atom
-    : INT
-    | 'true'
-    | 'false'
+    : Int
+    | Bool
     | array '[' atom ']'
     | array '.' 'length'
     | nonAtom '.' name=Identifier '(' callList? ')'
@@ -127,8 +126,17 @@ array
     | nonAtom '.' met=Identifier '(' callList? ')'
     ;
 
-Identifier : [a-zA-Z_][a-zA-Z0-9_]*;
+Identifier
+    : [a-zA-Z_][a-zA-Z0-9_]*
+    ;
 
-INT : [0-9]+;
+Int
+    : [0-9]+
+    ;
+
+Bool
+    : 'true'
+    | 'false'
+    ;
 
 WS : [ \t\r\n]+ -> skip;
