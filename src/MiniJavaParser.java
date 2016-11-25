@@ -408,8 +408,8 @@ public class MiniJavaParser extends Parser {
 	public static class MethodDeclarationContext extends ParserRuleContext {
 		public TypeContext rtype;
 		public Token name;
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
+		public RightValueContext rightValue() {
+			return getRuleContext(RightValueContext.class,0);
 		}
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
@@ -511,7 +511,7 @@ public class MiniJavaParser extends Parser {
 			setState(121);
 			match(T__14);
 			setState(122);
-			expression();
+			rightValue();
 			setState(123);
 			match(T__13);
 			setState(124);
@@ -964,8 +964,8 @@ public class MiniJavaParser extends Parser {
 
 	public static class AssignmentContext extends ParserRuleContext {
 		public Token name;
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
+		public RightValueContext rightValue() {
+			return getRuleContext(RightValueContext.class,0);
 		}
 		public TerminalNode Identifier() { return getToken(MiniJavaParser.Identifier, 0); }
 		public AssignmentContext(ParserRuleContext parent, int invokingState) {
@@ -998,7 +998,7 @@ public class MiniJavaParser extends Parser {
 			setState(180);
 			match(T__22);
 			setState(181);
-			expression();
+			rightValue();
 			setState(182);
 			match(T__13);
 			}
@@ -2608,9 +2608,9 @@ public class MiniJavaParser extends Parser {
 		"\3\2\2\2fg\7\5\2\2gh\5\16\b\2hi\7(\2\2ik\7\t\2\2jl\5\f\7\2kj\3\2\2\2k"+
 		"l\3\2\2\2lm\3\2\2\2mn\7\r\2\2nr\7\4\2\2oq\5\b\5\2po\3\2\2\2qt\3\2\2\2"+
 		"rp\3\2\2\2rs\3\2\2\2sx\3\2\2\2tr\3\2\2\2uw\5\20\t\2vu\3\2\2\2wz\3\2\2"+
-		"\2xv\3\2\2\2xy\3\2\2\2y{\3\2\2\2zx\3\2\2\2{|\7\21\2\2|}\5\34\17\2}~\7"+
-		"\20\2\2~\177\7\16\2\2\177\13\3\2\2\2\u0080\u0081\5\16\b\2\u0081\u0082"+
-		"\7(\2\2\u0082\u0089\3\2\2\2\u0083\u0084\5\16\b\2\u0084\u0085\7(\2\2\u0085"+
+		"\2xv\3\2\2\2xy\3\2\2\2y{\3\2\2\2zx\3\2\2\2{|\7\21\2\2|}\5*\26\2}~\7\20"+
+		"\2\2~\177\7\16\2\2\177\13\3\2\2\2\u0080\u0081\5\16\b\2\u0081\u0082\7("+
+		"\2\2\u0082\u0089\3\2\2\2\u0083\u0084\5\16\b\2\u0084\u0085\7(\2\2\u0085"+
 		"\u0086\7\22\2\2\u0086\u0087\5\f\7\2\u0087\u0089\3\2\2\2\u0088\u0080\3"+
 		"\2\2\2\u0088\u0083\3\2\2\2\u0089\r\3\2\2\2\u008a\u008b\7\23\2\2\u008b"+
 		"\u008c\7\13\2\2\u008c\u0091\7\f\2\2\u008d\u0091\7\24\2\2\u008e\u0091\7"+
@@ -2628,7 +2628,7 @@ public class MiniJavaParser extends Parser {
 		"\u00ad\7\r\2\2\u00ad\u00ae\5\20\t\2\u00ae\25\3\2\2\2\u00af\u00b0\7\30"+
 		"\2\2\u00b0\u00b1\7\t\2\2\u00b1\u00b2\5\34\17\2\u00b2\u00b3\7\r\2\2\u00b3"+
 		"\u00b4\7\20\2\2\u00b4\27\3\2\2\2\u00b5\u00b6\7(\2\2\u00b6\u00b7\7\31\2"+
-		"\2\u00b7\u00b8\5\34\17\2\u00b8\u00b9\7\20\2\2\u00b9\31\3\2\2\2\u00ba\u00bb"+
+		"\2\u00b7\u00b8\5*\26\2\u00b8\u00b9\7\20\2\2\u00b9\31\3\2\2\2\u00ba\u00bb"+
 		"\7(\2\2\u00bb\u00bc\7\13\2\2\u00bc\u00bd\5\34\17\2\u00bd\u00be\7\f\2\2"+
 		"\u00be\u00bf\7\31\2\2\u00bf\u00c0\5\34\17\2\u00c0\u00c1\7\20\2\2\u00c1"+
 		"\33\3\2\2\2\u00c2\u00c9\5\36\20\2\u00c3\u00c9\5 \21\2\u00c4\u00c9\5\""+

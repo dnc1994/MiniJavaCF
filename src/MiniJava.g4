@@ -17,7 +17,7 @@ varDeclaration
     ;
 
 methodDeclaration
-    : 'public' rtype=type name=Identifier '(' paramList? ')' '{' (varDeclaration)* (statement)* 'return' expression ';' '}'
+    : 'public' rtype=type name=Identifier '(' paramList? ')' '{' (varDeclaration)* (statement)* 'return' rightValue ';' '}'
     ;
 
 paramList
@@ -51,7 +51,7 @@ printStatement
     : 'System.out.println' '(' expression ')' ';';
 
 assignment
-    : name=Identifier '=' expression ';';
+    : name=Identifier '=' rightValue ';';
 
 arrayAssignment
     : Identifier '[' expression ']' '=' expression ';';
