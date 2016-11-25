@@ -69,7 +69,7 @@ public class TypeChecker extends MiniJavaBaseListener {
     }
     
     @Override public void enterAssignment(MiniJavaParser.AssignmentContext ctx) {
-        String leftSymbol = currentScope.lookup(ctx.name.getText());
+        Symbol leftSymbol = currentScope.findSymbol(ctx.name.getText());
         if (leftSymbol == null) {
             ErrorReporter.reportError("Symbol not found.");
         }
