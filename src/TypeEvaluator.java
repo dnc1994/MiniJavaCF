@@ -29,11 +29,11 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         else if (ctx.andExpr() != null)
             return visit(ctx.andExpr());
         else if (ctx.compareExpr() != null)
-            return visit(ctx.compareExpr())
+            return visit(ctx.compareExpr());
         else if (ctx.sumExpr() != null)
-            return visit(ctx.sumExpr())
+            return visit(ctx.sumExpr());
         else if (ctx.productExpr() != null)
-            return visit(ctx.productExpr())
+            return visit(ctx.productExpr());
         else if (ctx.atom() != null)
             return visit(ctx.atom());
         else
@@ -50,10 +50,20 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     
     @Override
     public String visitAtom(MiniJavaParser.AtomContext ctx) {
+        // System.out.println(ctx.getText());
         if (ctx.Int() != null)
-            return 'int';
+            return "int";
         else if (ctx.Bool() != null)
-            return 'boolean';
+            return "boolean";
+        else if (ctx.name != null) {
+            Symbol symbol = typeChecker.getCurrentScope().findSymbol(ctx.name.getText());
+            if (symbol == null) {
+                ErrorReporter.reportError("Symbol not found.");
+                return "<Type Error>";
+            }
+            else
+                return symbol.getType();
+        }
         // temporary
         else
             return "<Type Error>";
