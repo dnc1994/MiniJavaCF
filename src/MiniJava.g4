@@ -56,6 +56,40 @@ assignment
 arrayAssignment
     : Identifier '[' expression ']' '=' expression ';';
 
+expression
+    : orExpr
+    | andExpr
+    | compareExpr
+    | sumExpr
+    | productExpr
+    | atom
+    ;
+
+orExpr
+    : (atom | productExpr | sumExpr | compareExpr | andExpr) '||' (atom | productExpr | sumExpr | compareExpr | andExpr)
+    | orExpr '||' (atom | productExpr | sumExpr | compareExpr | andExpr)
+    ; 
+
+andExpr
+    : (atom | productExpr | sumExpr | compareExpr) '&&' (atom | productExpr | sumExpr | compareExpr)
+    | andExpr '&&' (atom | productExpr | sumExpr | compareExpr)
+    ;
+
+compareExpr
+    : (atom | productExpr | sumExpr) ('==' | '<' | '>') (atom | productExpr | sumExpr)
+    | compareExpr ('==' | '<' | '>') (atom | productExpr | sumExpr)
+    ;
+
+sumExpr
+    : (atom | productExpr) ('+' | '-') (atom | productExpr)
+    | sumExpr ('+' | '-') atom
+    ;
+
+productExpr
+    : atom ('*' | '/') atom
+    | productExpr ('*' | '/') atom
+    ;
+
 expression : expression ('&&' | '<' | '+' | '-' | '*') expression
            | expression '[' expression ']'
            | expression '.' 'length'
