@@ -10,7 +10,7 @@ class Foo {
         int y;
         if (x < 1)
             y = 1;
-          else 
+        else 
             y = x * (this.Excite(x-1));
         return y;
     }
