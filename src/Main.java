@@ -12,11 +12,11 @@ import org.antlr.v4.runtime.tree.*;
 import java.util.*;
 
 public class Main {
-    private boolean hasError;
+    public ANTLRInputStream input;
 
     public static void main(String[] args) throws Exception {
         // create a CharStream that reads from standard input
-        ANTLRInputStream input = new ANTLRInputStream(System.in);
+        input = new ANTLRInputStream(System.in);
 
         SyntaxErrorListener syntaxErrorListener = new SyntaxErrorListener();
 
@@ -30,6 +30,7 @@ public class Main {
         MiniJavaParser parser = new MiniJavaParser(tokens);
 
         // customized error reporting
+        ErrorReporter.setInput(input.toString());
         parser.removeErrorListeners();
         parser.addErrorListener(syntaxErrorListener);
 
