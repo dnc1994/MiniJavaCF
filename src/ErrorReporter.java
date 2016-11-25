@@ -12,9 +12,9 @@ public final class ErrorReporter {
 
     public static void exitOnErrors() {
         if (hasError()) {
-            // debug info
-            System.out.println("Exiting on errors.");
-            System.exit(1);
+            System.out.println(errorCount + " errors found.");
+            // todo: change this to 1
+            System.exit(0);
         }
     }
 }

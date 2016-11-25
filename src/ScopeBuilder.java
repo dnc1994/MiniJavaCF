@@ -37,7 +37,7 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         // System.out.println("In scope: " + currentScope);
         
         if (classes.containsKey(className)) {
-            System.err.println("Class already exists.");
+            ErrorReporter.reportError("Class already exists.");
             valid = false;
         }
         Class currentClass = new Class(className, parentClassName, currentScope, valid);
@@ -64,7 +64,7 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         // System.out.println("Lookup result: " + currentScope.findLocalSymbol(methodName));
         
         if (currentScope.findLocalSymbol(methodName) != null) {
-            System.err.println("Method already exists.");
+            ErrorReporter.reportError("Method already exists.");
             valid = false;
         }
         Method currentMethod = new Method(methodName, methodReturnType, currentScope, valid);
@@ -87,7 +87,7 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         // System.out.println("Var: " + varName + "; Type: " + varType);
         
         if (currentScope.findLocalSymbol(varName) != null) {
-            System.err.println("Variable already exists.");
+            ErrorReporter.reportError("Variable already exists.");
             valid = false;
         }
         Symbol currentVar = new Symbol(varName, varType);
@@ -101,7 +101,7 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         String paramName = ctx.name.getText();
         String paramType = ctx.ptype.getText();
         boolean valid = currentScope.isValid();
-        System.out.println("Param: " + paramName + "; Type: " + paramType);
+        // System.out.println("Param: " + paramName + "; Type: " + paramType);
 
         // Will always visit ParamList first
         // So, calling findLocalSymbol() should be fine.
@@ -111,7 +111,7 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         }
         Symbol currentParam = new Symbol(paramName, paramType);
         if (valid) {
-            System.out.println("Adding a param");
+            // System.out.println("Adding a param");
             ((Method)currentScope).addParam(currentParam);
         }
     }

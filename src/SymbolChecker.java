@@ -49,7 +49,7 @@ public class SymbolChecker extends MiniJavaBaseListener {
         if (!parentClassName.equals("<No Parent Class>")) {
             Class parentClass = classes.get(parentClassName);
             if (parentClass == null) {
-                System.err.println("Parent class not found.");
+                ErrorReporter.reportError("Parent class not found.");
             }
         }
         currentScope = currentClass;
@@ -67,7 +67,7 @@ public class SymbolChecker extends MiniJavaBaseListener {
         Method currentMethod = (Method)currentScope.findLocalSymbol(methodName);
         // check for type existence
         if (!Symbol.isPrimitiveType(methodReturnType) && classes.get(methodReturnType) == null) {
-            System.err.println("Method return type not found.");
+            ErrorReporter.reportError("Method return type not found.");
         }
         currentScope = currentMethod;
     }
@@ -84,7 +84,7 @@ public class SymbolChecker extends MiniJavaBaseListener {
         Symbol currentVar = (Symbol)currentScope.findLocalSymbol(varName);
         // check for type existence
         if (!Symbol.isPrimitiveType(varType) && classes.get(varType) == null) {
-            System.err.println("Variable type not found.");
+            ErrorReporter.reportError("Variable type not found.");
         }
     }
 
