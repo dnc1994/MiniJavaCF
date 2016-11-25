@@ -10,7 +10,8 @@ varDeclaration : vtype=type name=Identifier ';';
 
 methodDeclaration : 'public' rtype=type name=Identifier '(' paramList? ')' '{' (varDeclaration)* (statement)* 'return' expression ';' '}';
 
-paramList : type Identifier (',' type Identifier)*;
+paramList : ptype=type name=Identifier
+          | ptype=type name=Identifier ',' paramList;
 
 type : 'int' '[' ']'
      | 'boolean'
