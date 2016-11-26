@@ -50,8 +50,12 @@ public class Class extends Symbol implements Scope {
     public Symbol findSymbol(String name) {
         if (symbols.containsKey(name))
             return symbols.get(name);
-        else
-            return this.getParentScope().findSymbol(name);
+        else {
+            if (this.getParentScope() == null)
+                return null;
+            else
+                return this.getParentScope().findSymbol(name);
+        }
     }
 
     @Override

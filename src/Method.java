@@ -58,8 +58,12 @@ public class Method extends Symbol implements Scope {
     public Symbol findLocalSymbol(String name) {
         if (params.containsKey(name))
             return params.get(name);
-        else
-            return locals.get(name);
+        else {
+            if (this.getParentScope() == null)
+                return null;
+            else
+                return this.getParentScope().findSymbol(name);
+        }
     }
 
     // todo: combine locals and params
