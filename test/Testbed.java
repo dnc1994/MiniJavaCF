@@ -1,7 +1,7 @@
 class Testbed {
     public static void main(String[] x){
-        //System.out.println(new Foo().Excite(5, 6));
-        System.out.println(0);
+        System.out.println(new Foo().Excite(5, 6));
+        // System.out.println(0);
     }
 }
 

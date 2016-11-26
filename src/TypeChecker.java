@@ -2,12 +2,13 @@ import org.antlr.v4.runtime.*;
 import java.util.*;
 
 public class TypeChecker extends MiniJavaBaseListener {
-    private Scope currentScope = null;
+    private Scope currentScope;
     final private Map<String, Class> classes;
     private TypeEvaluator typeEvaluator = new TypeEvaluator(this);
 
-    public TypeChecker(final Map<String, Class> classes) {
+    public TypeChecker(final Map<String, Class> classes, Scope virtualSuperScope) {
         this.classes = classes;
+        this.currentScope = virtualSuperScope;
     }
 
     public Scope getCurrentScope() {

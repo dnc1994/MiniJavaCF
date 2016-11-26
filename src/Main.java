@@ -14,6 +14,7 @@ import java.util.*;
 public class Main {
     public static String[] inputLines;
     public static Map<String, Class> classes = new HashMap<String, Class>();
+    public Scope virtualSuperScope = new Class("<Virtual Super Scope>", "<No Parent Class>", null);
 
     public static void main(String[] args) throws Exception {
         // create a CharStream that reads from standard input
@@ -41,12 +42,12 @@ public class Main {
         ParseTreeWalker walker = new ParseTreeWalker();
 
         // 1st pass
-        ScopeBuilder scopeBuilder = new ScopeBuilder(classes);
+        ScopeBuilder scopeBuilder = new ScopeBuilder(classes, virtualSuperScope);
         walker.walk(scopeBuilder, tree);
         ErrorReporter.exitOnErrors();
 
         // 2nd pass
-        SymbolChecker symbolChecker = new SymbolChecker(classes);
+        SymbolChecker symbolChecker = new SymbolChecker(classes, virtualSuperScope);
         walker.walk(symbolChecker, tree);
         ErrorReporter.exitOnErrors();
         // check for cyclic inheritence
@@ -54,7 +55,7 @@ public class Main {
         ErrorReporter.exitOnErrors();
 
         // 3rd pass
-        TypeChecker typeChecker = new TypeChecker(classes);
+        TypeChecker typeChecker = new TypeChecker(classes, virtualSuperScope);
         walker.walk(typeChecker, tree);
         ErrorReporter.exitOnErrors();
 

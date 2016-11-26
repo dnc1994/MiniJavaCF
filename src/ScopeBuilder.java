@@ -3,10 +3,11 @@ import java.util.*;
 
 public class ScopeBuilder extends MiniJavaBaseListener {
     private Map<String, Class> classes;
-    private Scope currentScope = new Class("<Virtual Super Scope>", "<No Parent Class>", null);
+    private Scope currentScope;
 
-    public ScopeBuilder(Map<String, Class> classes) {
+    public ScopeBuilder(Map<String, Class> classes, Scope virtualSuperScope) {
         this.classes = classes;
+        this.currentScope = virtualSuperScope;
     }
 
     public void exitScope() {

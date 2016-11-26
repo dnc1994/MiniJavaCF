@@ -2,11 +2,12 @@ import org.antlr.v4.runtime.*;
 import java.util.*;
 
 public class SymbolChecker extends MiniJavaBaseListener {
-    private Scope currentScope = null;
+    private Scope currentScope;
     final private Map<String, Class> classes;
 
-    public SymbolChecker(final Map<String, Class> classes) {
+    public SymbolChecker(final Map<String, Class> classes, Scope virtualSuperScope) {
         this.classes = classes;
+        this.currentScope = virtualSuperScope;
     }
 
     public void checkCyclicInheritence() {
