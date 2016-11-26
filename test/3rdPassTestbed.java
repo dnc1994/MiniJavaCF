@@ -22,6 +22,10 @@ class A {
     public boolean precedence() {
         return 1 * (2 + 3) - 4 / 5 < 6 || a + b + c > x && y == z;
     }
+
+    public boolean testThis() {
+        return this.precedence();
+    }
 }
 
 class B extends A {
