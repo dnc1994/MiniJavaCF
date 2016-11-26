@@ -47,7 +47,7 @@ public class TypeChecker extends MiniJavaBaseListener {
         // return type check
         String rightValueType = typeEvaluator.visit(ctx.rightValue());
         String returnType = ((Method)currentScope).getReturnType();
-        if (!Symbol.isTypeCompatible(returnType, rightValueType, classes)) {
+        if (!Symbol.isTypeCompatible(returnType, rightValueType)) {
             if (!returnType.equals("<Type Error>") && !rightValueType.equals("<Type Error>"))
                 ErrorReporter.reportError(ctx.rightValue(), "Return type not compatible.");
         }
@@ -85,7 +85,7 @@ public class TypeChecker extends MiniJavaBaseListener {
         }
         String leftType = leftSymbol.getType();
         String rightType = typeEvaluator.visit(ctx.rightValue());
-        if (!Symbol.isTypeCompatible(leftType, rightType, classes)) {
+        if (!Symbol.isTypeCompatible(leftType, rightType)) {
             if (!leftType.equals("<Type Error>") && !rightType.equals("<Type Error>"))
                 ErrorReporter.reportError(ctx.name, "Left and right side of assignment are not of compatible types.");
         }

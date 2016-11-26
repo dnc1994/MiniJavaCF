@@ -13,6 +13,7 @@ import java.util.*;
 
 public class Main {
     public static String[] inputLines;
+    public static Map<String, Class> classes = new HashMap<String, Class>();
 
     public static void main(String[] args) throws Exception {
         // create a CharStream that reads from standard input
@@ -40,7 +41,6 @@ public class Main {
         ParseTreeWalker walker = new ParseTreeWalker();
 
         // 1st pass
-        Map<String, Class> classes = new HashMap<String, Class>();
         ScopeBuilder scopeBuilder = new ScopeBuilder(classes);
         walker.walk(scopeBuilder, tree);
         ErrorReporter.exitOnErrors();

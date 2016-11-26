@@ -87,8 +87,10 @@ public class Method extends Symbol implements Scope {
         String[] callNames = callList.split(",");
         if (callNames.length != paramTypes.size())
             return false;
-        for (int i = 0; i < callNames.length; i ++)
-            if (!Symbol.isSymbolCompatible(paramTypes.get(i), callNames[i]))
+        for (int i = 0; i < callNames.length; i ++) {
+            if (!Symbol.isTypeCompatible(paramTypes.get(i), callNames[i]))
+                return false;
+        }
         return true;
     }
 

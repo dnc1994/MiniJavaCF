@@ -26,7 +26,7 @@ public class Symbol {
     }
 
     // Assume that: A <- B
-    public static boolean isTypeCompatible(String typeA, String typeB, final Map<String, Class> classes) {
+    public static boolean isTypeCompatible(String typeA, String typeB) {
         if (typeA.equals(typeB))
             return true;
         else if (Symbol.isPrimitiveType(typeA) || Symbol.isPrimitiveType(typeB))
@@ -35,7 +35,7 @@ public class Symbol {
             if (typeA.equals(typeB))
                 return true;
             // System.out.println("typeB: " + typeB);
-            typeB = classes.get(typeB).getParentClassName();
+            typeB = Main.classes.get(typeB).getParentClassName();
         }
         return false;
     }

@@ -158,17 +158,17 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             String objectName = visit(ctx.nonAtom());
             String methodName = ctx.name.getText();
             String callList = (ctx.callList() != null ? visit(ctx.callList()) : "");
-            Class object = typeChecker.getCurrentScope().findSymbol(objectName);
+            Class object = (Class)typeChecker.getCurrentScope().findSymbol(objectName);
             if (object == null) {
                 ErrorReporter.reportError("Object not found.");
                 return "<Type Error>";
             }
-            Method method = object.findSymbol(methodName);
+            Method method = (Method)object.findSymbol(methodName);
             if (method == null) {
                 ErrorReporter.reportError("Method not found.");
                 return "<Type Error>";
             }
-            if (!method.isCallListCompatilbe(callList)) {
+            if (!method.isCallListCompatible(callList)) {
                 ErrorReporter.reportError("Call list not compatible.");
                 return "<Type Error>";
             }
