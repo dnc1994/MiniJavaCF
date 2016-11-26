@@ -89,7 +89,7 @@ public class Method extends Symbol implements Scope {
             return false;
         for (int i = 0; i < callNames.length; i ++)
             if (!Symbol.isSymbolCompatible(paramTypes.get(i), callNames[i]))
-        return true
+        return true;
     }
 
 }

@@ -108,11 +108,11 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     
     @Override public String visitRightValue(MiniJavaParser.RightValueContext ctx) {
         if (ctx.expression() != null)
-            return visit(ctx.expression())
+            return visit(ctx.expression());
         else if (ctx.nonAtom() != null)
-            return visit(ctx.nonAtom())
+            return visit(ctx.nonAtom());
         else if (ctx.array() != null)
-            return visit(ctx.array())
+            return visit(ctx.array());
         return null;
     }
     
@@ -155,10 +155,24 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
                 return symbol.getType();
         }
         else if (ctx.nonAtom() != null) {
-            String object = visit(ctx.nonAtom());
+            String objectName = visit(ctx.nonAtom());
             String methodName = ctx.name.getText();
             String callList = (ctx.callList() != null ? visit(ctx.callList()) : "");
-            // todo
+            Class object = typeChecker.getCurrentScope().findSymbol(objectName);
+            if (object == null) {
+                ErrorReporter.reportError("Object not found.");
+                return "<Type Error>";
+            }
+            Method method = object.findSymbol(methodName);
+            if (method == null) {
+                ErrorReporter.reportError("Method not found.");
+                return "<Type Error>";
+            }
+            if (!method.isCallListCompatilbe(callList)) {
+                ErrorReporter.reportError("Call list not compatible.");
+                return "<Type Error>";
+            }
+            return method.getReturnType();
         }
         else if (ctx.atom() != null) {
             String atomType = visit(ctx.atom());
