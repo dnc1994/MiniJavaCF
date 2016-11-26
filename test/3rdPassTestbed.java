@@ -5,13 +5,22 @@ class Testbed {
 }
 
 class A {
-    int xyz;
-    boolean a;
-    boolean b;
-    boolean c;
+    int x;
+    int y;
+    int z;
+    int a;
+    int b;
+    int c;
+    boolean q;
+    boolean w;
+    boolean e;
 
     public int cha() {
-        return b && c || xyz;
+        return q && w || x;
+    }
+
+    public boolean biu() {
+        return 3 * 4 - 6 * 6 - (3 - 4) * a < 14 / b / x && 1 - 2 - 3 < x - y - z;
     }
 }
 
