@@ -3,7 +3,7 @@ import java.util.*;
 
 public class ScopeBuilder extends MiniJavaBaseListener {
     private Map<String, Class> classes;
-    private Scope currentScope = null;
+    private Scope currentScope = new Class("<Virtual Super Scope>", "<No Parent Class>", null);
 
     public ScopeBuilder(Map<String, Class> classes) {
         this.classes = classes;
@@ -17,7 +17,9 @@ public class ScopeBuilder extends MiniJavaBaseListener {
     @Override
     public void enterMainClass(MiniJavaParser.MainClassContext ctx) {
         String className = ctx.name.getText();
-        Class mainClass = new Class(className, "<No Parent Class>", null);
+        Class mainClass = new Class(className, "<No Parent Class>", currentScope);
+        // wtf
+        currentScope.addSymbol(mainClass);
         classes.put(className, mainClass);
         currentScope = mainClass;
     }
@@ -42,6 +44,8 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         }
         Class currentClass = new Class(className, parentClassName, currentScope, valid);
         if (valid) {
+            // wtf
+            currentScope.addSymbol(currentClass);
             classes.put(className, currentClass);
         }
         currentScope = currentClass;
@@ -115,4 +119,5 @@ public class ScopeBuilder extends MiniJavaBaseListener {
             ((Method)currentScope).addParam(currentParam);
         }
     }
+
 }
