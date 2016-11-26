@@ -103,7 +103,8 @@ rightValue
 
 atom
     : Int
-    | Bool
+    | bool='true'
+    | bool='false'
     | array '[' atom ']'
     | array '.' 'length'
     | nonAtom '.' name=Identifier '(' callList? ')'
@@ -115,14 +116,14 @@ atom
 nonAtom
     : nonAtom '.' name=Identifier '(' callList? ')'
     | name=Identifier
-    | This
-    | New name=Identifier '(' ')'
+    | self='this'
+    | create='new' name=Identifier '(' ')'
     | '(' expression ')'
     ;
 
 array
     : name=Identifier
-    | 'new' 'int' '[' expression ']'
+    | create='new' 'int' '[' expression ']'
     | nonAtom '.' met=Identifier '(' callList? ')'
     ;
 
@@ -132,19 +133,6 @@ Identifier
 
 Int
     : [0-9]+
-    ;
-
-Bool
-    : 'true'
-    | 'false'
-    ;
-
-This
-    : 'this'
-    ;
-
-New
-    : 'new'
     ;
 
 WhiteSpace

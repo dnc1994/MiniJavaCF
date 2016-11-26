@@ -107,7 +107,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     }
     
     @Override public String visitRightValue(MiniJavaParser.RightValueContext ctx) {
-        System.out.println("In visitRightValue");
+        System.out.println("In visitRightValue, ctx = " + ctx.getText());
         if (ctx.expression() != null)
             return visit(ctx.expression());
         else if (ctx.nonAtom() != null)
@@ -119,10 +119,12 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     
     @Override
     public String visitAtom(MiniJavaParser.AtomContext ctx) {
-        // System.out.println(ctx.getText());
-        if (ctx.Int() != null)
+        System.out.println("In visitAtom, ctx = " + ctx.getText());
+        if (ctx.Int() != null) {
+            System.out.println("visitAtom -> Int");
             return "int";
-        else if (ctx.Bool() != null)
+        }
+        else if (ctx.bool != null)
             return "boolean";
         else if (ctx.array() != null) {
             String arrayType = visit(ctx.array());
@@ -150,7 +152,8 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             String objectName = visit(ctx.nonAtom());
             String methodName = ctx.name.getText();
             String callList = (ctx.callList() != null ? visit(ctx.callList()) : "");
-            Class object = (Class)typeChecker.getCurrentScope().findSymbol(objectName);
+            System.out.println("In visitAtom, subrule nonAtom: " + objectName + "."  + methodName);
+            Class object = (Class)(typeChecker.getCurrentScope().findSymbol(objectName));
             if (object == null) {
                 ErrorReporter.reportError("Object not found.");
                 return "<Type Error>";
@@ -167,7 +170,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             return method.getReturnType();
         }
         else if (ctx.name != null) {
-            // System.out.println(ctx.name.getText());
+            System.out.println("visitAtom -> Identifier: " + ctx.name.getText());
             // System.out.println("typeChecker getCurrentScope: " + typeChecker.getCurrentScope());
             Symbol symbol = typeChecker.getCurrentScope().findSymbol(ctx.name.getText());
             if (symbol == null) {
@@ -193,13 +196,15 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     }
     
     @Override public String visitNonAtom(MiniJavaParser.NonAtomContext ctx) {
-        System.out.println("In visitNonAtom");
+        System.out.println("In visitNonAtom: ctx = " + ctx.getText());
+        System.out.println(ctx.getChild(0));
+        System.out.println(ctx.self);
         // nonAtom '.' name=Identifier '(' callList? ')'
         if (ctx.nonAtom() != null) {
             String objectName = visit(ctx.nonAtom());
             String methodName = ctx.name.getText();
             String callList = (ctx.callList() != null ? visit(ctx.callList()) : "");
-            Class object = (Class)typeChecker.getCurrentScope().findSymbol(objectName);
+            Class object = (Class)(typeChecker.getCurrentScope().findSymbol(objectName));
             if (object == null) {
                 ErrorReporter.reportError("Object not found.");
                 return "<Type Error>";
@@ -216,7 +221,8 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             return method.getReturnType();
         }
         // This
-        else if (ctx.This() != null) {
+        else if (ctx.self != null) {
+            System.out.println("In visitNonAtom subrule this");
             try {
                 Class object = (Class)typeChecker.getCurrentScope();
                 System.out.println("In visitNonAtom [This]: "+ object.getName());
@@ -227,14 +233,22 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             }
         }
         // New name=Identifier '(' ')'
-        else if (ctx.New() != null) {
+        else if (ctx.create != null) {
 
         }
+        // name=Identifier
         else if (ctx.name != null) {
-
+            Symbol symbol = typeChecker.getCurrentScope().findSymbol(ctx.name.getText());
+            if (symbol == null) {
+                ErrorReporter.reportError(ctx, "Symbol not found.");
+                return "<Type Error>";
+            }
+            else
+                return symbol.getType();
         }
+        // '(' expression ')'
         else if (ctx.expression() != null) {
-
+            return visit(ctx.expression());
         }
         return null;
     }
