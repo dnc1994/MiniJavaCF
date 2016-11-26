@@ -147,6 +147,10 @@ New
     : 'new'
     ;
 
-WS
+WhiteSpace
     : [ \t\r\n]+ -> skip
+    ;
+
+LineComment
+    : '//' ~[\r\n]* -> skip
     ;
