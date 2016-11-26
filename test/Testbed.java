@@ -7,10 +7,11 @@ class Testbed {
 
 class Foo {
     public int Excite(int x, int z) {
+        int y;
         if (x < 1)
             y = 1;
         else 
-            y = x * (this.Excite(x-1));
+            y = x * (this.Excite(x-1, z-1));
         return x + y + z;
     }
 

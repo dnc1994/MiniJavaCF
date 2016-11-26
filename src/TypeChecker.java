@@ -86,6 +86,7 @@ public class TypeChecker extends MiniJavaBaseListener {
         Symbol leftSymbol = currentScope.findSymbol(ctx.name.getText());
         if (leftSymbol == null) {
             ErrorReporter.reportError(ctx.name, "Symbol not found.");
+            return;
         }
         String leftType = leftSymbol.getType();
         String rightType = typeEvaluator.visit(ctx.rightValue());

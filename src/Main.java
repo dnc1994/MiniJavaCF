@@ -14,7 +14,7 @@ import java.util.*;
 public class Main {
     public static String[] inputLines;
     public static Map<String, Class> classes = new HashMap<String, Class>();
-    public Scope virtualSuperScope = new Class("<Virtual Super Scope>", "<No Parent Class>", null);
+    public static Scope virtualSuperScope = new Class("<Virtual Super Scope>", "<No Parent Class>", null);
 
     public static void main(String[] args) throws Exception {
         // create a CharStream that reads from standard input
@@ -45,6 +45,8 @@ public class Main {
         ScopeBuilder scopeBuilder = new ScopeBuilder(classes, virtualSuperScope);
         walker.walk(scopeBuilder, tree);
         ErrorReporter.exitOnErrors();
+        // debug
+        System.out.println(virtualSuperScope.getSymbols());
 
         // 2nd pass
         SymbolChecker symbolChecker = new SymbolChecker(classes, virtualSuperScope);

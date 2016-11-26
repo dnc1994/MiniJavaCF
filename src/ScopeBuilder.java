@@ -25,10 +25,10 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         currentScope = mainClass;
     }
 
-    // @Override
-    // public void exitMainClass(MiniJavaParser.MainClassContext ctx) {
-    //     currentScope = null;
-    // }
+    @Override
+    public void exitMainClass(MiniJavaParser.MainClassContext ctx) {
+        exitScope();
+    }
 
     @Override
     public void enterClassDeclaration(MiniJavaParser.ClassDeclarationContext ctx) {
