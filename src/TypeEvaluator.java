@@ -99,9 +99,22 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         return "int";
     }
     
-    @Override public String visitCallList(MiniJavaParser.CallListContext ctx) { return visitChildren(ctx); }
+    @Override public String visitCallList(MiniJavaParser.CallListContext ctx) {
+        String list = visit(ctx.rightValue());
+        if (ctx.callList() != null);
+            list = list + "," + visit(ctx.callList());
+        return list;
+    }
     
-    @Override public String visitRightValue(MiniJavaParser.RightValueContext ctx) { return visitChildren(ctx); }
+    @Override public String visitRightValue(MiniJavaParser.RightValueContext ctx) {
+        if (ctx.expression() != null)
+            return visit(ctx.expression())
+        else if (ctx.nonAtom() != null)
+            return visit(ctx.nonAtom())
+        else if (ctx.array() != null)
+            return visit(ctx.array())
+        return null;
+    }
     
     @Override
     public String visitAtom(MiniJavaParser.AtomContext ctx) {
