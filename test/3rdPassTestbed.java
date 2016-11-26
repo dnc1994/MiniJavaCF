@@ -62,8 +62,31 @@ class A {
 
 class B extends A {
     int x;
-}
+    int[] a;
+    boolean b;
 
+    a = new int[10];
+
+    public int arrayAssignmentValid() {
+        a[0] = 0;
+    }
+
+    public int arrayAssignmentInvalid() {
+        a[0] = false;
+    }
+
+    public int arrayIndexingInvalid() {
+        a[false] = 0;
+    }
+
+    public int arrayLengthValid() {
+        return a[0].length;
+    }
+
+    public int arrayLengthInvalid() {
+        return b.length;
+    }
+}
 
 class C {
     public int assignmentTypeIncompatible() {
