@@ -35,7 +35,7 @@ public class Main {
         ParseTree tree = parser.goal(); // begin parsing at init rule
         ErrorReporter.exitOnErrors();
 
-        // System.out.println(tree.toStringTree(parser) + "\n-----"); // print LISP-style tree
+        System.out.println(tree.toStringTree(parser) + "\n-----"); // print LISP-style tree
 
         ParseTreeWalker walker = new ParseTreeWalker();
 
@@ -59,8 +59,6 @@ public class Main {
         walker.walk(typeChecker, tree);
         ErrorReporter.exitOnErrors();
 
-        // System.out.println(classes.get("Foo").getSymbols());
-        // Method method = (Method)classes.get("Foo").getSymbols().get("Excite");
-        // System.out.println(method.getParams());
+        System.out.println("No errors found.");
     }
 }

@@ -27,7 +27,7 @@ test3:
 
 rig:
 		javac MiniJava*.java
-		java org.antlr.v4.runtime.misc.TestRig MiniJava goal -gui < ../test/Testbed.java -gui		
+		java org.antlr.v4.runtime.misc.TestRig MiniJava goal -gui < ../test/BinaryTree.java -gui		
 
 rig3:
 		javac MiniJava*.java
