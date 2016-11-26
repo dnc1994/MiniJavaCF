@@ -115,8 +115,8 @@ atom
 nonAtom
     : nonAtom '.' name=Identifier '(' callList? ')'
     | name=Identifier
-    | 'this'
-    | 'new' name=Identifier '(' ')'
+    | This
+    | New name=Identifier '(' ')'
     | '(' expression ')'
     ;
 
@@ -139,4 +139,14 @@ Bool
     | 'false'
     ;
 
-WS : [ \t\r\n]+ -> skip;
+This
+    : 'this'
+    ;
+
+New
+    : 'new'
+    ;
+
+WS
+    : [ \t\r\n]+ -> skip
+    ;
