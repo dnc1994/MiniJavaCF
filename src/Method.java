@@ -77,6 +77,10 @@ public class Method extends Symbol implements Scope {
         paramTypes.add(param.getType());
     }
 
+    public Symbol findParam(String name) {
+        return params.get(name);
+    }
+
     public Map<String, Symbol> getParams() {
         return params;
     }
