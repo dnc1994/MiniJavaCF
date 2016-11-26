@@ -149,10 +149,12 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
                 return "int";
             }
         }
+        // nonAtom '.' name=Identifier '(' callList? ')'
         else if (ctx.nonAtom() != null) {
             String objectName = visit(ctx.nonAtom());
             String methodName = ctx.name.getText();
             String callList = (ctx.callList() != null ? visit(ctx.callList()) : "");
+            // System.out.println("currenctScope: " + typeChecker.getCurrentScope().getName());
             Class object = (Class)(typeChecker.getCurrentScope().findSymbol(objectName));
             if (object == null) {
                 ErrorReporter.reportError("Object not found.");
@@ -169,6 +171,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             }
             return method.getReturnType();
         }
+        // name=Identifier
         else if (ctx.name != null) {
             // System.out.println("visitAtom -> Identifier: " + ctx.name.getText());
             // System.out.println("typeChecker getCurrentScope: " + typeChecker.getCurrentScope());
@@ -180,6 +183,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             else
                 return symbol.getType();
         }
+        // '!' atom
         else if (ctx.atom() != null) {
             String atomType = visit(ctx.atom());
             if (!atomType.equals("boolean")) {
@@ -188,6 +192,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             }
             return "boolean";
         }
+        // '(' expression ')'
         else if (ctx.expression() != null) {
             return visit(ctx.expression());
         }
@@ -227,13 +232,18 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
                 Class object = (Class)typeChecker.getCurrentScope().getParentScope();
                 return object.getName();
             }
+            // wtf
             catch (ClassCastException e) {
                 ErrorReporter.reportError("'this' is only referrable in a class.");
             }
         }
         // New name=Identifier '(' ')'
         else if (ctx.create != null) {
-
+            String className = ctx.name.getText();
+            if (!Main.classes.containsKey(className)) {
+                ErrorReporter.reportError(ctx.name, "Class not found.");
+            }
+            return className;
         }
         // name=Identifier
         else if (ctx.name != null) {

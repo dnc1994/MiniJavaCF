@@ -1,6 +1,6 @@
 class Testbed {
     public static void main(String[] x){
-        System.out.println(0);
+        System.out.println(new nonClass().nonMethod());
     }
 }
 
@@ -65,22 +65,23 @@ class B extends A {
     int[] a;
     boolean b;
 
-    a = new int[10];
-
     public int arrayAssignmentValid() {
         a[0] = 0;
+        return 0;
     }
 
     public int arrayAssignmentInvalid() {
         a[0] = false;
+        return 0;
     }
 
     public int arrayIndexingInvalid() {
         a[false] = 0;
+        return 0;
     }
 
     public int arrayLengthValid() {
-        return a[0].length;
+        return a.length;
     }
 
     public int arrayLengthInvalid() {

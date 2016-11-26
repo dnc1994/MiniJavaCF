@@ -19,25 +19,23 @@ public class Main {
     public static void main(String[] args) throws Exception {
         // create a CharStream that reads from standard input
         ANTLRInputStream input = new ANTLRInputStream(System.in);
-
-        SyntaxErrorListener syntaxErrorListener = new SyntaxErrorListener();
-
         // create a lexer that feeds off of input CharStream
         MiniJavaLexer lexer = new MiniJavaLexer(input);
-
         // create a buffer of tokens pulled from the lexer
         CommonTokenStream tokens = new CommonTokenStream(lexer);
-
         // create a parser that feeds off the tokens buffer
         MiniJavaParser parser = new MiniJavaParser(tokens);
 
         // customized error reporting
         inputLines = input.toString().split("\n");
+        SyntaxErrorListener syntaxErrorListener = new SyntaxErrorListener();
         parser.removeErrorListeners();
         parser.addErrorListener(syntaxErrorListener);
 
         ParseTree tree = parser.goal(); // begin parsing at init rule
-        System.out.println(tree.toStringTree(parser) + "\n-----"); // print LISP-style tree
+        ErrorReporter.exitOnErrors();
+
+        // System.out.println(tree.toStringTree(parser) + "\n-----"); // print LISP-style tree
 
         ParseTreeWalker walker = new ParseTreeWalker();
 
@@ -46,7 +44,7 @@ public class Main {
         walker.walk(scopeBuilder, tree);
         ErrorReporter.exitOnErrors();
         // debug
-        System.out.println(virtualSuperScope.getSymbols());
+        // System.out.println(virtualSuperScope.getSymbols());
 
         // 2nd pass
         SymbolChecker symbolChecker = new SymbolChecker(classes, virtualSuperScope);
