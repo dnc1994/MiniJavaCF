@@ -19,12 +19,32 @@ public final class ErrorReporter {
         underlineError(offendingToken);
     }
 
+    // To suppress cascading type errors
+    public static void reportError(String type, Token offendingToken, String msg) {
+        if (!type.equals("<Type Error>"))
+            reportError(offendingToken, msg);
+    }
+
+    // ParserRuleContext -> Token
     public static void reportError(ParserRuleContext ctx, String msg) {
         reportError(ctx.getStart(), msg);
     }
 
+    // To suppress cascading type errors
+    public static void reportError(String type, ParserRuleContext ctx, String msg) {
+        if (!type.equals("<Type Error>"))
+            reportError(ctx, msg);
+    }
+
+    // ParseTree -> ParserRuleContext
     public static void reportError(ParseTree tree, String msg) {
         reportError((ParserRuleContext)tree, msg);   
+    }
+
+    // To suppress cascading type errors
+    public static void reportError(String type, ParseTree tree, String msg) {
+        if (!type.equals("<Type Error>"))
+            reportError(tree, msg);
     }
 
     public static void exitOnErrors() {
