@@ -107,6 +107,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     }
     
     @Override public String visitRightValue(MiniJavaParser.RightValueContext ctx) {
+        System.out.println("In visitRightValue");
         if (ctx.expression() != null)
             return visit(ctx.expression());
         else if (ctx.nonAtom() != null)
@@ -118,7 +119,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     
     @Override
     public String visitAtom(MiniJavaParser.AtomContext ctx) {
-        // System.out.println(ctx.getText());
+        System.out.println(ctx.getText());
         if (ctx.Int() != null)
             return "int";
         else if (ctx.Bool() != null)
@@ -145,15 +146,6 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
                 return "int";
             }
         }
-        else if (ctx.name != null) {
-            Symbol symbol = typeChecker.getCurrentScope().findSymbol(ctx.name.getText());
-            if (symbol == null) {
-                ErrorReporter.reportError(ctx, "Symbol not found.");
-                return "<Type Error>";
-            }
-            else
-                return symbol.getType();
-        }
         else if (ctx.nonAtom() != null) {
             String objectName = visit(ctx.nonAtom());
             String methodName = ctx.name.getText();
@@ -174,6 +166,17 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             }
             return method.getReturnType();
         }
+        else if (ctx.name != null) {
+            // System.out.println(ctx.name.getText());
+            // System.out.println("typeChecker getCurrentScope: " + typeChecker.getCurrentScope());
+            Symbol symbol = typeChecker.getCurrentScope().findSymbol(ctx.name.getText());
+            if (symbol == null) {
+                ErrorReporter.reportError(ctx, "Symbol not found.");
+                return "<Type Error>";
+            }
+            else
+                return symbol.getType();
+        }
         else if (ctx.atom() != null) {
             String atomType = visit(ctx.atom());
             if (!atomType.equals("boolean")) {
@@ -189,6 +192,52 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         return null;
     }
     
-    @Override public String visitNonAtom(MiniJavaParser.NonAtomContext ctx) { return visitChildren(ctx); }
+    @Override public String visitNonAtom(MiniJavaParser.NonAtomContext ctx) {
+        System.out.println("In visitNonAtom");
+        // nonAtom '.' name=Identifier '(' callList? ')'
+        if (ctx.nonAtom() != null) {
+            String objectName = visit(ctx.nonAtom());
+            String methodName = ctx.name.getText();
+            String callList = (ctx.callList() != null ? visit(ctx.callList()) : "");
+            Class object = (Class)typeChecker.getCurrentScope().findSymbol(objectName);
+            if (object == null) {
+                ErrorReporter.reportError("Object not found.");
+                return "<Type Error>";
+            }
+            Method method = (Method)object.findSymbol(methodName);
+            if (method == null) {
+                ErrorReporter.reportError("Method not found.");
+                return "<Type Error>";
+            }
+            if (!method.isCallListCompatible(callList)) {
+                ErrorReporter.reportError("Call list not compatible.");
+                return "<Type Error>";
+            }
+            return method.getReturnType();
+        }
+        // This
+        else if (ctx.This() != null) {
+            try {
+                Class object = (Class)typeChecker.getCurrentScope();
+                System.out.println("In visitNonAtom [This]: "+ object.getName());
+                return object.getName();
+            }
+            catch (ClassCastException e) {
+                ErrorReporter.reportError("'this' is only referrable in a class.");
+            }
+        }
+        // New name=Identifier '(' ')'
+        else if (ctx.New() != null) {
+
+        }
+        else if (ctx.name != null) {
+
+        }
+        else if (ctx.expression() != null) {
+
+        }
+        return null;
+    }
+
     @Override public String visitArray(MiniJavaParser.ArrayContext ctx) { return visitChildren(ctx); }
 }
