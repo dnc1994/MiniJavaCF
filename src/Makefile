@@ -3,7 +3,7 @@ build:
 
 test:
 		javac *.java
-		java Main < ../test/Testbed.java
+		java Main < ../test/BinaryTree.java
 
 tests:
 		javac *.java
