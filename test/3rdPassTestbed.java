@@ -19,8 +19,16 @@ class A {
         return 0;
     }
 
-    public boolean logicExpr() {
+    public boolean logicalExpr() {
         return true;
+    }
+
+    public boolean logicalNotValid(boolean x) {
+        return !x;
+    }
+
+    public boolean logicalNotInvalid(int x) {
+        return !x;
     }
 
     public int localSymbolFound() {
@@ -31,10 +39,6 @@ class A {
         return p;
     }
 
-    public boolean logicExprWithParams(boolean a, boolean b) {
-        return a && b;
-    }
-
     public boolean testPrecedence() {
         return 1 * (2 + 3) - 4 / 5 < 6 || a + b + c > x && y == z;
     }
@@ -43,12 +47,16 @@ class A {
         return this.testPrecedence();
     }
 
-    public boolean incompatibleCallList() {
-        return this.logicExprWithParams(a, w);
+    public boolean logicalExprWithParams(boolean a, boolean b) {
+        return a && b;
     }
 
-    public boolean CompatibleCallList() {
-        return this.logicExprWithParams(q, w);
+    public boolean callListIncompatible() {
+        return this.logicalExprWithParams(a, w);
+    }
+
+    public boolean callListCompatible() {
+        return this.logicalExprWithParams(q, w);
     }
 }
 
@@ -58,19 +66,19 @@ class B extends A {
 
 
 class C {
-    public int incompatibleTypeAssignment() {
+    public int assignmentTypeIncompatible() {
         A a;
         B b;
         b = a;
         return a;
     }
 
-    public int incompatibleNonAtomReturn() {
+    public int returnIncompatibleNonAtom() {
         A a;
-        return a.logicExpr();
+        return a.logicalExpr();
     }
 
-    public int compatibleNonAtomReturn() {
+    public int returnCgompatibleNonAtom() {
         A a;
         return a.arithemicExpr();
     }
