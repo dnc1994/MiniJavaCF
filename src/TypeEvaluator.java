@@ -46,8 +46,12 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     public String visitAndExpr(MiniJavaParser.AndExprContext ctx) {
         String left = visit(ctx.getChild(0));
         String right = visit(ctx.getChild(2));
-        if (!left.equals("boolean") || !right.equals("boolean")) {
-            ErrorReporter.reportError(ctx, "Only boolean support logical or.");
+        if (!left.equals("boolean")) {
+            ErrorReporter.reportError(ctx.getChild(0), "Only boolean support logical or.");
+            return "<Type Error>";
+        }
+        if (!right.equals("boolean")) {
+            ErrorReporter.reportError(ctx.getChild(2), "Only boolean support logical or.");
             return "<Type Error>";
         }
         return "boolean";
@@ -56,8 +60,12 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     @Override public String visitCompareExpr(MiniJavaParser.CompareExprContext ctx) { 
         String left = visit(ctx.getChild(0));
         String right = visit(ctx.getChild(2));
-        if (!left.equals("int") || !right.equals("int")) {
-            ErrorReporter.reportError(ctx, "Only int support comparison.");
+        if (!left.equals("int")) {
+            ErrorReporter.reportError(ctx.getChild(0), "Only int support comparison.");
+            return "<Type Error>";
+        }
+        if (!right.equals("int")) {
+            ErrorReporter.reportError(ctx.getChild(2), "Only int support comparison.");
             return "<Type Error>";
         }
         return "boolean";
@@ -66,8 +74,12 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     @Override public String visitSumExpr(MiniJavaParser.SumExprContext ctx) {
         String left = visit(ctx.getChild(0));
         String right = visit(ctx.getChild(2));
-        if (!left.equals("int") || !right.equals("int")) {
-            ErrorReporter.reportError(ctx, "Only int support addition.");
+        if (!left.equals("int")) {
+            ErrorReporter.reportError(ctx.getChild(0), "Only int support addition.");
+            return "<Type Error>";
+        }
+        if (!right.equals("int")) {
+            ErrorReporter.reportError(ctx.getChild(2), "Only int support addition.");
             return "<Type Error>";
         }
         return "int";
@@ -76,8 +88,12 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     @Override public String visitProductExpr(MiniJavaParser.ProductExprContext ctx) {
         String left = visit(ctx.getChild(0));
         String right = visit(ctx.getChild(2));
-        if (!left.equals("int") || !right.equals("int")) {
-            ErrorReporter.reportError(ctx, "Only int support multiplication.");
+        if (!left.equals("int")) {
+            ErrorReporter.reportError(ctx.getChild(0), "Only int support multiplication.");
+            return "<Type Error>";
+        }
+        if (!right.equals("int")) {
+            ErrorReporter.reportError(ctx.getChild(2), "Only int support multiplication.");
             return "<Type Error>";
         }
         return "int";
