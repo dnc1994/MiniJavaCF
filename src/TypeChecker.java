@@ -106,11 +106,11 @@ public class TypeChecker extends MiniJavaBaseListener {
         if (!leftType.equals("int[]")) {
             ErrorReporter.reportError(ctx.name, "Only array support [] indexing.");
         }
-        String indexType = visit(ctx.expression(0));
+        String indexType = typeEvaluator.visit(ctx.expression(0));
         if (!indexType.equals("int")) {
             ErrorReporter.reportError(ctx.expression(0), "Array index must be int.");   
         }
-        String rightType = visit(ctx.expression(1));
+        String rightType = typeEvaluator.visit(ctx.expression(1));
         if (!rightType.equals("int")) {
             ErrorReporter.reportError(ctx.expression(1), "Array element must be int.");   
         }

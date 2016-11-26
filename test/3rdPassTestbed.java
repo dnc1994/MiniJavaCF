@@ -90,10 +90,12 @@ class B extends A {
 
     public int arrayInitializationValid() {
         a = new int[10];
+        return 0;
     }
 
     public int arrayInitializationInvalid() {
         a = new int[false];
+        return 0;
     }    
 }
 
