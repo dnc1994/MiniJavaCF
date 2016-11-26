@@ -15,8 +15,13 @@ class A {
     boolean w;
     boolean e;
 
-    public int logicExpr() {
-        return q && w || x;
+    public int returnInt() {
+        return 0;
+    }
+
+    public boolean logicExpr() {
+        // return q && w || x;
+        return true;
     }
 
     public boolean precedence() {
