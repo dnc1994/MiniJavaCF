@@ -152,7 +152,6 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             String objectName = visit(ctx.nonAtom());
             String methodName = ctx.name.getText();
             String callList = (ctx.callList() != null ? visit(ctx.callList()) : "");
-            System.out.println("In visitAtom, subrule nonAtom: " + objectName + "."  + methodName);
             Class object = (Class)(typeChecker.getCurrentScope().findSymbol(objectName));
             if (object == null) {
                 ErrorReporter.reportError("Object not found.");
@@ -170,7 +169,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             return method.getReturnType();
         }
         else if (ctx.name != null) {
-            System.out.println("visitAtom -> Identifier: " + ctx.name.getText());
+            // System.out.println("visitAtom -> Identifier: " + ctx.name.getText());
             // System.out.println("typeChecker getCurrentScope: " + typeChecker.getCurrentScope());
             Symbol symbol = typeChecker.getCurrentScope().findSymbol(ctx.name.getText());
             if (symbol == null) {
@@ -224,7 +223,9 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         else if (ctx.self != null) {
             System.out.println("In visitNonAtom subrule this");
             try {
-                Class object = (Class)typeChecker.getCurrentScope();
+                // Currently we are in a method
+                // Need to get enclosing scope
+                Class object = (Class)typeChecker.getCurrentScope().getParentScope();
                 System.out.println("In visitNonAtom [This]: "+ object.getName());
                 return object.getName();
             }
