@@ -82,7 +82,7 @@ compareExpr
 
 sumExpr
     : (atom | productExpr) ('+' | '-') (atom | productExpr)
-    | sumExpr ('+' | '-') atom
+    | sumExpr ('+' | '-') (atom | productExpr)
     ;
 
 productExpr
