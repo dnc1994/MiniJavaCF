@@ -1015,13 +1015,14 @@ public class MiniJavaParser extends Parser {
 	}
 
 	public static class ArrayAssignmentContext extends ParserRuleContext {
-		public TerminalNode Identifier() { return getToken(MiniJavaParser.Identifier, 0); }
+		public Token name;
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
+		public TerminalNode Identifier() { return getToken(MiniJavaParser.Identifier, 0); }
 		public ArrayAssignmentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1048,7 +1049,7 @@ public class MiniJavaParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(184);
-			match(Identifier);
+			((ArrayAssignmentContext)_localctx).name = match(Identifier);
 			setState(185);
 			match(T__8);
 			setState(186);

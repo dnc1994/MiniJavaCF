@@ -97,7 +97,23 @@ public class TypeChecker extends MiniJavaBaseListener {
     }
     
     @Override public void enterArrayAssignment(MiniJavaParser.ArrayAssignmentContext ctx) {
-
+        Symbol leftSymbol = currentScope.findSymbol(ctx.name.getText());
+        if (leftSymbol == null) {
+            ErrorReporter.reportError(ctx.name, "Symbol not found.");
+            return;
+        } 
+        String leftType = leftSymbol.getType();
+        if (!leftType.equals("int[]")) {
+            ErrorReporter.reportError(ctx.name, "Only array support [] indexing.");
+        }
+        String indexType = visit(ctx.expression(0));
+        if (!indexType.equals("int")) {
+            ErrorReporter.reportError(ctx.expression(0), "Array index must be int.");   
+        }
+        String rightType = visit(ctx.expression(1));
+        if (!rightType.equals("int")) {
+            ErrorReporter.reportError(ctx.expression(1), "Array element must be int.");   
+        }
     }
 
 }

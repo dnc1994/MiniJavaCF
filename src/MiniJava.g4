@@ -54,7 +54,7 @@ assignment
     : name=Identifier '=' rightValue ';';
 
 arrayAssignment
-    : Identifier '[' expression ']' '=' expression ';';
+    : name=Identifier '[' expression ']' '=' expression ';';
 
 expression
     : orExpr
