@@ -2425,7 +2425,6 @@ public class MiniJavaParser extends Parser {
 	public static class ArrayContext extends ParserRuleContext {
 		public Token name;
 		public Token create;
-		public Token met;
 		public TerminalNode Identifier() { return getToken(MiniJavaParser.Identifier, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
@@ -2493,7 +2492,7 @@ public class MiniJavaParser extends Parser {
 				setState(391);
 				match(T__34);
 				setState(392);
-				((ArrayContext)_localctx).met = match(Identifier);
+				((ArrayContext)_localctx).name = match(Identifier);
 				setState(393);
 				match(T__6);
 				setState(395);

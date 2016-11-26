@@ -124,7 +124,7 @@ nonAtom
 array
     : name=Identifier
     | create='new' 'int' '[' expression ']'
-    | nonAtom '.' met=Identifier '(' callList? ')'
+    | nonAtom '.' name=Identifier '(' callList? ')'
     ;
 
 Identifier
