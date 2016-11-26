@@ -119,7 +119,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     
     @Override
     public String visitAtom(MiniJavaParser.AtomContext ctx) {
-        System.out.println(ctx.getText());
+        // System.out.println(ctx.getText());
         if (ctx.Int() != null)
             return "int";
         else if (ctx.Bool() != null)
