@@ -31,8 +31,12 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         String left = visit(ctx.getChild(0));
         String right = visit(ctx.getChild(2));
         // System.out.println("visiting or expression: " + left + " || " + right);
-        if (!left.equals("boolean") || !right.equals("boolean")) {
-            ErrorReporter.reportError(ctx, "Only boolean support logical or.");
+        if (!left.equals("boolean")) {
+            ErrorReporter.reportError(ctx.getChild(0), "Only boolean support logical or.");
+            return "<Type Error>";
+        }
+        if (!right.equals("boolean")) {
+            ErrorReporter.reportError(ctx.getChild(2), "Only boolean support logical or.");
             return "<Type Error>";
         }
         return "boolean";

@@ -1,4 +1,5 @@
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 public final class ErrorReporter {
     private static int errorCount = 0;
@@ -20,6 +21,10 @@ public final class ErrorReporter {
 
     public static void reportError(ParserRuleContext ctx, String msg) {
         reportError(ctx.getStart(), msg);
+    }
+
+    public static void reportError(ParseTree tree, String msg) {
+        reportError((ParserRuleContext)tree, msg);   
     }
 
     public static void exitOnErrors() {

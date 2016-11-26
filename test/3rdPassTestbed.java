@@ -5,13 +5,13 @@ class Testbed {
 }
 
 class A {
-    int x;
+    int xyz;
     boolean a;
     boolean b;
     boolean c;
 
     public int cha() {
-        return x || b && c;
+        return b && c || xyz;
     }
 }
 
