@@ -7,6 +7,7 @@ public class Method extends Symbol implements Scope {
 
     private Map<String, Symbol> params = new HashMap<String, Symbol>();
     private Map<String, Symbol> locals = new HashMap<String, Symbol>();
+    private ArrayList<String> paramTypes = new ArrayList<String>();
 
     public Method(String methodName, String returnType, Scope parentScope, boolean valid) {
         super(methodName);
@@ -69,6 +70,7 @@ public class Method extends Symbol implements Scope {
 
     public void addParam(Symbol param) {
         params.put(param.getName(), param);
+        paramTypes.add(param.getType());
     }
 
     public Map<String, Symbol> getParams() {
@@ -77,6 +79,17 @@ public class Method extends Symbol implements Scope {
 
     public String getReturnType() {
         return returnType;
+    }
+
+    public boolean isCallListCompatible(String callList) {
+        if (callList.equals(""))
+            return paramTypes.size() == 0;
+        String[] callNames = callList.split(",");
+        if (callNames.length != paramTypes.size())
+            return false;
+        for (int i = 0; i < callNames.length; i ++)
+            if (!Symbol.isSymbolCompatible(paramTypes.get(i), callNames[i]))
+        return true
     }
 
 }
