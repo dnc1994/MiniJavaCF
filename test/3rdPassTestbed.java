@@ -15,22 +15,22 @@ class A {
     boolean w;
     boolean e;
 
-    public int cha() {
+    public int logicExpr() {
         return q && w || x;
     }
 
-    public boolean biu() {
-        return 3 * 4 - 6 * 6 - (3 - 4) * a < 14 / b / x && 1 - 2 - 3 < x - y - z;
+    public boolean precedence() {
+        return 1 * (2 + 3) - 4 / 5 < 6 || a + b + c > x && y == z;
     }
 }
 
 class B extends A {
-    int y;
+    int x;
 }
 
 
 class C {
-    public int biu() {
+    public int assignment() {
         A a;
         B b;
         b = a;

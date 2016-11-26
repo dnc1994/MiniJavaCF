@@ -5,17 +5,17 @@ class Testbed {
 }
 
 class Foo {
-    public int Excite(int x) {
+    public int biu(int x) {
         int y;
         Bar z;
         if (x < 1)
             y = 1;
         else 
-            y = x * (this.Excite(x-1));
+            y = x * (this.biu(x-1));
         return y;
     }
 
-    public Bar ExciteX(int x) {
+    public Bar cha(int x) {
         return 0;
     }
 
