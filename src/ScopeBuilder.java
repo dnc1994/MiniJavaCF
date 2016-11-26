@@ -107,9 +107,7 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         boolean valid = currentScope.isValid();
         // System.out.println("Param: " + paramName + "; Type: " + paramType);
 
-        // Will always visit ParamList first
-        // So, calling findLocalSymbol() should be fine.
-        if (currentScope.findLocalSymbol(paramName) != null) {
+        if (((Method)currentScope).findParam(paramName) != null) {
             ErrorReporter.reportError(ctx.name, "Parameter already exists.");
             valid = false;
         }
