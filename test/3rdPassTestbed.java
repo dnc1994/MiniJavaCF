@@ -23,6 +23,14 @@ class A {
         return true;
     }
 
+    public int localSymbolFound() {
+        return x;
+    }
+
+    public int localSymbolNotFound() {
+        return p;
+    }
+
     public boolean logicExprWithParams(boolean a, boolean b) {
         return a && b;
     }
