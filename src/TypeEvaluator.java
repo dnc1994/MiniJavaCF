@@ -100,7 +100,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     }
     
     @Override public String visitCallList(MiniJavaParser.CallListContext ctx) {
-        System.out.println("In visitCallList, ctx = " + ctx.getText());
+        // System.out.println("In visitCallList, ctx = " + ctx.getText());
         String list = visit(ctx.rightValue());
         if (ctx.callList() != null)
             list = list + "," + visit(ctx.callList());
@@ -108,7 +108,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     }
     
     @Override public String visitRightValue(MiniJavaParser.RightValueContext ctx) {
-        System.out.println("In visitRightValue, ctx = " + ctx.getText());
+        // System.out.println("In visitRightValue, ctx = " + ctx.getText());
         if (ctx.expression() != null)
             return visit(ctx.expression());
         else if (ctx.nonAtom() != null)
@@ -121,9 +121,8 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     
     @Override
     public String visitAtom(MiniJavaParser.AtomContext ctx) {
-        System.out.println("In visitAtom, ctx = " + ctx.getText());
+        // System.out.println("In visitAtom, ctx = " + ctx.getText());
         if (ctx.Int() != null) {
-            System.out.println("visitAtom -> Int");
             return "int";
         }
         else if (ctx.bool != null)
@@ -197,7 +196,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     }
     
     @Override public String visitNonAtom(MiniJavaParser.NonAtomContext ctx) {
-        System.out.println("In visitNonAtom: ctx = " + ctx.getText());
+        // System.out.println("In visitNonAtom: ctx = " + ctx.getText());
         // nonAtom '.' name=Identifier '(' callList? ')'
         if (ctx.nonAtom() != null) {
             String objectName = visit(ctx.nonAtom());
@@ -221,12 +220,11 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         }
         // This
         else if (ctx.self != null) {
-            System.out.println("In visitNonAtom subrule this");
+            // System.out.println("In visitNonAtom subrule this");
             try {
                 // Currently we are in a method
                 // Need to get enclosing scope
                 Class object = (Class)typeChecker.getCurrentScope().getParentScope();
-                System.out.println("In visitNonAtom [This]: "+ object.getName());
                 return object.getName();
             }
             catch (ClassCastException e) {
