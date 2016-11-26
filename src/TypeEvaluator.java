@@ -263,5 +263,44 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         return null;
     }
 
-    @Override public String visitArray(MiniJavaParser.ArrayContext ctx) { return visitChildren(ctx); }
+    @Override public String visitArray(MiniJavaParser.ArrayContext ctx) {
+        if (ctx.nonAtom() != null) {
+            String objectName = visit(ctx.nonAtom());
+            String methodName = ctx.name.getText();
+            String callList = (ctx.callList() != null ? visit(ctx.callList()) : "");
+            Class object = (Class)(typeChecker.getCurrentScope().findSymbol(objectName));
+            if (object == null) {
+                ErrorReporter.reportError("Object not found.");
+                return "<Type Error>";
+            }
+            Method method = (Method)object.findSymbol(methodName);
+            if (method == null) {
+                ErrorReporter.reportError("Method not found.");
+                return "<Type Error>";
+            }
+            if (!method.isCallListCompatible(callList)) {
+                ErrorReporter.reportError("Call list not compatible.");
+                return "<Type Error>";
+            }
+            return method.getReturnType();
+        }
+        else if (ctx.name != null) {
+            Symbol symbol = typeChecker.getCurrentScope().findSymbol(ctx.name.getText());
+            if (symbol == null) {
+                ErrorReporter.reportError(ctx, "Symbol not found.");
+                return "<Type Error>";
+            }
+            else
+                return symbol.getType();
+        }
+        else if (ctx.create != null) {
+            String arrayLengthType = visit(ctx.expression());
+            if (!arrayLengthType.equals("int")) {
+                ErrorReporter.reportError(ctx, "Array length must be int.");
+            }
+            return "<Type Error>";
+        }
+        // Should never reach here
+        return null;
+    }
 }

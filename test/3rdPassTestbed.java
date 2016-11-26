@@ -87,6 +87,14 @@ class B extends A {
     public int arrayLengthInvalid() {
         return b.length;
     }
+
+    public int arrayInitializationValid() {
+        a = new int[10];
+    }
+
+    public int arrayInitializationInvalid() {
+        a = new int[false];
+    }    
 }
 
 class C {
