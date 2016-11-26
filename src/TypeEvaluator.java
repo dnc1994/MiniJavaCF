@@ -100,8 +100,9 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     }
     
     @Override public String visitCallList(MiniJavaParser.CallListContext ctx) {
+        System.out.println("In visitCallList, ctx = " + ctx.getText());
         String list = visit(ctx.rightValue());
-        if (ctx.callList() != null);
+        if (ctx.callList() != null)
             list = list + "," + visit(ctx.callList());
         return list;
     }
@@ -114,6 +115,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             return visit(ctx.nonAtom());
         else if (ctx.array() != null)
             return visit(ctx.array());
+        // Should never reach here
         return null;
     }
     
@@ -163,7 +165,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
                 return "<Type Error>";
             }
             if (!method.isCallListCompatible(callList)) {
-                ErrorReporter.reportError("Call list not compatible.");
+                ErrorReporter.reportError(ctx.callList(), "Call list not compatible.");
                 return "<Type Error>";
             }
             return method.getReturnType();
@@ -190,14 +192,12 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         else if (ctx.expression() != null) {
             return visit(ctx.expression());
         }
-
+        // Should never reach here
         return null;
     }
     
     @Override public String visitNonAtom(MiniJavaParser.NonAtomContext ctx) {
         System.out.println("In visitNonAtom: ctx = " + ctx.getText());
-        System.out.println(ctx.getChild(0));
-        System.out.println(ctx.self);
         // nonAtom '.' name=Identifier '(' callList? ')'
         if (ctx.nonAtom() != null) {
             String objectName = visit(ctx.nonAtom());
@@ -251,6 +251,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         else if (ctx.expression() != null) {
             return visit(ctx.expression());
         }
+        // Should never reach here
         return null;
     }
 

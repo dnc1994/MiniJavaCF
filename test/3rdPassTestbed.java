@@ -20,8 +20,11 @@ class A {
     }
 
     public boolean logicExpr() {
-        // return q && w || x;
         return true;
+    }
+
+    public boolean logicExprWithParams(boolean a, boolean b) {
+        return a && b;
     }
 
     public boolean testPrecedence() {
@@ -30,6 +33,14 @@ class A {
 
     public boolean testSelf() {
         return this.testPrecedence();
+    }
+
+    public boolean incompatibleCallList() {
+        return this.logicExprWithParams(a, w);
+    }
+
+    public boolean CompatibleCallList() {
+        return this.logicExprWithParams(q, w);
     }
 }
 
