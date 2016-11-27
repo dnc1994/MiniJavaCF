@@ -157,7 +157,8 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             // System.out.println("currenctScope: " + typeChecker.getCurrentScope().getName());
             Class object = (Class)(typeChecker.getCurrentScope().findSymbol(objectName));
             if (object == null) {
-                ErrorReporter.reportError("Object not found.");
+                if (!objectName.equals("<Type Error>"))
+                    ErrorReporter.reportError("Object not found.");
                 return "<Type Error>";
             }
             Method method = (Method)object.findSymbol(methodName);
@@ -209,7 +210,9 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             String callList = (ctx.callList() != null ? visit(ctx.callList()) : "");
             Class object = (Class)(typeChecker.getCurrentScope().findSymbol(objectName));
             if (object == null) {
-                ErrorReporter.reportError("Object not found.");
+                System.out.println(objectName);
+                if (!objectName.equals("<Type Error>"))
+                    ErrorReporter.reportError("Object not found.");
                 return "<Type Error>";
             }
             Method method = (Method)object.findSymbol(methodName);
@@ -242,6 +245,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             String className = ctx.name.getText();
             if (!Main.classes.containsKey(className)) {
                 ErrorReporter.reportError(ctx.name, "Class not found.");
+                return "<Type Error>";
             }
             return className;
         }
@@ -270,7 +274,8 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             String callList = (ctx.callList() != null ? visit(ctx.callList()) : "");
             Class object = (Class)(typeChecker.getCurrentScope().findSymbol(objectName));
             if (object == null) {
-                ErrorReporter.reportError("Object not found.");
+                if (!objectName.equals("<Type Error>"))
+                    ErrorReporter.reportError("Object not found.");
                 return "<Type Error>";
             }
             Method method = (Method)object.findSymbol(methodName);

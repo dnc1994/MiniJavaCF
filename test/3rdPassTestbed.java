@@ -107,12 +107,12 @@ class C {
         return a;
     }
 
-    public int returnIncompatibleNonAtom() {
+    public int returnNonAtomIncompatible() {
         A a;
         return a.logicalExpr();
     }
 
-    public int returnCgompatibleNonAtom() {
+    public int returnNonAtomCompatible() {
         A a;
         return a.arithemicExpr();
     }
