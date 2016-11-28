@@ -7,6 +7,7 @@ class Testbed {
 class Foo {
     public int Excite(int x, int z) {
         int y;
+        // Error #1
         int y;
         if (x < 1)
             y = 1;
@@ -27,6 +28,7 @@ class Foo {
     }
 }
 
+// Error #2
 class Bar extends Foo {
     public int ExciteY(int x) {
         return 0;

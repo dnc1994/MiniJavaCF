@@ -1,9 +1,11 @@
 class Testbed {
     public static void main(String[] x) {
-        // Test new - invalid
-        System.out.println(new nonClass().nonMethod());
-        // Test new - valid
-        System.out.println(new A().arithemicExpr());
+        // Test new
+        {
+            // Error #1
+            System.out.println(new fakeClass().fakeMethod());
+            System.out.println(new A().arithemicExpr());
+        }
     }
 }
 
@@ -29,40 +31,59 @@ class A {
         return !x;
     }
 
+    // Error #2
     public boolean logicalNotInvalid(int x) {
         return !x;
     }
 
     public boolean testPrecedenceValid() {
-        return 1 * (2 + 3) - 4 / 5 < 6 || a + b > c && !(y == z);
+        return 1 * (2 + 3) - 4 / 5 < 6 || a + b > c && !(y || z);
     }
 
     // Test symbol lookup
 
     public int localSymbolFound() {
-        return x;
+        return a;
     }
 
+    // Error #3
     public int localSymbolNotFound() {
-        return z;
+        return d;
     }
 
     // Test method calls
 
     public boolean testThis() {
-        return this.testPrecedence();
+        return this.testPrecedenceValid();
+    }
+
+    // Error #4
+    public boolean localMethodNotFound() {
+        return this.fakeMethod();
     }
 
     public boolean logicalExprWithParams(boolean a, boolean b) {
         return a && b;
     }
 
-    public boolean callListIncompatible(boolean a, boolean b) {
+    public boolean callListCompatible(boolean a, int b) {
         return this.logicalExprWithParams(a, b);
     }
 
-    public boolean callListCompatible(boolean a, int b) {
+    // Error #5
+    public boolean callListIncompatible(boolean a, boolean b) {
         return this.logicalExprWithParams(a, b);
+    }
+    
+    public int testSystemOutPrintlnValid(int a) {
+        System.out.println(a);
+        return 0;
+    }
+
+    // Error #6
+    public int testSystemOutPrintlnInvalid(boolean a) {
+        System.out.println(a);
+        return 0;
     }
 }
 
@@ -77,11 +98,13 @@ class B extends A {
         return 0;
     }
 
+    // Error #7
     public int arrayAssignmentInvalid() {
         a[0] = false;
         return 0;
     }
 
+    // Error #8
     public int arrayIndexingInvalid() {
         a[false] = 0;
         return 0;
@@ -91,6 +114,7 @@ class B extends A {
         return a.length;
     }
 
+    // Error #9
     public int arrayLengthInvalid() {
         return b.length;
     }
@@ -100,6 +124,7 @@ class B extends A {
         return 0;
     }
 
+    // Error #10
     public int arrayInitializationInvalid() {
         a = new int[false];
         return 0;
@@ -117,6 +142,7 @@ class C {
         return a;
     }
 
+    // Error #11
     public B assignmentIncompatible() {
         A a;
         B b;
@@ -124,6 +150,7 @@ class C {
         return b;
     }
 
+    // Error #12
     public int returnNonAtomIncompatible() {
         A a;
         return a.logicalExpr();

@@ -1,12 +1,13 @@
 class Testbed {
-    public static void main(String[] x){
-        System.out.println(new Foo().Excite(5));
+    public static void main(String[] x) {
+        System.out.println(new Foo().foo(5));
     }
 }
 
 class Foo {
-    public int biu(int x) {
+    public int foo(int x) {
         int y;
+        // Error #1
         Bar z;
         if (x < 1)
             y = 1;
@@ -15,14 +16,16 @@ class Foo {
         return y;
     }
 
-    public Bar cha(int x) {
+    // Error #2
+    public Bar bar(int x) {
         return 0;
     }
 
 }
 
-class Biu extends Cha {
-    public int ExciteY(int x) {
+// Error #3
+class Foobar extends Bar {
+    public int foobar(int x) {
         return 0;
     }
 }
