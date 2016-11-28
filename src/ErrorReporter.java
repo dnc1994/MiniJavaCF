@@ -50,11 +50,11 @@ public final class ErrorReporter {
     public static void exitOnErrors() {
         if (hasError()) {
             System.out.println(errorCount + " errors found.");
-            // todo: change this to 1
-            System.exit(0);
+            System.exit(1);
         }
     }
 
+    // Still no way to underline errors involving multiple offending tokens.
     public static void underlineError(Token offendingToken) {
         String errorLine = Main.inputLines[offendingToken.getLine() - 1];
         System.err.println(errorLine);

@@ -149,6 +149,11 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
                 return "int";
             }
         }
+        
+        // Ideally, logic dealing with method call should be reused for DRY.
+        // However, the mechanism of inheritence and the lack of duck typing in Java
+        // makes it very difficult to refactor this part out.
+
         // nonAtom '.' name=Identifier '(' callList? ')'
         else if (ctx.nonAtom() != null) {
             String objectName = visit(ctx.nonAtom());
@@ -163,7 +168,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             }
             Method method = (Method)object.findSymbol(methodName);
             if (method == null) {
-                ErrorReporter.reportError("Method not found.");
+                ErrorReporter.reportError(ctx.name, "Method not found.");
                 return "<Type Error>";
             }
             if (!method.isCallListCompatible(callList)) {
@@ -188,7 +193,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         else if (ctx.atom() != null) {
             String atomType = visit(ctx.atom());
             if (!atomType.equals("boolean")) {
-                ErrorReporter.reportError(ctx, "Only boolean support logical not.");    
+                ErrorReporter.reportError(ctx.atom(), "Only boolean support logical not.");    
                 return "<Type Error>";
             }
             return "boolean";
@@ -217,7 +222,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             }
             Method method = (Method)object.findSymbol(methodName);
             if (method == null) {
-                ErrorReporter.reportError("Method not found.");
+                ErrorReporter.reportError(ctx.name, "Method not found.");
                 return "<Type Error>";
             }
             if (!method.isCallListCompatible(callList)) {
@@ -301,7 +306,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         else if (ctx.create != null) {
             String arrayLengthType = visit(ctx.expression());
             if (!arrayLengthType.equals("int")) {
-                ErrorReporter.reportError(ctx, "Array length must be int.");
+                ErrorReporter.reportError(ctx.expression(), "Array length must be int.");
             }
             return "<Type Error>";
         }
