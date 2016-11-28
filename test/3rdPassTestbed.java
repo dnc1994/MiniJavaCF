@@ -132,32 +132,44 @@ class B extends A {
 }
 
 class C {
-
     // Test type deduction with inheritence
 
-    public A assignmentCompatible() {
+    A a;
+
+    public A assignmentCompatible(B b) {
         A a;
-        B b;
         a = b;
         return a;
     }
 
     // Error #11
-    public B assignmentIncompatible() {
-        A a;
-        B b;
+    public B assignmentIncompatible(A a, B b) {
         b = a;
         return b;
     }
 
     // Error #12
-    public int returnNonAtomIncompatible() {
-        A a;
+    public int returnNonAtomIncompatible(A a) {
         return a.logicalExpr();
     }
 
-    public int returnNonAtomCompatible() {
-        A a;
+    public int returnNonAtomCompatible(A a) {
         return a.arithemicExpr();
     }
+
+    // Test object lookup
+
+    public int objectNotFound(A a) {
+        return b.arithemicExpr();
+    }
+
+    // Error #13
+    public int objectFoundMethodNotFound(A a) {
+        return a.fakeMethod();
+    }
+
+    // Error #14
+    public int objectFoundMethodFound(A a) {
+        return a.arithemicExpr();
+    }    
 }
