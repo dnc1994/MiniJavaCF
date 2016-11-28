@@ -62,24 +62,21 @@ public class TypeChecker extends MiniJavaBaseListener {
     @Override public void enterIfStatement(MiniJavaParser.IfStatementContext ctx) {
         String conditionType = typeEvaluator.visit(ctx.expression());
         if (!conditionType.equals("boolean")) {
-            if (!conditionType.equals("<Type Error>"))
-                ErrorReporter.reportError(ctx.expression(), "The condition of if statement must be a boolean.");
+            ErrorReporter.reportError(conditionType, ctx.expression(), "The condition of if statement must be a boolean.");
         }
     }
     
     @Override public void enterWhileStatement(MiniJavaParser.WhileStatementContext ctx) {
         String conditionType = typeEvaluator.visit(ctx.expression());
         if (!conditionType.equals("boolean")) {
-            if (!conditionType.equals("<Type Error>"))
-                ErrorReporter.reportError(ctx.expression(), "The condition of while statement must be a boolean.");
+            ErrorReporter.reportError(conditionType, ctx.expression(), "The condition of while statement must be a boolean.");
         }
     }
     
     @Override public void enterPrintStatement(MiniJavaParser.PrintStatementContext ctx) {
         String exprType = typeEvaluator.visit(ctx.expression()); 
         if (!exprType.equals("int")) {
-            if (!exprType.equals("<Type Error>"))
-                ErrorReporter.reportError(ctx.expression(), "System.out.println can only print int.");
+            ErrorReporter.reportError(exprType, ctx.expression(), "System.out.println can only print int.");
         }
     }
     
@@ -105,15 +102,15 @@ public class TypeChecker extends MiniJavaBaseListener {
         } 
         String leftType = leftSymbol.getType();
         if (!leftType.equals("int[]")) {
-            ErrorReporter.reportError(ctx.name, "Only array support [] indexing.");
+            ErrorReporter.reportError(leftType, ctx.name, "Only array support [] indexing.");
         }
         String indexType = typeEvaluator.visit(ctx.expression(0));
         if (!indexType.equals("int")) {
-            ErrorReporter.reportError(ctx.expression(0), "Array index must be int.");   
+            ErrorReporter.reportError(indexType, ctx.expression(0), "Array index must be int.");   
         }
         String rightType = typeEvaluator.visit(ctx.expression(1));
         if (!rightType.equals("int")) {
-            ErrorReporter.reportError(ctx.expression(1), "Array element must be int.");   
+            ErrorReporter.reportError(rightType, ctx.expression(1), "Array element must be int.");   
         }
     }
 
