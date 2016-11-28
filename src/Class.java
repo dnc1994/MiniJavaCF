@@ -1,9 +1,9 @@
 import java.util.*;
 
 public class Class extends Symbol implements Scope {
-    private boolean valid;
     private String parentClassName;
     private Scope parentScope;
+    private boolean valid;
 
     private Map<String, Symbol> symbols = new HashMap<String, Symbol>();
 
@@ -20,10 +20,6 @@ public class Class extends Symbol implements Scope {
         this.parentClassName = parentClassName;
         this.parentScope = parentScope;
         this.valid = true;
-    }
-
-    public String getParentClassName() {
-        return parentClassName;
     }
 
     @Override
@@ -63,9 +59,8 @@ public class Class extends Symbol implements Scope {
         return symbols.get(name);
     }
 
-    @Override
-    public Map<String, Symbol> getSymbols() {
-        return symbols;
+    public String getParentClassName() {
+        return parentClassName;
     }
 
 }

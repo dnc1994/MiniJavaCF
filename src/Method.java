@@ -1,9 +1,9 @@
 import java.util.*;
 
 public class Method extends Symbol implements Scope {
-    private boolean valid;
     private String returnType;
     private Scope parentScope;
+    private boolean valid;
 
     private Map<String, Symbol> params = new HashMap<String, Symbol>();
     private Map<String, Symbol> locals = new HashMap<String, Symbol>();
@@ -66,12 +66,6 @@ public class Method extends Symbol implements Scope {
         }
     }
 
-    // todo: combine locals and params
-    @Override
-    public Map<String, Symbol> getSymbols() {
-        return locals;
-    }
-
     public void addParam(Symbol param) {
         params.put(param.getName(), param);
         paramTypes.add(param.getType());
@@ -81,9 +75,9 @@ public class Method extends Symbol implements Scope {
         return params.get(name);
     }
 
-    public Map<String, Symbol> getParams() {
-        return params;
-    }
+    // public Map<String, Symbol> getParams() {
+    //     return params;
+    // }
 
     public String getReturnType() {
         return returnType;

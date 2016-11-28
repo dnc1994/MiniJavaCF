@@ -2,11 +2,11 @@ import java.util.*;
 
 public interface Scope {
 
-    public boolean isValid();
-
     public String getName();
 
     public Scope getParentScope();
+
+    public boolean isValid();
 
     public void addSymbol(Symbol symbol);
 
@@ -14,5 +14,4 @@ public interface Scope {
 
     public Symbol findLocalSymbol(String name);
 
-    public Map<String, Symbol> getSymbols();
 }
