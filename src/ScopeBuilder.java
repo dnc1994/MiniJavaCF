@@ -6,6 +6,10 @@ public class ScopeBuilder extends MiniJavaBaseListener {
     private Scope currentScope;
 
     public ScopeBuilder(Map<String, Class> classes, Scope virtualSuperScope) {
+        // It seems that we don't need Main.classes
+        // But: 1) this.classes must be kept in 1st pass
+        //      2) Symbol.isTypeCompatible need to reference Main.classes
+        //      3) Sometimes we explicitly know that we are dealing with Class.
         this.classes = classes;
         this.currentScope = virtualSuperScope;
     }
@@ -19,7 +23,6 @@ public class ScopeBuilder extends MiniJavaBaseListener {
     public void enterMainClass(MiniJavaParser.MainClassContext ctx) {
         String className = ctx.name.getText();
         Class mainClass = new Class(className, "<No Parent Class>", currentScope);
-        // wtf
         currentScope.addSymbol(mainClass);
         classes.put(className, mainClass);
         currentScope = mainClass;
@@ -45,7 +48,6 @@ public class ScopeBuilder extends MiniJavaBaseListener {
         }
         Class currentClass = new Class(className, parentClassName, currentScope, valid);
         if (valid) {
-            // wtf
             currentScope.addSymbol(currentClass);
             classes.put(className, currentClass);
         }

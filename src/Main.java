@@ -43,8 +43,6 @@ public class Main {
         ScopeBuilder scopeBuilder = new ScopeBuilder(classes, virtualSuperScope);
         walker.walk(scopeBuilder, tree);
         ErrorReporter.exitOnErrors();
-        // debug
-        // System.out.println(virtualSuperScope.getSymbols());
 
         // 2nd pass
         SymbolChecker symbolChecker = new SymbolChecker(classes, virtualSuperScope);

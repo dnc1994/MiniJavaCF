@@ -66,6 +66,6 @@ public final class ErrorReporter {
             for (int i = start; i <= stop; i ++) System.err.print("^");
         }
         System.err.println();
-
     }
+
 }

@@ -4,11 +4,12 @@ import java.util.*;
 public class TypeChecker extends MiniJavaBaseListener {
     private Scope currentScope;
     final private Map<String, Class> classes;
-    private TypeEvaluator typeEvaluator = new TypeEvaluator(this);
+    private TypeEvaluator typeEvaluator;
 
     public TypeChecker(final Map<String, Class> classes, Scope virtualSuperScope) {
         this.classes = classes;
         this.currentScope = virtualSuperScope;
+        this.typeEvaluator = new TypeEvaluator(this, classes);
     }
 
     public Scope getCurrentScope() {

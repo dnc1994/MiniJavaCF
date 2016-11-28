@@ -3,9 +3,11 @@ import java.util.*;
 
 public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
     private TypeChecker typeChecker;
+    final private Map<String, Class> classes;
 
-    public TypeEvaluator(TypeChecker typeChecker) {
+    public TypeEvaluator(TypeChecker typeChecker, final Map<String, Class> classes) {
         this.typeChecker = typeChecker;
+        this.classes = classes;
     }
 
     @Override
@@ -149,7 +151,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
                 return "int";
             }
         }
-        
+
         // Ideally, logic dealing with method call should be reused for DRY.
         // However, the mechanism of inheritence and the lack of duck typing in Java
         // makes it very difficult to refactor this part out.
@@ -248,7 +250,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         // New name=Identifier '(' ')'
         else if (ctx.create != null) {
             String className = ctx.name.getText();
-            if (!Main.classes.containsKey(className)) {
+            if (!classes.containsKey(className)) {
                 ErrorReporter.reportError(ctx.name, "Class not found.");
                 return "<Type Error>";
             }
