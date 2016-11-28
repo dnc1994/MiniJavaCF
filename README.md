@@ -1,6 +1,6 @@
 # MiniJavaCF
 
-Project for 2016 Fall's Compiler course @ Fudan University.
+Project for 2016 Fall's Compilers course @ Fudan University.
 
 The task is to build a compiler frontend for [MiniJava](http://www.cambridge.org/us/features/052182060X/index.html).
 
