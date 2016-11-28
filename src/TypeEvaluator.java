@@ -246,6 +246,7 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             // In fact, this wouldn't be triggered until we have finer-grained scopes like blocks.
             catch (ClassCastException e) {
                 ErrorReporter.reportError("'this' is only referrable in a class.");
+                return "<Type Error>";
             }
         }
         // New name=Identifier '(' ')'

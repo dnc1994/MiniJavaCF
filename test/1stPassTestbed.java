@@ -16,6 +16,7 @@ class Foo {
         return y;
     }
 
+    // Error #2
     public int Excite(int x) {
         return 0;
     }
@@ -28,7 +29,7 @@ class Foo {
     }
 }
 
-// Error #2
+// Error #3
 class Bar extends Foo {
     public int ExciteY(int x) {
         return 0;
