@@ -1,19 +1,21 @@
 class Testbed {
-    public static void main(String[] x){
+    public static void main(String[] x) {
+        // Test new - invalid
         System.out.println(new nonClass().nonMethod());
+        // Test new - valid
+        System.out.println(new A().arithemicExpr());
     }
 }
 
 class A {
-    int x;
-    int y;
-    int z;
     int a;
     int b;
     int c;
-    boolean q;
-    boolean w;
-    boolean e;
+    boolean x;
+    boolean y;
+    boolean z;
+
+    // Test expressions
 
     public int arithemicExpr() {
         return 0;
@@ -31,19 +33,23 @@ class A {
         return !x;
     }
 
+    public boolean testPrecedenceValid() {
+        return 1 * (2 + 3) - 4 / 5 < 6 || a + b > c && !(y == z);
+    }
+
+    // Test symbol lookup
+
     public int localSymbolFound() {
         return x;
     }
 
     public int localSymbolNotFound() {
-        return p;
+        return z;
     }
 
-    public boolean testPrecedence() {
-        return 1 * (2 + 3) - 4 / 5 < 6 || a + b + c > x && y == z;
-    }
+    // Test method calls
 
-    public boolean testSelf() {
+    public boolean testThis() {
         return this.testPrecedence();
     }
 
@@ -51,19 +57,20 @@ class A {
         return a && b;
     }
 
-    public boolean callListIncompatible() {
-        return this.logicalExprWithParams(a, w);
+    public boolean callListIncompatible(boolean a, boolean b) {
+        return this.logicalExprWithParams(a, b);
     }
 
-    public boolean callListCompatible() {
-        return this.logicalExprWithParams(q, w);
+    public boolean callListCompatible(boolean a, int b) {
+        return this.logicalExprWithParams(a, b);
     }
 }
 
 class B extends A {
-    int x;
     int[] a;
-    boolean b;
+    int b;
+
+    // Test arrays
 
     public int arrayAssignmentValid() {
         a[0] = 0;
@@ -100,11 +107,21 @@ class B extends A {
 }
 
 class C {
-    public int assignmentTypeIncompatible() {
+
+    // Test type deduction with inheritence
+
+    public A assignmentCompatible() {
+        A a;
+        B b;
+        a = b;
+        return a;
+    }
+
+    public B assignmentIncompatible() {
         A a;
         B b;
         b = a;
-        return a;
+        return b;
     }
 
     public int returnNonAtomIncompatible() {
