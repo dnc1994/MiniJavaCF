@@ -77,11 +77,11 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         String left = visit(ctx.getChild(0));
         String right = visit(ctx.getChild(2));
         if (!left.equals("int")) {
-            ErrorReporter.reportError(ctx.getChild(0), "Only int support addition.");
+            ErrorReporter.reportError(ctx.getChild(0), "Only int support addition & subtraction.");
             return "<Type Error>";
         }
         if (!right.equals("int")) {
-            ErrorReporter.reportError(ctx.getChild(2), "Only int support addition.");
+            ErrorReporter.reportError(ctx.getChild(2), "Only int support addition & subtraction.");
             return "<Type Error>";
         }
         return "int";
@@ -91,11 +91,11 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         String left = visit(ctx.getChild(0));
         String right = visit(ctx.getChild(2));
         if (!left.equals("int")) {
-            ErrorReporter.reportError(ctx.getChild(0), "Only int support multiplication.");
+            ErrorReporter.reportError(ctx.getChild(0), "Only int support multiplication & division.");
             return "<Type Error>";
         }
         if (!right.equals("int")) {
-            ErrorReporter.reportError(ctx.getChild(2), "Only int support multiplication.");
+            ErrorReporter.reportError(ctx.getChild(2), "Only int support multiplication & division.");
             return "<Type Error>";
         }
         return "int";
@@ -127,8 +127,9 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
         if (ctx.Int() != null) {
             return "int";
         }
-        else if (ctx.bool != null)
+        else if (ctx.bool != null) {
             return "boolean";
+        }
         else if (ctx.array() != null) {
             String arrayType = visit(ctx.array());
             if (!arrayType.equals("int[]")) {
@@ -163,9 +164,9 @@ public class TypeEvaluator extends MiniJavaBaseVisitor<String> {
             String callList = (ctx.callList() != null ? visit(ctx.callList()) : "");
             // System.out.println("currenctScope: " + typeChecker.getCurrentScope().getName());
             Class object = (Class)(typeChecker.getCurrentScope().findSymbol(objectName));
+            // Actually this would never happen
             if (object == null) {
-                if (!objectName.equals("<Type Error>"))
-                    ErrorReporter.reportError("Object not found.");
+                ErrorReporter.reportError(objectName, ctx.nonAtom(), "Object not found.");
                 return "<Type Error>";
             }
             Method method = (Method)object.findSymbol(methodName);
