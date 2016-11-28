@@ -12,5 +12,4 @@ class Foo {
             y = x * (this.Excite(x-1));
         return x + y + z;
     }
-
 }
