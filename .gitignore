@@ -1,8 +1,10 @@
 
 # Created by https://www.gitignore.io/api/java
 
-submission/
 doc/git.log
+submission/
+13307130225/
+13307130225.zip
 
 ### Java ###
 *.class
