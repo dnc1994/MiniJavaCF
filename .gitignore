@@ -1,6 +1,9 @@
 
 # Created by https://www.gitignore.io/api/java
 
+submission/
+doc/git.log
+
 ### Java ###
 *.class
 

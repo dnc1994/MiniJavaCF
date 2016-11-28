@@ -6,6 +6,8 @@ The task is to build a compiler frontend for [MiniJava](http://www.cambridge.org
 
 Implemented with [ANTLR](http://www.antlr.org/) v4.5.3.
 
+Report and git log are under `doc/`.
+
 ## Author
 
 Linghao Zhang ([13307130225@fudan.edu.cn](13307130225@fudan.edu.cn))
