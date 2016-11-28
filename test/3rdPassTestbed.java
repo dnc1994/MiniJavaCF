@@ -136,8 +136,7 @@ class C {
 
     A a;
 
-    public A assignmentCompatible(B b) {
-        A a;
+    public A assignmentCompatible(A a, B b) {
         a = b;
         return a;
     }
@@ -157,7 +156,13 @@ class C {
         return a.arithemicExpr();
     }
 
-    // Test object lookup
+    // Test symbol & object lookup
+
+    public int methodLocalLookup() {
+        // This shouldn't raise an error.
+        A a;
+        return 0;
+    }
 
     public int objectNotFound(A a) {
         return b.arithemicExpr();

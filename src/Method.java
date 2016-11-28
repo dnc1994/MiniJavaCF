@@ -50,20 +50,20 @@ public class Method extends Symbol implements Scope {
             return params.get(name);
         else if (locals.containsKey(name))
             return locals.get(name);
-        else
-            return this.getParentScope().findSymbol(name);
-    }
-
-    @Override
-    public Symbol findLocalSymbol(String name) {
-        if (params.containsKey(name))
-            return params.get(name);
         else {
             if (this.getParentScope() == null)
                 return null;
             else
                 return this.getParentScope().findSymbol(name);
         }
+    }
+
+    @Override
+    public Symbol findLocalSymbol(String name) {
+        if (params.containsKey(name))
+            return params.get(name);
+        else
+            return locals.get(name);
     }
 
     public void addParam(Symbol param) {
