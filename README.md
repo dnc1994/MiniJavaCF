@@ -14,10 +14,10 @@ Linghao Zhang ([13307130225@fudan.edu.cn](13307130225@fudan.edu.cn))
 
 ## Usage
 
-- `make grammar`: Generate ANTLR lexer & parser & visitor boilerplate codes from `MiniJava.g4`.
+- `make grammar`: Generate ANTLR lexer & parser & listener & visitor codes from `MiniJava.g4`.
 - `make build`: Compile all the Java codes.
 - `make test`: Output the AST for `BinaryTree.java` in LISP-style string.
-- `make rig`: Display the AST for `BinaryTree.java` in tree-style diagram.
+- `make rig`: Display the AST for `BinaryTree.java` in tree diagram.
 - `make tests`: Test for syntax errors.
 - `make test1`: Test for duplicated declaration.
 - `make test2`: Test for type lookup.

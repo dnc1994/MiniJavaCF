@@ -25,10 +25,6 @@ test3:
 		javac *.java
 		java Main < ../test/3rdPassTestbed.java
 
-rigr:
-		javac MiniJava*.java
-		java org.antlr.v4.runtime.misc.TestRig MiniJava goal -gui < ../test/ErrorRecovery.java
-
 rig:
 		javac MiniJava*.java
 		java org.antlr.v4.runtime.misc.TestRig MiniJava goal -gui < ../test/BinaryTree.java -gui		
@@ -36,6 +32,10 @@ rig:
 rig3:
 		javac MiniJava*.java
 		java org.antlr.v4.runtime.misc.TestRig MiniJava goal -gui < ../test/3rdPassTestbed.java -gui		
+
+rigr:
+		javac MiniJava*.java
+		java org.antlr.v4.runtime.misc.TestRig MiniJava goal -gui < ../test/ErrorRecovery.java
 
 irig:
 		javac MiniJava*.java
