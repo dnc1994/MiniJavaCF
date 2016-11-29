@@ -76,7 +76,7 @@ ANTLR has at least two advantages which makes it very suitable for this project:
 
 Three passes of semantic analysis are all traversing the AST we obtained from step 1. Therefore, the main classes in three passes all inherit from `MiniJavaBaseListener`.
 
-Note that encountering unrecoverable errors in each of these steps will cause MiniJavaCF to exit early.
+Note that **encountering unrecoverable errors in each of these steps will cause MiniJavaCF to exit early**.
 
 ## Approach
 
@@ -125,9 +125,9 @@ These are expanded to match the corresponding method quicker:
 
 #### Expression
 
-The most significant change is about expressions. The motivation here is to support the parsing of operator precedence. The problem with the original grammar is that its `expression` contains too many things. With closer examination, we find that it can be splitted into two parts.
+The most significant change is about expressions. The motivation here is to **support the parsing of operator precedence**. The problem with the original grammar is that its `expression` contains too many things. With closer examination, we find that it can be splitted into two parts.
 
-We define `atom` to be expressions that can evaluate to primitive types; while `nonAtom` to be those that can't. We can see that logical and arithemic expressions only involve `atom`. Therefore, we have:
+We define `atom` to be expressions that **can evaluate to primitive types**; while `nonAtom` to be those that can't. We can see that logical and arithemic expressions only involve `atom`. Therefore, we have:
 
     expression
         : orExpr
@@ -138,7 +138,7 @@ We define `atom` to be expressions that can evaluate to primitive types; while `
         | atom
         ;
 
-Where the meaning `orExpr`, `andExpr`, `compareExpr`, `sumExpr` and `productExpr` are self-evident. By matching sub-rules in this order, we are able to parse the operator precedence of complicated expressions.
+Where the meaning `orExpr`, `andExpr`, `compareExpr`, `sumExpr` and `productExpr` are self-evident. **By matching sub-rules in this order**, we are able to parse the operator precedence of complicated expressions.
 
 As for `atom` and `nonAtom`, we have:
 
@@ -162,7 +162,7 @@ As for `atom` and `nonAtom`, we have:
         | '(' expression ')'
         ;
 
-Among sub-rules of `atom`, some will definitely evaluate to primitive types, such as `Int`; some may evaluate to primitive types, such as `nonAtom '.' name=Identifier '(' callList? ')'`. The same applies to `nonAtom`. We will leave this for `typeEvaluator` to decide.
+Among sub-rules of `atom`, some will definitely evaluate to primitive types, such as `Int`; some **may** evaluate to primitive types, such as `nonAtom '.' name=Identifier '(' callList? ')'`. The same applies to `nonAtom`. We will leave this for `typeEvaluator` to decide.
 
 Now that `expression` purely defines logical and arithemic expressions, we introduce another rule `rightValue`:
 
@@ -172,15 +172,15 @@ Now that `expression` purely defines logical and arithemic expressions, we intro
         | array
         ;
 
-We only have `rightValue` with assignments and method calls.
+We only have `rightValue` with **assignments** and **method calls**.
 
 Now the new grammar works.
 
 ### Scope Design
 
-Our task in the first pass of semantic analysis is to build a AST-like tree to store all the information we need for later use. In the context of MiniJava, the hierarchy is quite simple: `top level -> class -> method`. We could do it naively, defining a `Class` class and a `Method` class to do whatever they need to do. However, here we choose to have some level of abstraction for better maintainability and scalability.
+Our task in the first pass of semantic analysis is to build a AST-like tree to store all the information we need for later use. In the context of MiniJava, the hierarchy is quite simple: `top level -> class -> method`. We could do it naively, defining a `Class` class and a `Method` class to do whatever they need to do. However, here we choose to **have some level of abstraction for better maintainability and scalability**.
 
-Classes and methods share two commonalities: 1) they are both symbols; 2) they both define a scope. Therefore, we define a class `Symbol` and an interface `Scope`. Then we let `Class` and `Method` inherit from `Symbol` and implements methods in `Scope`:
+Classes and methods share two commonalities: 1) they are both symbols; 2) they both define a scope. Therefore, we define a class `Symbol` and an interface `Scope`. Then we **let `Class` and `Method` inherit from `Symbol` and implements methods in `Scope`**:
 
     public class Class extends Symbol implements Scope {
         // ...
@@ -213,7 +213,7 @@ The logic here should be pretty clear.
 
 #### Scope
 
-Each scope has a parent scope and a local symbol table. For `Method`, we also need a separate container to store the information of parameters. When looking up for a symbol inside a scope, we can do it locally or recursively:
+Each scope has a parent scope and a local symbol table. For `Method`, we also need a separate container to store the information of parameters. When looking up for a symbol inside a scope, we can do it **locally or recursively**:
 
     @Override
     public Symbol findSymbol(String name) {
@@ -236,7 +236,7 @@ Each scope has a parent scope and a local symbol table. For `Method`, we also ne
 
 In the first pass, our task is to traverse the AST and build a scope tree, as well as storing all the information in it.
 
-We use `currentScope` to indicate which scope we are in. And initially we will create a fake scope object to represent the top-level scope:
+We use `currentScope` to indicate which scope we are in. And initially we will create **a fake scope object** to represent the top-level scope:
 
     public static Scope virtualSuperScope = new Class("<Virtual Super Scope>", "<No Parent Class>", null);
 
@@ -261,11 +261,11 @@ Take `enterMethodDeclaration` for example:
         currentScope = currentMethod;
     }
 
-Note that there is a concept of scope validity in the codes above. The motivation here is that, when there is duplicated declaration, we want to detect all the errors as well as suppress potential errors messages from a invalid declaration. Therefore, we will still finish the traversal, but we also need to maintain a validity flag to decide whether we really need to take actions (create the object, add symbol, ...) in the current scope.
+Note that there is a concept of **scope validity** in the codes above. The motivation here is that, when there is duplicated declaration, we want to **detect all the errors** as well as **suppress potential errors messages** from a invalid declaration. Therefore, we will still finish the traversal, but we also need to maintain a validity flag to decide whether we really need to take actions (create the object, add symbol, ...) in the current scope.
 
 ### Second Pass: SymbolChecker
 
-In the second pass, our task is to check if there are symbol reference errors. This includes `parent class not found`, `variable type not found` and `method return type not found`. Initially, we want to detect `symbol not found` errors as well. However, it turns out that the lookup for general symbols ties more closely with type checking. Therefore, we decide to move this part to the third pass.
+In the second pass, our task is to check if there are symbol reference errors. This includes `parent class not found`, `variable type not found` and `method return type not found`. Initially, we want to detect `symbol not found` errors as well. However, it turns out that **the lookup for general symbols ties more closely with type checking**. Therefore, we decide to move this part to the third pass.
 
 Take `enterVarDeclaration` for example:
 
@@ -279,7 +279,7 @@ Take `enterVarDeclaration` for example:
         }
     }
 
-Another thing we do here is to check for cyclic inheritence. Since each class can only inherit from at most one parent class, the problem is reduced to determining the existence of cycle in a graph where each vertex has at most one outgoing edge. A simple DFS will do.
+Another thing we do here is to check for **cyclic inheritence**. Since each class can only inherit from at most one parent class, the problem is reduced to **determining the existence of cycle in a graph where each vertex has at most one outgoing edge**. A simple DFS will do.
 
     public void checkCyclicInheritence() {
         Map<String, Integer> mapping = new HashMap<String, Integer>();
@@ -304,9 +304,9 @@ Another thing we do here is to check for cyclic inheritence. Since each class ca
 
 ### Third Pass: TypeChecker & TypeEvaluator
 
-In the third pass, our task is to perform symbol lookup and type compatbility checks for assignments, method calls and if/while/print statements where there will be expression evaluation.
+In the third pass, our task is to perform **symbol lookup** and **type compatbility** checks for assignments, method calls and if/while/print statements **where there will be expression evaluation**.
 
-The approach is simple. Whenever an evaluation is needed, we invoke `TypeEvaluator`, which will recursively solve for the final return type using the grammar and the information contained in the scope tree we built earlier.
+The approach is simple. Whenever an evaluation is needed, we invoke `TypeEvaluator`, which will **recursively** solve for the final return type using the grammar and the information contained in the scope tree we built earlier.
 
 Take the evaluation of `nonAtom` for example, as it's the most complicated one:
 
@@ -362,7 +362,7 @@ This snippet is taken from *The Definitive ANTLR 4 Reference*.
 
 #### Suppressing Cascading Error Messages
 
-Sometimes (especially in type checking), an error can result in a chain of errors and we prefer to display only the first one. To suppress this kind of cascading error messages, we report the error immediately after discovering it, and returning a special token to indicate that further errors should be suppressed. For instance in `visitOrExpr` of `TypeEvaluator.java`:
+Sometimes (especially in type checking), an error can result in a chain of errors and we prefer to display only the first one. To suppress this kind of **cascading error messages**, we report the error immediately after discovering it, and returning a special token to indicate that further errors should be suppressed. For instance in `visitOrExpr` of `TypeEvaluator.java`:
 
     if (!left.equals("boolean")) {
         ErrorReporter.reportError(ctx.getChild(0), "Only boolean support logical or.");
@@ -744,7 +744,7 @@ class C {
 
 ### Limitations
 
-- MiniJavaCF cannot underline errors involving multiple offending tokens.
+- MiniJavaCF cannot underline errors involving **multiple offending tokens**.
 - MiniJavaCF cannot recover from any semantic errors.
 
 ### Future Works
@@ -759,6 +759,6 @@ There's a couple of things that can be easily done to make MiniJava more human-f
 ### Thoughts
 
 - This project is much fun.
-- Tweaking grammar to make parsing easier is where magic happens.
+- **Tweaking grammar to make parsing easier is where magic happens**.
 - Designing the scope tree and the three passes of semantic analysis is a good way to improve OOP skills.
-- If possible, one is definitely going to gain more by building a complete compiler!
+- If possible, one is definitely going to gain more by **building a complete compiler**!
