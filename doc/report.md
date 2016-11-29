@@ -412,7 +412,15 @@ For the expression `1 * (2 + 3) - 4 / 5 < 6 || a + b > c && !(y || z)`, MiniJava
         }
     }
 
-![SyntaxError](img/syntax_error.jpg)
+    > make tests
+    javac *.java
+    java Main < ../test/SyntaxError.java
+    line 8:11 token recognition error at: '#'
+    line 8:19 error: missing Identifier at '('
+        public # Excite(int x, int z) {
+                       ^
+    1 errors found.
+    make: *** [tests] Error 1
 
 ### Error Recovery
 
@@ -450,7 +458,6 @@ We can see that the missiong token `}` is automatically inserted and the parsing
             System.out.println(new Foo().Excite(5));
         }
     }
-
     class Foo {
         public int Excite(int x, int z) {
             int y;
@@ -462,20 +469,16 @@ We can see that the missiong token `}` is automatically inserted and the parsing
                 y = x * (this.Excite(x-1));
             return y;
         }
-
         // Error #2
         public int Excite(int x) {
             return 0;
         }
-
     }
-
     class Foo {
         public int ExciteX(int x) {
             return 0;
         }
     }
-
     // Error #3
     class Bar extends Foo {
         public int ExciteY(int x) {
@@ -483,7 +486,20 @@ We can see that the missiong token `}` is automatically inserted and the parsing
         }
     }
 
-![FirstPass](img/1st_pass.jpg)
+    > make test1
+    javac *.java
+    java Main < ../test/1stPassTestbed.java
+    line 11:12 error: Variable already exists.
+            int y;
+                ^
+    line 20:15 error: Method already exists.
+        public int Excite(int x) {
+                   ^^^^^^
+    line 26:6 error: Class already exists.
+    class Foo {
+          ^^^
+    3 errors found.
+    make: *** [test1] Error 1
 
 ### Second Pass
 
@@ -494,7 +510,6 @@ We can see that the missiong token `}` is automatically inserted and the parsing
             System.out.println(new Foo().foo(5));
         }
     }
-
     class Foo {
         public int foo(int x) {
             int y;
@@ -506,14 +521,12 @@ We can see that the missiong token `}` is automatically inserted and the parsing
                 y = x * (this.biu(x-1));
             return y;
         }
-
         // Error #2
         public Bar bar(int x) {
             return 0;
         }
 
     }
-
     // Error #3
     class Foobar extends Bar {
         public int foobar(int x) {
@@ -521,224 +534,105 @@ We can see that the missiong token `}` is automatically inserted and the parsing
         }
     }
 
-![SecondPass](img/2nd_pass.jpg)
+    > make test2
+    javac *.java
+    java Main < ../test/2ndPassTestbed.java
+    line 11:8 error: Variable type not found.
+            Bar z;
+            ^^^
+    line 20:11 error: Method return type not found.
+        public Bar bar(int x) {
+               ^^^
+    line 27:6 error: Parent class not found.
+    class Foobar extends Bar {
+          ^^^^^^
+    3 errors found.
+    make: *** [test2] Error 1
 
 ### Cyclic Inheritence
 
 **CyclicInheritence.java**
 
-class Testbed {
-    public static void main(String[] x){
-        System.out.println(new Foo().Excite(5));
+    class Testbed {
+        public static void main(String[] x){
+            System.out.println(new Foo().Excite(5));
+        }
     }
-}
-
-class Foo extends Bar {
-    public int Excite(int x) {
-        int y;
-        Bar z;
-        if (x < 1)
-            y = 1;
-          else 
-            y = x * (this.Excite(x-1));
-        return y;
+    class Foo extends Bar {
+        public int Excite(int x) {
+            int y;
+            Bar z;
+            if (x < 1)
+                y = 1;
+              else 
+                y = x * (this.Excite(x-1));
+            return y;
+        }
     }
-}
-
-class Bar extends Foo {
-    public int ExciteY(int x) {
-        return 0;
+    class Bar extends Foo {
+        public int ExciteY(int x) {
+            return 0;
+        }
     }
-}
 
-![CyclicInheritence](img/cyclic_inheritence.jpg)
+    > make testc
+    javac *.java
+    java Main < ../test/CyclicInheritence.java
+    Cyclic inheritence detected.
+    1 errors found.
+    make: *** [testc] Error 1
 
 ### Third Pass
 
-**3rdPassTestbed.java**
+**3rdPassTestbed.java** (Too long to include)
 
-    class Testbed {
-        public static void main(String[] x) {
-            // Test new
-            {
-                // Error #1
+    > make test3
+    javac *.java
+    java Main < ../test/3rdPassTestbed.java
+    line 6:35 error: Class not found.
                 System.out.println(new fakeClass().fakeMethod());
-                System.out.println(new A().arithemicExpr());
-            }
-        }
-    }
-
-    class A {
-        int a;
-        int b;
-        int c;
-        boolean x;
-        boolean y;
-        boolean z;
-
-        // Test expressions
-
-        public int arithemicExpr() {
-            return 0;
-        }
-
-        public boolean logicalExpr() {
-            return true;
-        }
-
-        public boolean logicalNotValid(boolean x) {
+                                       ^^^^^^^^^
+    line 36:16 error: Only boolean support logical not.
             return !x;
-        }
-
-        // Error #2
-        public boolean logicalNotInvalid(int x) {
-            return !x;
-        }
-
-        public boolean testPrecedenceValid() {
-            return 1 * (2 + 3) - 4 / 5 < 6 || a + b > c && !(y || z);
-        }
-
-        // Test symbol lookup
-
-        public int localSymbolFound() {
-            return a;
-        }
-
-        // Error #3
-        public int localSymbolNotFound() {
+                    ^
+    line 51:15 error: Symbol not found.
             return d;
-        }
-
-        // Test method calls
-
-        public boolean testThis() {
-            return this.testPrecedenceValid();
-        }
-
-        // Error #4
-        public boolean localMethodNotFound() {
+                   ^
+    line 62:20 error: Method not found.
             return this.fakeMethod();
-        }
-
-        public boolean logicalExprWithParams(boolean a, boolean b) {
-            return a && b;
-        }
-
-        public boolean callListCompatible(boolean a, int b) {
+                        ^^^^^^^^^^
+    line 70:42 error: Call list not compatible.
             return this.logicalExprWithParams(a, b);
-        }
-
-        // Error #5
-        public boolean callListIncompatible(boolean a, boolean b) {
-            return this.logicalExprWithParams(a, b);
-        }
-        
-        public int testSystemOutPrintlnValid(int a) {
+                                              ^
+    line 85:27 error: System.out.println can only print int.
             System.out.println(a);
-            return 0;
-        }
-
-        // Error #6
-        public int testSystemOutPrintlnInvalid(boolean a) {
-            System.out.println(a);
-            return 0;
-        }
-    }
-
-    class B extends A {
-        int[] a;
-        int b;
-
-        // Test arrays
-
-        public int arrayAssignmentValid() {
-            a[0] = 0;
-            return 0;
-        }
-
-        // Error #7
-        public int arrayAssignmentInvalid() {
+                               ^
+    line 103:15 error: Array element must be int.
             a[0] = false;
-            return 0;
-        }
-
-        // Error #8
-        public int arrayIndexingInvalid() {
+                   ^^^^^
+    line 109:10 error: Array index must be int.
             a[false] = 0;
-            return 0;
-        }
-
-        public int arrayLengthValid() {
-            return a.length;
-        }
-
-        // Error #9
-        public int arrayLengthInvalid() {
+              ^^^^^
+    line 119:15 error: Only array has .length method.
             return b.length;
-        }
-
-        public int arrayInitializationValid() {
-            a = new int[10];
-            return 0;
-        }
-
-        // Error #10
-        public int arrayInitializationInvalid() {
+                   ^
+    line 129:20 error: Array length must be int.
             a = new int[false];
-            return 0;
-        }    
-    }
-
-    class C {
-        // Test type deduction with inheritence
-
-        A a;
-
-        public A assignmentCompatible(A a, B b) {
-            a = b;
-            return a;
-        }
-
-        // Error #11
-        public B assignmentIncompatible(A a, B b) {
+                        ^^^^^
+    line 146:8 error: Left and right side of assignment are not of compatible types.
             b = a;
-            return b;
-        }
-
-        // Error #12
-        public int returnNonAtomIncompatible(A a) {
+            ^
+    line 152:15 error: Return type not compatible.
             return a.logicalExpr();
-        }
-
-        public int returnNonAtomCompatible(A a) {
-            return a.arithemicExpr();
-        }
-
-        // Test symbol & object lookup
-
-        public int methodLocalLookup() {
-            // This shouldn't raise an error.
-            A a;
-            return 0;
-        }
-
-        public int objectNotFound(A a) {
+                   ^
+    line 168:15 error: Symbol not found.
             return b.arithemicExpr();
-        }
-
-        // Error #13
-        public int objectFoundMethodNotFound(A a) {
+                   ^
+    line 173:17 error: Method not found.
             return a.fakeMethod();
-        }
-
-        // Error #14
-        public int objectFoundMethodFound(A a) {
-            return a.arithemicExpr();
-        }    
-    }
-
-![ThirdPass](img/3rd_pass.jpg)
+                     ^^^^^^^^^^
+    14 errors found.
+    make: *** [test3] Error 1
 
 ## Discussions
 
