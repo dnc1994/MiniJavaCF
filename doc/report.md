@@ -53,7 +53,12 @@ Note that ANTLR-generated lexer & parser & listener & visitor codes are omitted 
 
 ## About ANTLR
 
+ANTLR is a powerful parser generator. It can generate lexer and parser from a given grammar file. The lexer will convert the input source code into a list of tokens, which is then read and converted to an AST by the parser.
 
+ANTLR has at least two advantages which makes it very suitable for this project:
+
+- ANTLR provides two ways of operating on AST: listeners and visitors. Since many analysis are essentially traversing AST, ANTLR gives adequate abstraction and encapsulation.
+- ANTLR has powerful built-in strategy with error reporting and error recovery. And it also provides interfaces for us to change the default behavior.
 
 ## Workflow
 
@@ -77,11 +82,87 @@ Note that encountring unrecoverable errors in each of these steps will cause Min
 
 ### Grammar Expansion
 
+We made some changes to the original MiniJava grammar.
+
+These are expanded to allow for recursive (thus easier) parsing:
+
+    paramList
+        : ptype=type name=Identifier
+        | ptype=type name=Identifier ',' paramList
+        ;
+
+    callList
+        : rightValue
+        | rightValue ',' callList
+        ;
+
+These are expanded to quickly match the corresponding method:
+
+    statement
+        : '{' (statement)* '}'
+        | ifStatement
+        | whileStatement
+        | printStatement
+        | assignment
+        | arrayAssignment
+        ;
+
+    ifStatement
+        : 'if' '(' expression ')' statement 'else' statement;
+
+    whileStatement
+        : 'while' '(' expression ')' statement;
+
+    printStatement
+        : 'System.out.println' '(' expression ')' ';';
+
+    assignment
+        : name=Identifier '=' rightValue ';';
+
+    arrayAssignment
+        : name=Identifier '[' expression ']' '=' expression ';';
+
+
 #### Expression
 
 The most significant change MiniJavaCF made to the original MiniJava grammar is about expressions. The motivation here is to support.
 
-Therefore we define `atom` to be expressions that can evaluate to primitive types; while `nonAtom` to be those that can't.
+Therefore we define `atom` to be expressions that can evaluate to primitive types; while `nonAtom` to be those that can't. We can see that logical and arithemic expressions only involve `atom`. Therefore, we have:
+
+    expression
+        : orExpr
+        | andExpr
+        | compareExpr
+        | sumExpr
+        | productExpr
+        | atom
+        ;
+
+Where the meaning `orExpr`, `andExpr`, `compareExpr`, `sumExpr` and `productExpr` are self-evident. By matching sub-rules in this order, we are able to parse the operator precedence of complicated expressions.
+
+As for `atom` and `nonAtom`, we have:
+
+    atom
+        : Int
+        | bool='true'
+        | bool='false'
+        | array '[' atom ']'
+        | array '.' 'length'
+        | nonAtom '.' name=Identifier '(' callList? ')'
+        | name=Identifier
+        | '!' atom
+        | '(' expression ')'
+        ;
+
+    nonAtom
+        : nonAtom '.' name=Identifier '(' callList? ')'
+        | name=Identifier
+        | self='this'
+        | create='new' name=Identifier '(' ')'
+        | '(' expression ')'
+        ;
+
+Among sub-rules of `atom`, some will definitely evaluate to primitive types, such as `Int` and `name=Identifier`; some may evaluate to primitive types, such as `nonAtom '.' name=Identifier '(' callList? ')'`. The same applies to `nonAtom`. We will leave this for `typeEvaluator` to decide its final type.
 
 ### Scope Design
 
@@ -209,6 +290,35 @@ Another thing we do here is to check for cyclic inheritence. Since each class ca
 
 ### Third Pass: TypeChecker & TypeEvaluator
 
+In the third pass, our task is to perform symbol lookup and type compatbility checks for assignments, method calls and if/while/print statements where there will be expression evaluation.
+
+The approach is simple. Whenever an evaluation is needed, we invoke `TypeEvaluator`, which will recursively solve for the final return type using the grammar and the information contained in the scope tree we built earlier.
+
+Take the evaluation of `nonAtom` for example, as it's the most complicated one:
+
+    else if (ctx.nonAtom() != null) {
+        String objectName = visit(ctx.nonAtom());
+        String methodName = ctx.name.getText();
+        String callList = (ctx.callList() != null ? visit(ctx.callList()) : "");
+        Class object = (Class)(typeChecker.getCurrentScope().findSymbol(objectName));
+        if (object == null) {
+            ErrorReporter.reportError(objectName, ctx.nonAtom(), "Object not found.");
+            return "<Type Error>";
+        }
+        Method method = (Method)object.findSymbol(methodName);
+        if (method == null) {
+            ErrorReporter.reportError(ctx.name, "Method not found.");
+            return "<Type Error>";
+        }
+        if (!method.isCallListCompatible(callList)) {
+            ErrorReporter.reportError(ctx.callList(), "Call list not compatible.");
+            return "<Type Error>";
+        }
+        return method.getReturnType();
+    }
+
+The logic here should be pretty clear.
+
 ### Error Reporting
 
 To have more human-friendly error reporting, we define a `ErrorReporter` class to be used everywhere.
@@ -262,7 +372,11 @@ It's worth mentioning that, depending on which part of a rule context we are eva
 
 ### Operator Precedence
 
-### Syntax Errors
+![OperatorPrecedence](img/operator_precedence.jpg)
+
+### Syntax Error
+
+![SyntaxError](img/syntax_error.jpg)
 
 ### Error Recovery
 
@@ -270,17 +384,26 @@ It's worth mentioning that, depending on which part of a rule context we are eva
 
 ### First Pass
 
+![FirstPass](img/1st_pass.jpg)
+
 ### Second Pass
+
+![SecondPass](img/2nd_pass.jpg)
 
 ### Cyclic Inheritence
 
+![CyclicInheritence](img/cyclic_inheritence.jpg)
+
 ### Third Pass
+
+![ThirdPass](img/3rd_pass.jpg)
 
 ## Discussions
 
 ### Limitations
 
-- For now, MiniJavaCF cannot underline errors involving multiple offending tokens.
+- MiniJavaCF cannot underline errors involving multiple offending tokens.
+- MiniJavaCF cannot recover from any semantic errors.
 
 ### Future Works
 
