@@ -4,6 +4,7 @@ build:
 test:
 		javac *.java
 		java Main < ../test/BinaryTree.java
+		# java Main < ../test/TreeVisitor.java
 
 tests:
 		javac *.java
