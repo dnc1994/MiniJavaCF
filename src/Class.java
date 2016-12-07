@@ -34,7 +34,7 @@ public class Class extends Symbol implements Scope {
 
     @Override
     public Scope getParentScope() {
-        return parentScope;
+        return this.parentScope;
     }
 
     @Override
@@ -47,10 +47,18 @@ public class Class extends Symbol implements Scope {
         if (symbols.containsKey(name))
             return symbols.get(name);
         else {
-            if (this.getParentScope() == null)
+            if (this.parentScope == null)
                 return null;
-            else
-                return this.getParentScope().findSymbol(name);
+            Symbol result = this.parentScope.findSymbol(name);
+            if (result != null)
+                return result;
+            else {
+                Symbol parentClass = this.parentScope.findSymbol(this.parentClassName);
+                if (parentClass == null)
+                    return null;
+                else
+                    return ((Class)parentClass).findSymbol(name);
+            }
         }
     }
 
