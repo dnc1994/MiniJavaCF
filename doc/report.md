@@ -142,25 +142,27 @@ Where the meaning `orExpr`, `andExpr`, `compareExpr`, `sumExpr` and `productExpr
 
 As for `atom` and `nonAtom`, we have:
 
-    atom
-        : Int
-        | bool='true'
-        | bool='false'
-        | array '[' atom ']'
-        | array '.' 'length'
-        | nonAtom '.' name=Identifier '(' callList? ')'
-        | name=Identifier
-        | '!' atom
-        | '(' expression ')'
-        ;
+```raw
+atom
+    : Int
+    | bool='true'
+    | bool='false'
+    | array '[' atom ']'
+    | array '.' 'length'
+    | nonAtom '.' name=Identifier '(' callList? ')'
+    | name=Identifier
+    | '!' atom
+    | '(' expression ')'
+    ;
 
-    nonAtom
-        : nonAtom '.' name=Identifier '(' callList? ')'
-        | name=Identifier
-        | self='this'
-        | create='new' name=Identifier '(' ')'
-        | '(' expression ')'
-        ;
+nonAtom
+    : nonAtom '.' name=Identifier '(' callList? ')'
+    | name=Identifier
+    | self='this'
+    | create='new' name=Identifier '(' ')'
+    | '(' expression ')'
+    ;
+```
 
 Among sub-rules of `atom`, some will definitely evaluate to primitive types, such as `Int`; some **may** evaluate to primitive types, such as `nonAtom '.' name=Identifier '(' callList? ')'`. The same applies to `nonAtom`. We will leave this for `typeEvaluator` to decide.
 
@@ -182,9 +184,11 @@ Our task in the first pass of semantic analysis is to build a AST-like tree to s
 
 Classes and methods share two commonalities: 1) they are both symbols; 2) they both define a scope. Therefore, we define a class `Symbol` and an interface `Scope`. Then we **let `Class` and `Method` inherit from `Symbol` and implements methods in `Scope`**:
 
-    public class Class extends Symbol implements Scope {
-        // ...
-    }
+```java
+public class Class extends Symbol implements Scope {
+    // ...
+}
+```
 
 #### Symbol
 
