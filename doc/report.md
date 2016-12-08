@@ -69,8 +69,8 @@ ANTLR has at least two advantages which makes it very suitable for this project:
     - Check for duplicated declaration.
 3. Second pass of semantic analysis
     - Check for existences of variable type & method return type.
-    - Check for cyclic inheritence.
-4. Third pass of semantic snalysis
+    - Check for cyclic inheritance.
+4. Third pass of semantic analysis
     - Check for symbol reference.
     - Check for type compatibility.
 
@@ -128,9 +128,9 @@ arrayAssignment
 
 #### Expression
 
-The most significant change is about expressions. The motivation here is to **support the parsing of operator precedence**. The problem with the original grammar is that its `expression` contains too many things. With closer examination, we find that it can be splitted into two parts.
+The most significant change is about expressions. The motivation here is to **support the parsing of operator precedence**. The problem with the original grammar is that its `expression` contains too many things. With closer examination, we find that it can be split into two parts.
 
-We define `atom` to be expressions that **can evaluate to primitive types**; while `nonAtom` to be those that can't. We can see that logical and arithemic expressions only involve `atom`. Therefore, we have:
+We define `atom` to be expressions that **can evaluate to primitive types**; while `nonAtom` to be those that can't. We can see that logical and arithmetic expressions only involve `atom`. Therefore, we have:
 
 ```text
 expression
@@ -171,7 +171,7 @@ nonAtom
 
 Among sub-rules of `atom`, some will definitely evaluate to primitive types, such as `Int`; some **may** evaluate to primitive types, such as `nonAtom '.' name=Identifier '(' callList? ')'`. The same applies to `nonAtom`. We will leave this for `typeEvaluator` to decide.
 
-Now that `expression` purely defines logical and arithemic expressions, we introduce another rule `rightValue`:
+Now that `expression` purely defines logical and arithmetic expressions, we introduce another rule `rightValue`:
 
 ```text
 rightValue
@@ -300,7 +300,7 @@ public void enterVarDeclaration(MiniJavaParser.VarDeclarationContext ctx) {
 }
 ```
 
-Another thing we do here is to check for **cyclic inheritence**. Since each class can only inherit from at most one parent class, the problem is reduced to **determining the existence of cycle in a graph where each vertex has at most one outgoing edge**. A simple DFS will do.
+Another thing we do here is to check for **cyclic inheritance**. Since each class can only inherit from at most one parent class, the problem is reduced to **determining the existence of cycle in a graph where each vertex has at most one outgoing edge**. A simple DFS will do.
 
 ```java
 public void checkCyclicInheritence() {
@@ -701,7 +701,7 @@ There's a couple of things that can be easily done to make MiniJava more human-f
 - Support void method.
 - Support multiple variable declaration in one line.
 - Support variable declaration and initialization in the same line.
-- Check to make sure that each variable is initialzed before use.
+- Check to make sure that each variable is initialized before use.
 
 ### Thoughts
 

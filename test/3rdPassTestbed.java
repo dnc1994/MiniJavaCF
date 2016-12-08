@@ -4,7 +4,7 @@ class Testbed {
         {
             // Error #1
             System.out.println(new fakeClass().fakeMethod());
-            System.out.println(new A().arithemicExpr());
+            System.out.println(new A().arithmeticExpr());
         }
     }
 }
@@ -19,7 +19,7 @@ class A {
 
     // Test expressions
 
-    public int arithemicExpr() {
+    public int arithmeticExpr() {
         return 0;
     }
 
@@ -153,7 +153,7 @@ class C {
     }
 
     public int returnNonAtomCompatible(A a) {
-        return a.arithemicExpr();
+        return a.arithmeticExpr();
     }
 
     // Test symbol & object lookup
@@ -165,7 +165,7 @@ class C {
     }
 
     public int objectNotFound(A a) {
-        return b.arithemicExpr();
+        return b.arithmeticExpr();
     }
 
     // Error #13
@@ -175,6 +175,6 @@ class C {
 
     // Error #14
     public int objectFoundMethodFound(A a) {
-        return a.arithemicExpr();
+        return a.arithmeticExpr();
     }    
 }
