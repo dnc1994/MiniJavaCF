@@ -689,15 +689,11 @@ make: *** [test3] Error 1
 
 ## Discussions
 
-### Limitations
-
-- MiniJavaCF cannot underline errors involving **multiple offending tokens**.
-- MiniJavaCF cannot recover from any semantic errors.
-
 ### Future Works
 
 There's a couple of things that can be easily done to make MiniJava more human-friendly:
 
+- Underline errors involving **multiple offending tokens**.
 - Support void method.
 - Support multiple variable declaration in one line.
 - Support variable declaration and initialization in the same line.
